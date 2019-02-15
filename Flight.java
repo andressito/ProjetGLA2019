@@ -1,14 +1,14 @@
-
+import java.util.List;
 
 public class Flight{
   String atcNumber;
   String departureAirport;
   String arrivalAiport;
-  String departureTime;
-  String arrivalTime;
+  String departureTime; // à discuter
+  String arrivalTime;	// à discuter
   String OFP;
-  ArrayList<String> notamList;
-  ArrayList<String> adList;
-  ArrayList<Employee> crewList;
+  List<String> notamList; 
+  List<Ads> adsList; 
+  List<Employee> crewList;
   String meteoCard;
 }
