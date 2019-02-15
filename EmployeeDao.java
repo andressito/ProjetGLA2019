@@ -9,6 +9,10 @@ public interface EmployeeDao {
     */
     Employee supprimer( int employeeId ) throws DAOException;
     /**
+    * permet de rechercher un employeee particulier par son nom 
+    */
+    List<Employee> rechercher( String firstName ) throws DAOException;
+    /**
     * permet de recuperer la liste de tuous les employées
     */
     List<Employee> getListeEmployee() throws DAOException;
