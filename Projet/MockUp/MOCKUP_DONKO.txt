@@ -1,0 +1,30 @@
+-> Liste des vols
+	. Les attributs
+		- numéro ATC de l'avion
+		- aerodrome de depart
+		- aerodrome d'arrivh
+		- heure de départ
+		- nombre de sièges restants
+		- détails d'un vol
+		
+-> Liste des reservation 
+(Ce backlog a été conçu d'une manière pour permettre à un pilote de voir la liste des 
+	reservations sur un vol et de valider la reservaton d'un passager sur ce même vol. Les
+	détails par rapport à une reservation seront affichées dans une autre page.) 
+ 
+	. Les attibuts
+		- numéro ATC de l'avio
+		- aerodrome de depart
+		- aerodrome d'arrivh
+		- nom du passager
+		- état de la validation de sa réservation
+		- détails d'un vol
+
+-> Détails d'un vol
+(permet de voir les détails d'un vol avec possibilité de réserver le vol en question)
+
+-> Détails d'une reservation
+(permet de voir les détails d'une reservation et de validé un passager ou non)
+
+
+
