@@ -3,14 +3,22 @@
 
 Répartition taches
 Déja on revoit les fonctionnalités qui reste
-André ====> user, modifier(mock up)
-Donko ====> plane, modifier(mock up)
-Hiba ====> PilotFlightDetails
+
+André ====> user, (MOCKUP)  Modifier vol avec possibilité de le supprimer
+
+Donko ====> plane,(MOCKUP)  formulaire de reservation
+
+Hiba ====> PilotFlightDetails(MOCKUP)   Liste des resultats de vol
+
 Jean Yves ====> les bouchons
-Lydia ====> reservation
+
 Raid ====> les bouchons
-Remzi ====>message
-Sonia ====> modifier(mock up)
+
+Lydia ====> reservation, (MOCKUP) lors de l'ajout d'un vol par le pilote, définir le type de vol qui peut être ballade, aller simple.
+
+Remzi ====>message,(MOCKUP)   envoyer un message sur un profil
+
+Sonia ====>  (MOCKUP) accueil avec menu de recherche comprenant les champs lieu de départ et date
 
 les classes:
   user
@@ -20,10 +28,6 @@ les classes:
   note (à voir)
   Message
 
-
-
-Vol => définir le type de vol (ballade, aller simple)
-Recherche(accueil) =>avec les champs lieu de départ et date
 
 --------------************---------------------------------
 A rajouter
