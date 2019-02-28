@@ -6,7 +6,7 @@ Déja on revoit les fonctionnalités qui reste
 
 André ====> user, (MOCKUP)  Modifier vol avec possibilité de le supprimer
 
-Donko ====> plane,(MOCKUP)  formulaire de reservation
+Donko ====> plane,(MOCKUP)  formulaire de reservation (fait - FlightReservation)
 
 Hiba ====> PilotFlightDetails(MOCKUP)   Liste des resultats de vol
 
