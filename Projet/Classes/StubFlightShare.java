@@ -26,7 +26,12 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/flight")
 	public boolean addFlight(Flight flight){
-		return false;
+		for(int i = 0; i< lf.size(); i++) {
+			if(lf.get(i) == flight)
+				return false;
+		}
+		lf.add(flight);
+		return true;
 	}
 	
 	/**
@@ -37,6 +42,12 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/flight{ref}")
 	public boolean deleteFlight(String ref){
+		for(int i = 0; i< lf.size(); i++) {
+			if(lf.get(i).getReference() == Integer.parseInt(ref)){
+				lf.remove(i);
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -47,7 +58,7 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/flight")
 	public List<Flight> getListFlight(){
-		return lp;
+		return lf;
 	}
 	
 	/**
@@ -57,7 +68,11 @@ public class StubFlightShare {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/flight{ref}")
-	public Flight getFlight(Flight flight,String ref) {
+	public Flight getFlight(String ref) {
+		for(int i = 0; i< lf.size(); i++) {
+			if(lf.get(i).getReference() == Integer.parseInt(ref))
+				return lf.get(i);
+		}
 		return null;
 	}
 	
@@ -67,7 +82,14 @@ public class StubFlightShare {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/flight{ref}")
-	public void updateFlight(Flight flight,String ref) {
+	public boolean updateFlight(Flight flight,String ref) {
+		for(int i = 0; i< lf.size(); i++) {
+			if(lf.get(i).getReference() == Integer.parseInt(ref)) {
+				lf.add(i,flight);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -77,7 +99,12 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user")
 	public boolean addPilot(User pilot) {
-		return false;
+		for(int i = 0; i< lu.size(); i++) {
+			if(lu.get(i) == pilot)
+				return false;
+		}
+		lu.add(pilot);
+		return true;
 	}
 	
 	/**
@@ -87,7 +114,12 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user")
 	public boolean addPassenger(User passenger) {
-		return false;
+		for(int i = 0; i< lu.size(); i++) {
+			if(lu.get(i) == passenger)
+				return false;
+		}
+		lu.add(passenger);
+		return true;
 	}
 	
 	/**
@@ -98,6 +130,12 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user{user_id}")
 	public boolean deleteUser(String user_id){
+		for(int i = 0; i< lu.size(); i++) {
+			if(lu.get(i).user_id == Integer.parseInt(user_id)) {
+				lu.remove(i);
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -107,8 +145,14 @@ public class StubFlightShare {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user{user_id}")
-	public void updateUser(User user,String user_id){
-		
+	public boolean updateUser(User user,String user_id){
+		for(int i = 0; i< lu.size(); i++) {
+			if(lu.get(i).user_id == Integer.parseInt(user_id)) {
+				lu.add(i, user);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -119,6 +163,10 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/user{user_id}")
 	public User getUser(String user_id){
+		for(int i = 0; i< lu.size(); i++) {
+			if(lu.get(i).user_id == Integer.parseInt(user_id)) 
+				return lu.get(i);
+		}
 		return null;
 	}
 	
@@ -162,6 +210,7 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/reservation{user_id}")
 	public List<Reservation> getUserReservation(String user_id) {
+		return lr;
 	}
 	
 	/**
@@ -172,7 +221,7 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/reservation{res_number}")
 	public List<Reservation> getListReservation(String res_number) {
-		return lr
+		return lr;
 	}
 	
 	/**
