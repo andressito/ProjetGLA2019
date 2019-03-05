@@ -1,21 +1,24 @@
 # ProjetGLA2019
-27-02-2019
+05-03-2019
 
 Répartition taches
 Déja on revoit les fonctionnalités qui reste
 
-André ====>modifer sign in et sign up
+André ====> ajouter vol, listervol  (fonction), ajouterUser
 
-Donko ====> FlightPlannification
+Donko ====> ajouter vol, listervol (fonction),  ajouterUser
 
-Hiba ====> Modifier tableaux et screen sign in et sign up
+Hiba ====> page d'accueil, resultats vol (page)
 
-Jean Yves ====> les bouchons
+Jean Yves ====> ElasticSearch
 
-Raid ====> les bouchons
+Raid ====> ajouter vol, listervol  (fonction), ajouterUser
 
-Lydia ====> fait
+Lydia ====> page d'accueil, resultats vol (page)
 
-Remzi ====>(MOCKUP)  envoyer un message sur un profil
+Remzi ====> Elasticsearch
 
-Sonia ====>  (MOCKUP) accueil avec menu de recherche comprenant les champs lieu de départ et date
+Sonia ====>  page d'accueil, resultats vol (page)
+
+
+Leaflet (look)
