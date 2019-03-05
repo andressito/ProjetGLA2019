@@ -79,7 +79,7 @@ public class StubFlightShare {
 	/**
 	 * @param ref of the flight
 	 */
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/flight{ref}")
 	public boolean updateFlight(Flight flight,String ref) {
@@ -92,6 +92,8 @@ public class StubFlightShare {
 		return false;
 	}
 	
+	
+	/*******************************************USER*******************************************/
 	/**
 	 * @return false if the pilot was added, false if not
 	 */
@@ -170,7 +172,7 @@ public class StubFlightShare {
 		return null;
 	}
 	
-
+/*******************************************RESERVATION*******************************************/
 	/**
 	 * @return false if a reservation was added, false if not
 	 */
@@ -178,7 +180,12 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/reservation")
 	public boolean addReservation(Reservation res) {
-		return false;
+		for(int i = 0; i< lr.size(); i++) {
+			if(lf.get(i) == res)
+				return false;
+		}
+		lr.add(res);
+		return true;
 	}
 	
 	/**
@@ -189,6 +196,12 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/reservation{res_number}")
 	public boolean deleteReservation(String res_number) {
+		for(int i = 0; i< lr.size(); i++) {
+			if(lr.get(i).getReference() == Integer.parseInt(res_number)){
+				lr.remove(i);
+				return true;
+			}
+		}
 		return false;
 	}	
 	
@@ -199,6 +212,12 @@ public class StubFlightShare {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/reservation{res_number}")
 	public boolean updateReservation(Reservation res,String res_number) {
+		for(int i = 0; i< lr.size(); i++) {
+			if(lr.get(i).getReference() == Integer.parseInt(res_number)) {
+				lr.add(i,res);
+				return true;
+			}
+		}
 		return false;
 	}	
 	
@@ -206,7 +225,7 @@ public class StubFlightShare {
 	 * param user id
 	 * @return the user reservation list
 	 */
-	@PUT
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/reservation{user_id}")
 	public List<Reservation> getUserReservation(String user_id) {
