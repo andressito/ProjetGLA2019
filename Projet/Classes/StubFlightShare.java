@@ -18,7 +18,7 @@ public class StubFlightShare {
 	List<Flight> lf;
 	List<User> lu;
 	List<Message> lm;
-	
+
 	/**
 	 * @return true if the flight was added or false if not
 	 */
@@ -33,7 +33,7 @@ public class StubFlightShare {
 		lf.add(flight);
 		return true;
 	}
-	
+
 	/**
 	 * @param ref of the flight
 	 * @return true if the flight was deleted or false if not
@@ -50,7 +50,7 @@ public class StubFlightShare {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return flight list
 	 */
@@ -60,7 +60,7 @@ public class StubFlightShare {
 	public List<Flight> getListFlight(){
 		return lf;
 	}
-	
+
 	/**
 	 * @param ref of the flight
 	 * @return the flight corresponding to the ref
@@ -75,7 +75,7 @@ public class StubFlightShare {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @param ref of the flight
 	 */
@@ -91,8 +91,8 @@ public class StubFlightShare {
 		}
 		return false;
 	}
-	
-	
+
+
 	/*******************************************USER*******************************************/
 	/**
 	 * @return false if the pilot was added, false if not
@@ -108,7 +108,7 @@ public class StubFlightShare {
 		lu.add(pilot);
 		return true;
 	}
-	
+
 	/**
 	 * @return false if the passenger was added, false if not
 	 */
@@ -123,7 +123,7 @@ public class StubFlightShare {
 		lu.add(passenger);
 		return true;
 	}
-	
+
 	/**
 	 * @param user id
 	 * @return true if the user was deleted or false if not
@@ -140,7 +140,7 @@ public class StubFlightShare {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @param user id
 	 */
@@ -156,7 +156,7 @@ public class StubFlightShare {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @param user id
 	 * @return the user corresponding to the user id
@@ -166,12 +166,12 @@ public class StubFlightShare {
 	@Path("/user{user_id}")
 	public User getUser(String user_id){
 		for(int i = 0; i< lu.size(); i++) {
-			if(lu.get(i).user_id == Integer.parseInt(user_id)) 
+			if(lu.get(i).user_id == Integer.parseInt(user_id))
 				return lu.get(i);
 		}
 		return null;
 	}
-	
+
 /*******************************************RESERVATION*******************************************/
 	/**
 	 * @return false if a reservation was added, false if not
@@ -187,7 +187,7 @@ public class StubFlightShare {
 		lr.add(res);
 		return true;
 	}
-	
+
 	/**
 	 * @param res number
 	 * @return false if a reservation was added, false if not
@@ -203,8 +203,8 @@ public class StubFlightShare {
 			}
 		}
 		return false;
-	}	
-	
+	}
+
 	/**
 	 * @param the reservation and the res number
 	 */
@@ -219,8 +219,8 @@ public class StubFlightShare {
 			}
 		}
 		return false;
-	}	
-	
+	}
+
 	/**
 	 * param user id
 	 * @return the user reservation list
@@ -231,18 +231,18 @@ public class StubFlightShare {
 	public List<Reservation> getUserReservation(String user_id) {
 		return lr;
 	}
-	
+
 	/**
 	 * param res number
 	 * @return the reservation list corresponding to the res number
 	 */
-	@PUT
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/reservation{res_number}")
 	public List<Reservation> getListReservation(String res_number) {
 		return lr;
 	}
-	
+
 	/**
 	 * @return true if message added, false if not
 	 */
@@ -252,7 +252,7 @@ public class StubFlightShare {
 	public boolean addMessage(Message mes){
 		return false;
 	}
-	
+
 	/**
 	 * param message id
 	 * @return true if message deleted, false if not
@@ -263,7 +263,7 @@ public class StubFlightShare {
 	public boolean deleteMessage(String mess_id) {
 		return false;
 	}
-	
+
 	/**
 	 * param user id
 	 * @return the message list corresponding to the user id
@@ -274,7 +274,7 @@ public class StubFlightShare {
 	public List<Message> getUserMessage(String user_id) {
 		return lm;
 	}
-	
+
 	/**
 	 * param message id
 	 * @return the message list corresponding to the user id
@@ -285,6 +285,6 @@ public class StubFlightShare {
 	public List<Message> getListMessage(String mess_id) {
 		return lm;
 	}
-	
-	
+
+
 }
