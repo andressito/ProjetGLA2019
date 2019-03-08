@@ -8,8 +8,17 @@ public class Reservation {
     public String idFlight;
     public int nbPlaces;
     public Date date;
-    public double prix;
+    public double price;
     public String status;
+
+    public Reservation(String idReservation, String idUser, String idFlight, int nbPlaces, double price, String status){
+        this.idReservation= idReservation;
+        this.idUser=idUser;
+        this.idFlight = idFlight;
+        this.nbPlaces= nbPlaces;
+        this.price=price;
+        this.status=status;
+    }
 
     public String getIdReservation() {
         return idReservation;
@@ -31,8 +40,8 @@ public class Reservation {
         return date;
     }
 
-    public double getPrix() {
-        return prix;
+    public double getPrice() {
+        return price;
     }
 
     public String getStatus() {
@@ -59,8 +68,8 @@ public class Reservation {
         this.date = date;
     }
 
-    public void setPrix(double prix) {
-        this.prix = prix;
+    public void setPrice(double prix) {
+        this.price = prix;
     }
 
     public void setStatus(String status) {

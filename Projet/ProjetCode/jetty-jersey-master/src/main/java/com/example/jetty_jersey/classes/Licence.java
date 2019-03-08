@@ -7,6 +7,12 @@ public class Licence {
     public String userId;
     public Date dateValidite;
 
+    public Licence(String idLicence, String userId, Date dateValidite){
+        this.idLicence=idLicence;
+        this.userId=userId;
+        this.dateValidite=dateValidite;
+    }
+
     public String getIdLicence() {
         return idLicence;
     }

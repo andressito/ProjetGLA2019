@@ -1,15 +1,20 @@
 package com.example.jetty_jersey.classes;
 
 public class Plane {
-    public String actNumber;
+    public String atcNumber;
     public int numberSeats;
 
-    public String getActNumber() {
-        return actNumber;
+    public Plane(String atcNumber, int numberSeats){
+        this.atcNumber=atcNumber;
+        this.numberSeats=numberSeats;
     }
 
-    public void setActNumber(String actNumber) {
-        this.actNumber = actNumber;
+    public String getAtcNumber() {
+        return atcNumber;
+    }
+
+    public void setAtcNumber(String atcNumber) {
+        this.atcNumber = atcNumber;
     }
 
     public int getNumberSeats() {

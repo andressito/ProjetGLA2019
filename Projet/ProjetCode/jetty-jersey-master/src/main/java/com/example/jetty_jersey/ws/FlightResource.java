@@ -43,7 +43,7 @@ public class FlightResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/flights/{idFlight}")
-    public Flight getUser(@PathParam("idFlight") String id) {
+    public Flight getFlight(@PathParam("idFlight") String id) {
         List<Flight> all = remplirListeFlight();
         for (int i=0; i<all.size();i++){
             if( all.get(i).getIdFlight().equals(id)) return all.get(i);
@@ -55,14 +55,14 @@ public class FlightResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/flights/{idFlight}")
-    public String updateUser(@PathParam("idFlight") String id){
+    public String updateFlight(@PathParam("idFlight") String id){
         return "SUCCESS";
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/flights/{idFlight}")
-    public List<Flight> deleteUser(@PathParam("idFlight") String id){
+    public List<Flight> deleteFlight(@PathParam("idFlight") String id){
         List<Flight> all = remplirListeFlight();
         for (int i=0; i<all.size();i++){
             if( all.get(i).getIdFlight().equals(id)){
