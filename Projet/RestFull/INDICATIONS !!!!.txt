@@ -1,0 +1,25 @@
+Il s'agit du web service fontionnelle de chuchufly! Il n,'est pas encore lié à la base de données. 
+Il travaille sur une liste pour faire des tests. 
+
+Technologie utilisée : 
+	-> Jersey et le JAXB
+	-> pour demarrer le serveur tomcat a été utilisé chez moi donc pour tout changement 
+		de serveur veuillez reconfigurer le ficher pom.xml et web.xml adéquat
+	-> Le port 8080 a été configuré pour faire les test
+
+Fait et testé : 
+	-> La classe Plane et PlaneDao 
+	-> La classe PlaneService qui contsitue le bouchon de cette classe
+
+Test : 
+	-> Une fois votre serveur lancé, pour faire le test saisissez dans votre navigateur ou autre le => http://localhost:8080/ChuchuflyRestfull/rest/plane
+	-> Pour faire le test, télécharger l'application Advanced API client qui permet de faire des tests 
+		sur des fichier API rest et founi des resultats tres claires 
+	-> Voici son lien : https://install.advancedrestclient.com/install
+
+A faire : 
+	-> Inserer les autres classes dans le service RESTFULL et testé à chaque fois 
+
+Suggestions : 
+	-> Je suggere qu'on divise les differents services/bouchon en fonction des differents classes qu'on a 
+		pour permettre une bonne lisibilité des méthodes(à discuter)
