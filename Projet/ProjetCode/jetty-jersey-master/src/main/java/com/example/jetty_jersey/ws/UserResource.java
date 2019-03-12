@@ -4,6 +4,7 @@ import com.example.jetty_jersey.classes.User;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Path("/user")
@@ -28,10 +29,15 @@ public class UserResource {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/create")
-    public String createUser() {
-        return "SUCCESS";
+    public String createUser(/*@FormParam("profile") String profile,*/ @FormParam("firstName") String fistName,
+                             @FormParam("lastName") String lastName,/* @FormParam("dateBirth")Date dateBirth,*/
+                             @FormParam("email") String email, @FormParam("password") String password,
+                             @FormParam("passwordConfirm") String passwordConfirm) {
+
+        return "{ \"foo\": 2}";
     }
 
     @GET
