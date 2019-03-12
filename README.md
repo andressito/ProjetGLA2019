@@ -1,24 +1,20 @@
 # ProjetGLA2019
-05-03-2019
+12-03-2019
 
-Répartition taches
-Déja on revoit les fonctionnalités qui reste
+faire un git clone du Projet
+puis faire un git checkout -b nomDeVotreBranche
+du coup vous aller travailler sur votre branche
+pour faire un pull depuis votre branche
+  => git pull origin master
 
-André ====> ajouter vol, listervol  (fonction), ajouterUser
+si vous vouler faire un push
+  git add lesFichers
+  git commit -m "msg"
+  git checkout master
+  git merge nomDeVotreBranche
+  git push origin master
+et vous revener à votre branche avec
+ git checkout nomDeVotreBranche
 
-Donko ====> ajouter vol, listervol (fonction),  ajouterUser
-
-Hiba ====> page d'accueil, resultats vol (page)
-
-Jean Yves ====> ElasticSearch
-
-Raid ====> ajouter vol, listervol  (fonction), ajouterUser
-
-Lydia ====> page d'accueil, resultats vol (page)
-
-Remzi ====> Elasticsearch
-
-Sonia ====>  page d'accueil, resultats vol (page)
-
-
-Leaflet (look)
+ pour regarder dans quelle branche vous etes
+  git branch
