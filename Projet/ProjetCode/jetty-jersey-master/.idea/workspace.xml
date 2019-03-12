@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4c1210af-b402-46c5-b09a-ef23cf0374ea" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/formulaire.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/signUp.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/signUp.html" afterDir="false" />
-    </list>
+    <list default="true" id="4c1210af-b402-46c5-b09a-ef23cf0374ea" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -103,8 +99,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/formulaire.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="60" column="110" selection-start-line="60" selection-start-column="110" selection-end-line="60" selection-end-column="110" />
+            <state relative-caret-position="219">
+              <caret line="57" column="44" lean-forward="true" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#h1#0;n#div#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -176,7 +172,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="73" />
     <option name="y" value="-1" />
     <option name="width" value="967" />
@@ -332,7 +328,7 @@
       <workItem from="1552079810136" duration="6819000" />
       <workItem from="1552257632406" duration="3812000" />
       <workItem from="1552310193561" duration="4657000" />
-      <workItem from="1552340813580" duration="20272000" />
+      <workItem from="1552340813580" duration="21180000" />
     </task>
     <task id="LOCAL-00001" summary="webServices ok">
       <created>1552085256569</created>
@@ -369,11 +365,18 @@
       <option name="project" value="LOCAL" />
       <updated>1552386949185</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="signUp et formulaire">
+      <created>1552397187539</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1552397187539</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35560000" />
+    <option name="totallyTimeSpent" value="36468000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -385,10 +388,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="51" y="-4" width="1315" height="772" extended-state="6" />
-    <editor active="true" />
+    <frame x="51" y="-4" width="1315" height="772" extended-state="7" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2537431" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2537431" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -397,7 +399,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29895365" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29895365" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39910313" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -462,7 +464,8 @@
     <MESSAGE value="integration page web" />
     <MESSAGE value="dao" />
     <MESSAGE value="signIn signUp" />
-    <option name="LAST_COMMIT_MESSAGE" value="signIn signUp" />
+    <MESSAGE value="signUp et formulaire" />
+    <option name="LAST_COMMIT_MESSAGE" value="signUp et formulaire" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://$MAVEN_REPOSITORY$/javax/ws/rs/javax.ws.rs-api/2.0/javax.ws.rs-api-2.0-sources.jar!/javax/ws/rs/core/MediaType.java">
@@ -695,8 +698,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/formulaire.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="60" column="110" selection-start-line="60" selection-start-column="110" selection-end-line="60" selection-end-column="110" />
+        <state relative-caret-position="219">
+          <caret line="57" column="44" lean-forward="true" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
           <folding>
             <element signature="n#style#0;n#img#0;n#h1#0;n#div#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
