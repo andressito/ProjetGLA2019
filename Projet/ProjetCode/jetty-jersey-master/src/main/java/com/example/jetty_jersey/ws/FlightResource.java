@@ -38,8 +38,19 @@ public class FlightResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public String createFlight() {
-        return "SUCCESS";
+    public String createFlight(@FormParam("plane") String plane,
+                @FormParam("departureAero") String departureAero,
+                @FormParam("date") Date date,
+                @FormParam("departureTime") String departureTime,
+                @FormParam("seats") String seats,
+                @FormParam("type") String type,
+                @FormParam("arrivalAedrome") String arrivalAedrome,
+                @FormParam("arrivalTime") String arrivalTime,
+                @FormParam("price") String price) {
+
+            Flight fl = new Flight("1",departureAero,arrivalAedrome,date,plane,"2");
+            bfdao.createFLight(fl);
+            if(bfdao.createFLight(fl))return "OK"
     }
 
     @GET
