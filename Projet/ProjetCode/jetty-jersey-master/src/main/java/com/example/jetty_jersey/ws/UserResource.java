@@ -32,7 +32,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/create")
-    public String createUser(/*@FormParam("profile") String profile,*/ @FormParam("firstName") String fistName,
+    public String createUser(@FormParam("profile") String profile, @FormParam("firstName") String fistName,
                              @FormParam("lastName") String lastName,/* @FormParam("dateBirth")Date dateBirth,*/
                              @FormParam("email") String email, @FormParam("password") String password,
                              @FormParam("passwordConfirm") String passwordConfirm) {

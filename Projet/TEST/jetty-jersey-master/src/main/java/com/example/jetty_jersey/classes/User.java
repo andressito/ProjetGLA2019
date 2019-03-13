@@ -1,25 +1,31 @@
 package com.example.jetty_jersey.classes;
 
+import java.util.Date;
+
 public class User {
-    public String idUser;
+    public int idUser;
     public String lastName;
     public String firstName;
     public String email;
     public String gsm;
+    public Date birthDate;
+    public String password;
 
-    public User(String idUser, String firstName, String lastName, String email, String gsm ){
+    public User(int idUser, String firstName, String lastName, String email, String password, Date birthDate, String gsm ){
         this.idUser=idUser;
         this.lastName=lastName;
         this.firstName=firstName;
         this.email=email;
         this.gsm=gsm;
+        this.birthDate=birthDate;
+        this.password=password;
     }
 
-    public String getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
 
@@ -53,5 +59,21 @@ public class User {
 
     public void setGsm(String gsm) {
         this.gsm = gsm;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
