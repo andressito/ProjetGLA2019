@@ -14,7 +14,7 @@
 body {
   font-family: "Raleway", Arial, sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 16px
   line-height: 1.7;
   color: #7f7f7f;
   background: #fff;
@@ -1232,42 +1232,89 @@ h1, h2, h3, h4, h5, h6, figure {
 
 .crumb {
     display: inline-block;
+    background-color: rgba(255,255,255,0.5);
 }
 
-.crumb a::after {
-    display: inline-block;
-    color: #000;
-    content: '>';
-    font-size: 80%;
-    font-weight: bold;
-    padding: 0 3px;
-}
 
 form.form {
-   position:absolute;
-   top:150%;
-   left:40%;
-   width:500px; 
-   height:300px; 
-   margin-left:-150px; 
-   margin-top:-170px; 
+  position:absolute;
+  font-size: 18px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 20px;
+  padding-top: 30px;
+  font-style: normal;
+  font: Georgia, sans-serif;
+  top:300%;
+  left:40%;
+  width:700px; 
+  height:850px; 
+  margin-left:-150px; 
+  margin-top:-170px;
+  background-color: rgba(64,75,78,0.7);
+}
 
 
+form.SignUpForm{
+  position:absolute;
+  font-size: 18px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  font-style: normal;
+  font: Georgia, sans-serif;
+  top:400%;
+  left:40%;
+  width:700px; 
+  height:620px; 
+  margin-left:-150px; 
+  margin-top:-170px;
+  background-color: rgba(64,75,78,0.7);
+}
+
+form.SignInForm{
+  position:absolute;
+  font-size: 18px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  font-style: normal;
+  font: Georgia, sans-serif;
+  top:500%;
+  left:40%;
+  width:700px; 
+  height:400px; 
+  margin-left:-150px; 
+  margin-top:-170px;
+  background-color: rgba(64,75,78,0.7);
 }
 
 nav.crumb{
-  background-color:#808080;
-color: rgba(0, 0, 0, 0.7);
-background-color: #27E1CE;
+  background-color: #808080;
+  color: rgba(0, 0, 0, 0.7);
   visibility: visible;
 
 }
 
-#home_input{
+.home_input{
   border: 2px solid #2BBDB5;
   border-radius: 4px;
   background-color: rgba(255,255,255, 0.8);
 }
+
+.lognibox{
+  width: 500px;
+  height: 900px;
+}
+
+.white_label{
+  color: white;
+}
+
+
+
 
 
 /*# sourceMappingURL=style.css.map */
