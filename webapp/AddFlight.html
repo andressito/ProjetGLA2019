@@ -4,7 +4,7 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ChuChuFly</title>
+	<title>ChuChuFly | Add Flight</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
@@ -71,19 +71,19 @@
 				<h1><img src="images/planev.png" style="img-responsive" width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
 				<nav role="navigation">
 					<ul>
-						<li><a href="#">My flights</a></li>
-						<li><a href="signIn.html">Messages</a></li>
+						<li><a href="#" id="Flight">My flights</a></li>
+						<li><a href="signIn.html" id="Msg">Messages</a></li>
 						<li>
 							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								<button class="btn btn-primary dropdown-toggle" type="button" id="Profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								Profile
 								<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu cta">
-			      					<li><a href="#">Dashboard</a></li>
-							      	<li><a href="#">Edit profile</a></li>
-							      	<li><a href="#">Settings</a></li>
-									<li><a href="#">Sign out</a></li>
+			      					<li><a href="#" id="dashboard">Dashboard</a></li>
+							      	<li><a href="#"id="edit">Edit profile</a></li>
+							      	<li><a href="#" id="setting">Settings</a></li>
+									<li><a href="#" id="sign">Sign out</a></li>
 								</ul>
 							</div>
 						</li>
@@ -94,53 +94,53 @@
 	</header>
 </div>
 
-<div class="loginbox"> 
-<form class="form">
+<div class="loginbox">
+<form class="form" id="FormAddFlight" method="post" action="#">
 	<div>
-		 <label class="white_label">Plane :</label>
-		<input type="search" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
+		 <label class="white_label" for="Plane">Plane :</label>
+		<input type="search" id="Plane" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
 	</div>
 	<div>
-		<label class="white_label">Departure aerodrom :</label>
-		<input type="search" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
+		<label class="white_label" for="DepartureA">Departure aerodrom :</label>
+		<input type="search" id="DepartureA" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
 	</div>
 
 	<div>
-		<label class="white_label">Date :</label>
-		<input  type="date" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome">
+		<label class="white_label" for="Date">Date :</label>
+		<input  type="date" id="Date" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome">
 	</div>
 	<div class="form-group">
-		<label class="white_label">Departure time :</label>
-		<input type="search" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome">
+		<label class="white_label" for="DepartureT">Departure time :</label>
+		<input type="search" id="DepartureT" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome">
 	</div>
 	<div>
-		<label class="white_label">Seats :</label>
-		<input type="search" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
+		<label class="white_label" for="Seats">Seats :</label>
+		<input type="search" id="Seats" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
 	</div>
 	<div class="form-check">
-		<label class="white_label">Type:</label>
-		<input class="form-check-input" type="checkbox" value="visit" id="defaultCheck1"/>
+		<label class="white_label" for="Type">Type:</label>
+		<input class="form-check-input" id="Type" type="checkbox" value="visit" id="defaultCheck1"/>
 		<label class="form-check-label" for="defaultCheck1">
 		Visit
 		</label>
 	</div>
 	<div>
-		<label class="white_label">Arrival aerodrom :</label>
-		<input type="search" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
+		<label class="white_label" for="ArrivalA">Arrival aerodrom :</label>
+		<input type="search" id="ArrivalA" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
 	</div>
 	<div>
-		<label class="white_label">Arrival time :</label>
-		<input type="time" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
+		<label class="white_label" for="ArrivalT">Arrival time :</label>
+		<input type="time" id="ArrivalT" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome">
 	</div>
 	<div>
-		<label class="white_label">Price :</label>
-		<input type="search" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome">
+		<label class="white_label" for="Price">Price :</label>
+		<input type="search" id="Price" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome">
 	</div>
 	<br>
 	<div>
 		<center>
-		<a href="#" class="btn btn-primary "> Save </a>
-		<a href="#" class="btn btn-primary "> Cancel </a>
+		<a href="#" class="btn btn-primary " id="Save"> Save </a>
+		<a href="#" class="btn btn-primary " id="Cancel"> Cancel </a>
 		</center>
 	</div>
 </form>

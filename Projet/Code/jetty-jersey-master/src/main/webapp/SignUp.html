@@ -71,22 +71,9 @@
 				<h1><img src="images/planev.png" style="img-responsive" width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
 				<nav role="navigation">
 					<ul>
-						<li><a href="#">My flights</a></li>
-						<li><a href="signIn.html">Messages</a></li>
-						<li>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-								Profile
-								<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu cta">
-			      					<li><a href="#">Dashboard</a></li>
-							      	<li><a href="#">Edit profile</a></li>
-							      	<li><a href="#">Settings</a></li>
-									<li><a href="#">Sign out</a></li>
-								</ul>
-							</div>
-						</li>
+						<li><a href="home.html">Home</a></li>
+						<li><a href="SignIn.html">Sign In</a></li>
+						<li><a href="about.html">About</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -95,27 +82,26 @@
 </div>
 
 <div class="loginbox"> 
-<form class="SignUpForm">
+<form class="SignUpForm" method="POST" action="">
 	<div>
 		<label class="white_label" for="firstName">First name :</label>
-		<input id="firstName" name="firstName"  required="required" type="text" placeholder="Alexander" type="search" class="form-control mr-sm-2 home_input"  aria-label="firstName"/>
+		<input id="firstName" name="firstName"  required="required" type="text" placeholder="Alexander" type="search" class="form-control mr-sm-2 home_input"/>
 	</div>
 	<div>
 		<label class="white_label" for="lastName">Last name :</label>
-		<input id="lastName" name="lastName"  required="required" type="text" placeholder="DENVER" type="search" class="form-control mr-sm-2 home_input"  aria-label="lastName"/>
+		<input id="lastName" name="lastName"  required="required" type="text" placeholder="DENVER" type="search" class="form-control mr-sm-2 home_input"/>
 	</div>
-
 	<div>
 		<label class="white_label" for="email">Email :</label>
-		<input  id="email" name="email"   required="required" type="email" placeholder="alexander.denver@gmail.com" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome"/>
+		<input  id="email" name="email" required="required" type="email" placeholder="alexander.denver@gmail.com" class="form-control mr-sm-2 home_input" />
 	</div>
 	<div class="form-group">
 		<label class="white_label" for="password">Password :</label>
-		<input type="search" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome" id="password" name="password"  required="required" type="password" placeholder="eg. X8df!90EO"/>
+		<input type="password" class="form-control mr-sm-2 home_input" id="password" name="password"  required="required" type="password" placeholder="eg. X8df!90EO"/>
 	</div>
 	<div>
 		<label class="white_label" for="passwordConfirm">Please confirm your password :</label>
-		<input type="search" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome"id="passwordConfirm" name="passwordConfirm"  required="required" type="password" placeholder="eg. X8df!90EO" />
+		<input type="password" class="form-control mr-sm-2 home_input" id="passwordConfirm" name="passwordConfirm" required="required" type="password" placeholder="eg. X8df!90EO" />
 	</div>
 	<br>
 	<div>
