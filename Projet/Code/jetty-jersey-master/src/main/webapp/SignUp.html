@@ -82,7 +82,7 @@
 </div>
 
 <div class="loginbox"> 
-<form class="SignUpForm" method="POST" action="">
+<form class="SignUpForm" method="POST" action="http://localhost:8080/ws/user/create">
 	<div>
 		<label class="white_label" for="firstName">First name :</label>
 		<input id="firstName" name="firstName"  required="required" type="text" placeholder="Alexander" type="search" class="form-control mr-sm-2 home_input"/>
@@ -90,6 +90,10 @@
 	<div>
 		<label class="white_label" for="lastName">Last name :</label>
 		<input id="lastName" name="lastName"  required="required" type="text" placeholder="DENVER" type="search" class="form-control mr-sm-2 home_input"/>
+	</div>
+	<div>
+		<label class="white_label" for="birthDate">Birth date :</label>
+		<input id="birthDate" name="birthDate"  required="required" type="date" class="form-control mr-sm-2 home_input"/>
 	</div>
 	<div>
 		<label class="white_label" for="email">Email :</label>
@@ -106,7 +110,7 @@
 	<br>
 	<div>
 		<center>
-		<a href="#" class="btn btn-primary "> Save </a>
+		<input type="submit" class="btn btn-primary "/>
 		<a href="#" class="btn btn-primary "> Cancel </a>
 		</center>
 	</div>
