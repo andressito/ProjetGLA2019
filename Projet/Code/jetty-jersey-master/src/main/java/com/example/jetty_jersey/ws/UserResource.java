@@ -59,10 +59,8 @@ public class UserResource {
         if(res==-1){
             return "{\"error\" : \"email or password wrong\" }";
         }else{
-            // connexion réussi
+            return "{\"success\" : \"You are logged in\"} ";
         }
-        return null;
-
     }
 
     @GET
