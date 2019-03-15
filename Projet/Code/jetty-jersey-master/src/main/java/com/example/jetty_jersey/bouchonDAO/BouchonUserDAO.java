@@ -12,10 +12,10 @@ public class BouchonUserDAO implements UserDAO {
     List<User> liste= new ArrayList<User>();
 
     public void remplirBDUser(){
-        User u1= new User(1,"andrew","kenzo","ak@yopmail.com","passer",new Date(),"078955465");
-        User u2= new User(2,"kenzo","diouf","kd@yopmail.com","passer",new Date(),"078955785");
-        User u3= new User(3,"andressito","diop","ad@yopmail.com","passer",new Date(),"078954465");
-        User u4= new User(4,"andre","ndiaye","an@yopmail.com","passer",new Date(),"078375465");
+        User u1= new User("ID102","andrew","kenzo","ak@yopmail.com","passer",new Date(),"078955465");
+        User u2= new User("ID103","kenzo","diouf","kd@yopmail.com","passer",new Date(),"078955785");
+        User u3= new User("ID104","andressito","diop","ad@yopmail.com","passer",new Date(),"078954465");
+        User u4= new User("ID105","andre","ndiaye","an@yopmail.com","passer",new Date(),"078375465");
         liste.add(u1);
         liste.add(u2);
         liste.add(u3);

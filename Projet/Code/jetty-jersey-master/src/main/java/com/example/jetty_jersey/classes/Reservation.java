@@ -3,33 +3,45 @@ package com.example.jetty_jersey.classes;
 import java.util.Date;
 
 public class Reservation {
-    public String idReservation;
-    public String idUser;
-    public String idFlight;
+    public String reservationId;
+    public String userId;
+    public String flightId;
     public int nbPlaces;
     public Date date;
     public double price;
     public String status;
 
-    public Reservation(String idReservation, String idUser, String idFlight, int nbPlaces, double price, String status){
-        this.idReservation= idReservation;
-        this.idUser=idUser;
-        this.idFlight = idFlight;
+    public Reservation(String reservationId, String userId, String flightId, int nbPlaces, double price, String status){
+        this.reservationId= reservationId;
+        this.userId=userId;
+        this.flightId = flightId;
         this.nbPlaces= nbPlaces;
         this.price=price;
         this.status=status;
     }
 
-    public String getIdReservation() {
-        return idReservation;
+    public String getReservationId() {
+        return reservationId;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public void setReservationId(String reservationId) {
+        this.reservationId = reservationId;
     }
 
-    public String getIdFlight() {
-        return idFlight;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(String flightId) {
+        this.flightId = flightId;
     }
 
     public int getNbPlaces() {
@@ -48,17 +60,6 @@ public class Reservation {
         return status;
     }
 
-    public void setIdReservation(String idReservation) {
-        this.idReservation = idReservation;
-    }
-
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
-    }
-
-    public void setIdFlight(String idFlight) {
-        this.idFlight = idFlight;
-    }
 
     public void setNbPlaces(int nbPlaces) {
         this.nbPlaces = nbPlaces;

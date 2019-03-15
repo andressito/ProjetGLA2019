@@ -3,7 +3,7 @@ package com.example.jetty_jersey.classes;
 import java.util.Date;
 
 public class User {
-    public int idUser;
+    public String userId;
     public String lastName;
     public String firstName;
     public String email;
@@ -11,8 +11,8 @@ public class User {
     public Date birthDate;
     public String password;
 
-    public User(int idUser, String firstName, String lastName, String email, String password, Date birthDate, String gsm ){
-        this.idUser=idUser;
+    public User(String userId, String firstName, String lastName, String email, String password, Date birthDate, String gsm ){
+        this.userId=userId;
         this.lastName=lastName;
         this.firstName=firstName;
         this.email=email;
@@ -21,12 +21,12 @@ public class User {
         this.password=password;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getLastName() {

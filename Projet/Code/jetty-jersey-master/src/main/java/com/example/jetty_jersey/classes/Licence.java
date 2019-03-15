@@ -3,37 +3,37 @@ package com.example.jetty_jersey.classes;
 import java.util.Date;
 
 public class Licence {
-    public String idLicence;
+    public String licenceId;
     public String userId;
-    public Date dateValidite;
+    public Date validityDate;
 
-    public Licence(String idLicence, String userId, Date dateValidite){
-        this.idLicence=idLicence;
+    public Licence(String licenceId, String userId, Date validityDate){
+        this.licenceId=licenceId;
         this.userId=userId;
-        this.dateValidite=dateValidite;
+        this.validityDate=validityDate;
     }
 
-    public String getIdLicence() {
-        return idLicence;
+    public String getLicenceId() {
+        return licenceId;
+    }
+
+    public void setLicenceId(String licenceId) {
+        this.licenceId = licenceId;
     }
 
     public String getUserId() {
         return userId;
     }
 
-    public Date getDateValidite() {
-        return dateValidite;
-    }
-
-    public void setIdLicence(String idLicence) {
-        this.idLicence = idLicence;
-    }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public void setDateValidite(Date dateValidite) {
-        this.dateValidite = dateValidite;
+    public Date getValidityDate() {
+        return validityDate;
+    }
+
+    public void setValidityDate(Date validityDate) {
+        this.validityDate = validityDate;
     }
 }

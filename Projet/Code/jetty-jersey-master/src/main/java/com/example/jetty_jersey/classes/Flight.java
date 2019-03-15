@@ -3,7 +3,7 @@ package com.example.jetty_jersey.classes;
 import java.util.Date;
 
 public class Flight {
-    public String idFlight;
+    public String flightId;
     public String departureAerodrom;
     public String arrivalAerodrom;
     public Date date;
@@ -11,19 +11,19 @@ public class Flight {
     public String userId;
 
     public Flight(String idFlight, String departureAerodrom, String arrivalAerodrom, Date date, String atcNumber, String userId){
-        this.idFlight= idFlight;
+        this.flightId= idFlight;
         this.departureAerodrom= departureAerodrom;
         this.arrivalAerodrom=arrivalAerodrom;
         this.date=date;
         this.atcNumber=atcNumber;
         this.userId=userId;
     }
-    public String getIdFlight() {
-        return idFlight;
+    public String getFlightId() {
+        return flightId;
     }
 
-    public void setIdFlight(String idFlight) {
-        this.idFlight = idFlight;
+    public void setFlightId(String flightId) {
+        this.flightId = flightId;
     }
 
     public String getDepartureAerodrom() {

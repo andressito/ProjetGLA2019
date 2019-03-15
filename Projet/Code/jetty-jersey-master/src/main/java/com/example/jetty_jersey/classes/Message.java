@@ -3,56 +3,57 @@ package com.example.jetty_jersey.classes;
 import java.util.Date;
 
 public class Message {
-    public String idMessage;
-    public String contenu;
-    public String idEmetteur;
-    public String idDestinataire;
-    public Date dateEnvoi;
+    public String messageId;
+    public String content;
+    public String senderId;
+    public String receiverId;
+    public Date sendingDate;
 
-    public Message(String idMessage,String contenu, String idEmetteur, String idDestinataire, Date date){
-        this.idMessage= idMessage;
-        this.contenu=contenu;
-        this.idEmetteur=idEmetteur;
-        this.idDestinataire=idDestinataire;
-        this.dateEnvoi=date;
-    }
-    public void setIdMessage(String idMessage) {
-        this.idMessage = idMessage;
+    public Message(String messageId,String content, String senderId, String receiverId, Date sendingDate){
+        this.messageId= messageId;
+        this.content=content;
+        this.senderId=senderId;
+        this.receiverId=receiverId;
+        this.sendingDate=sendingDate;
     }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public void setIdEmetteur(String idEmetteur) {
-        this.idEmetteur = idEmetteur;
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
-    public void setIdDestinataire(String idDestinataire) {
-        this.idDestinataire = idDestinataire;
+    public String getContent() {
+        return content;
     }
 
-    public void setDateEnvoi(Date dateEnvoi) {
-        this.dateEnvoi = dateEnvoi;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getIdMessage() {
-        return idMessage;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public String getContenu() {
-        return contenu;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
-    public String getIdEmetteur() {
-        return idEmetteur;
+    public String getReceiverId() {
+        return receiverId;
     }
 
-    public String getIdDestinataire() {
-        return idDestinataire;
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
-    public Date getDateEnvoi() {
-        return dateEnvoi;
+    public Date getSendingDate() {
+        return sendingDate;
+    }
+
+    public void setSendingDate(Date sendingDate) {
+        this.sendingDate = sendingDate;
     }
 }

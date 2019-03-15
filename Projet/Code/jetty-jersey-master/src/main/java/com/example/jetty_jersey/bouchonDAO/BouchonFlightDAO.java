@@ -1,4 +1,4 @@
-package com.example.jetty_jersey.bouchonDao;
+package com.example.jetty_jersey.bouchonDAO;
 
 import com.example.jetty_jersey.classes.Flight;
 import com.example.jetty_jersey.dao.FlightDAO;
@@ -33,22 +33,23 @@ public class BouchonFlightDAO implements FlightDAO {
         liste.add(plane);
         return true;
     }
-    public List<Flight> updateFLight(Flight plane) {
+    public boolean updateFLight(String flightId) {
         for(int i=0; i<liste.size(); i++){
-            if(liste.get(i).getIdFlight().equals(plane.getIdFlight())){
-                liste.set(i,plane);
+            if(liste.get(i).getFlightId().equals(flightId)){
+                //liste.set(i,plane);
+                return true;
             }
         }
-        return liste;
+        return false;
     }
-    public List<Flight> deleteFlight(String planeId) {
+    public boolean deleteFlight(String planeId) {
         for(int i=0; i<liste.size(); i++){
-            if(liste.get(i).getIdFlight().equals(planeId)){
+            if(liste.get(i).getFlightId().equals(planeId)){
                 liste.remove(i);
-                return liste;
+                return true;
             }
         }
-        return liste;
+        return false;
     }
     public List<Flight> searchFlight(String departure_aerodrome, Date date) {
         return null;
@@ -57,9 +58,11 @@ public class BouchonFlightDAO implements FlightDAO {
     public List<Flight> getListeFlight() {
         return liste;
     }
+
     public Flight getFlightDetails(String idFlight) {
         for(int i=0; i<liste.size(); i++){
-            if(liste.get(i).getIdFlight().equals(idFlight))return liste.get(i);
+            if(liste.get(i).getFlightId().equals(idFlight))return liste.get(i);
         }
+        return null;
     }
 }

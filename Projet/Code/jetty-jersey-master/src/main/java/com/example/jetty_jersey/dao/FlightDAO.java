@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface FlightDAO {
     boolean createFLight( Flight flight );
-    List<Flight> updateFLight(Flight flight);
-    List<Flight> deleteFlight(String planeId);
+    boolean updateFLight(String flightId);
+    boolean deleteFlight(String flightId);
     List<Flight> searchFlight(String departure_aerodrome, Date date);
     List<Flight> getListeFlight();
     Flight getFlightDetails(String idFlight);
