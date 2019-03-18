@@ -12,8 +12,6 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import com.example.jetty_jersey.classes.*;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -193,7 +191,7 @@ public class ClientDB {
         if(table.equals("flight")){
             Flight f = (Flight)o;
             jsonString ="{"+
-                    "\"idFlight\":\""+f.getIdFlight()+"\"," +
+                    "\"idFlight\":\""+f.getFlightId()+"\"," +
                     "\"departureAerodrom\":\""+f.getDepartureAerodrom()+"\"," +
                     "\"arrivalAerodrom\":\""+f.getArrivalAerodrom() +"\"," +
                     "\"date\":\""+df.format(f.getDate())+"\"," +
@@ -203,18 +201,18 @@ public class ClientDB {
         } else if(table.equals("licence")){
             Licence l = (Licence)o;
             jsonString +="{"+
-                    "\"idLicence\":\""+l.getIdLicence() +"\"," +
+                    "\"idLicence\":\""+l.getLicenceId() +"\"," +
                     "\"userId\":\""+l.getUserId()+"\"," +
-                    "\"dateValidite\":\""+df.format(l.getDateValidite())+"\"" +
+                    "\"dateValidite\":\""+df.format(l.getValidityDate())+"\"" +
                     "}";
         } else if(table.equals("message")){
             Message m = (Message)o;
             jsonString +="{"+
-                    "\"idMessage\":\""+m.getIdMessage() +"\"," +
-                    "\"contenu\":\""+m.getContenu()+"\"," +
-                    "\"idEmetteur\":\""+m.getIdEmetteur() +"\"," +
-                    "\"idDestinataire\":\""+m.getIdDestinataire()+"\"," +
-                    "\"dateEnvoi\":\""+df.format(m.getDateEnvoi())+"\"" +
+                    "\"idMessage\":\""+m.getMessageId() +"\"," +
+                    "\"contenu\":\""+m.getContent()+"\"," +
+                    "\"idEmetteur\":\""+m.getSenderId() +"\"," +
+                    "\"idDestinataire\":\""+m.getReceiverId()+"\"," +
+                    "\"dateEnvoi\":\""+df.format(m.getSendingDate())+"\"" +
                     "}";
         } else if(table.equals("plane")){
             Plane p = (Plane)o;
@@ -225,9 +223,9 @@ public class ClientDB {
         } else if(table.equals("reservation")){
             Reservation r = (Reservation)o;
             jsonString +="{"+
-                    "\"idReservation\":\""+r.getIdReservation()+"\"," +
-                    "\"userId\":\""+r.getIdFlight()+"\"," +
-                    "\"idFlight\":\""+r.getIdUser() +"\"," +
+                    "\"idReservation\":\""+r.getReservationId()+"\"," +
+                    "\"userId\":\""+r.getFlightId()+"\"," +
+                    "\"idFlight\":\""+r.getUserId() +"\"," +
                     "\"nbPlaces\":\""+r.getNbPlaces() +"\"," +
                     "\"date\":\""+df.format(r.getDate())+"\"," +
                      "\"price\":\""+r.getPrice()+"\"," +
@@ -236,7 +234,6 @@ public class ClientDB {
         } else {
             User u = (User)o;
             jsonString +="{"+
-                    "\"userId\":\""+u.getIdUser()+"\"," +
                     "\"lastName\":\""+u.getLastName()+"\"," +
                     "\"firstName\":\""+u.getFirstName() +"\"," +
                     "\"email\":\""+u.getEmail()+"\"," +
@@ -281,7 +278,7 @@ public class ClientDB {
         for(int i = 0; i<mapList.size(); i++) {
             Map<String,Object> map = mapList.get(i);
             Date date = StringToDate(map,"date");
-            list.add(new Flight(map.get("idFlight").toString(),map.get("departureAerodrom").toString(),map.get("arrivalAerodrom").toString(),date,map.get("atcNumber").toString(),map.get("userId").toString()));
+            list.add(new Flight(map.get("flightId").toString(),map.get("departureAerodrom").toString(),map.get("arrivalAerodrom").toString(),date,map.get("atcNumber").toString(),map.get("userId").toString()));
         }
         return list;
     }
@@ -291,8 +288,8 @@ public class ClientDB {
         ArrayList<Map<String,Object>> mapList = getListTable("licence");
         for(int i = 0; i<mapList.size(); i++) {
             Map<String,Object> map = mapList.get(i);
-            Date date = StringToDate(map,"dateValidite");
-            list.add(new Licence(map.get("idLicence").toString(),map.get("userId").toString(),date));
+            Date date = StringToDate(map,"validityDate");
+            list.add(new Licence(map.get("licenceId").toString(),map.get("userId").toString(),date));
         }
         return list;
     }
@@ -303,7 +300,7 @@ public class ClientDB {
         for(int i = 0; i<mapList.size(); i++) {
             Map<String,Object> map = mapList.get(i);
             Date date = StringToDate(map,"dateEnvoi");
-            list.add(new Message(map.get("idMessage").toString(),map.get("contenu").toString(),map.get("idEmetteur").toString(),map.get("idDestinataire").toString(),date));
+            list.add(new Message(map.get("messageId").toString(),map.get("content").toString(),map.get("senderId").toString(),map.get("receiverId").toString(),date));
         }
         return list;
     }
@@ -323,8 +320,7 @@ public class ClientDB {
         ArrayList<Map<String,Object>> mapList = getListTable("reservation");
         for(int i = 0; i<mapList.size(); i++) {
             Map<String,Object> map = mapList.get(i);
-            Date date = StringToDate(map,"date");
-            list.add(new Reservation(map.get("idReservation").toString(),map.get("userId").toString(),map.get("idFlight").toString(),Integer.parseInt(map.get("nbPlaces").toString()),date,Double.parseDouble(map.get("price").toString()),map.get("status").toString()));
+            list.add(new Reservation(map.get("idReservation").toString(),map.get("userId").toString(),map.get("idFlight").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Double.parseDouble(map.get("price").toString()),map.get("status").toString()));
         }
         return list;
     }
@@ -335,7 +331,7 @@ public class ClientDB {
         for(int i = 0; i<mapList.size(); i++) {
             Map<String,Object> map = mapList.get(i);
             Date date = StringToDate(map,"birthDate");
-            list.add(new User(Integer.parseInt(map.get("userId").toString()),map.get("lastName").toString(),map.get("firstName").toString(),map.get("email").toString(),map.get("gsm").toString(),date,map.get("password").toString()));
+            list.add(new User(map.get("lastName").toString(),map.get("firstName").toString(),map.get("email").toString(),map.get("gsm").toString(),date,map.get("password").toString()));
         }
         return list;
     }

@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JettyMain {
-
+	public static ClientDB c;
 	public static void main(String[] args) throws Exception {
 		// Initialize the server
 		Server server = new Server();
@@ -76,7 +76,7 @@ public class JettyMain {
 		// Start server
 		server.start();
 
-        ClientDB c = new ClientDB();
+         c = new ClientDB();
 
         /*
         Flight f1 = new Flight("F123","DAKAR","DAKAR",new Date(),"AC123","ID125");

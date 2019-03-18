@@ -1,6 +1,7 @@
 package com.example.jetty_jersey.ws;
 import com.example.jetty_jersey.bouchonDAO.BouchonUserDAO;
 import com.example.jetty_jersey.classes.User;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -38,7 +39,7 @@ public class UserResource {
             if(birthDate==null) return "{\"error\" : \"error date\" }";
             try {
                 date=df.parse(birthDate);
-                User user = new User("ID001",fistName,lastName,email,password,date,null);
+                User user = new User(fistName,lastName,email, DigestUtils.md5Hex(password),date,null);
                 if(buDAO.createUser(user)) return "{\"success\" : \"new user added\"} ";
                 else return "{\"error\" : \"email used\" }";
             } catch (ParseException e) {
