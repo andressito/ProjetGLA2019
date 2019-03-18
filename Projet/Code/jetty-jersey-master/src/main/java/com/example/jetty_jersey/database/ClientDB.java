@@ -7,6 +7,8 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.support.replication.ReplicationResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -183,9 +185,7 @@ public class ClientDB {
         String id = ""+getIdMax(table);
         IndexRequest indReq = new IndexRequest(
                 table,
-                "info",
-                id
-        );
+                "info");
         String jsonString = "";
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         if(table.equals("flight")){
@@ -196,18 +196,18 @@ public class ClientDB {
                     "\"arrivalAerodrom\":\""+f.getArrivalAerodrom() +"\"," +
                     "\"date\":\""+df.format(f.getDate())+"\"," +
                     "\"atcNumber\":\""+f.getAtcNumber()+"\"," +
-                    "\"userId\":\""+f.getUserId()+"\"" +
+                    "\"userId\":\""+f.getUserId()+"\""+
                     "}";
         } else if(table.equals("licence")){
             Licence l = (Licence)o;
-            jsonString +="{"+
+            jsonString ="{"+
                     "\"idLicence\":\""+l.getLicenceId() +"\"," +
                     "\"userId\":\""+l.getUserId()+"\"," +
                     "\"dateValidite\":\""+df.format(l.getValidityDate())+"\"" +
                     "}";
         } else if(table.equals("message")){
             Message m = (Message)o;
-            jsonString +="{"+
+            jsonString ="{"+
                     "\"idMessage\":\""+m.getMessageId() +"\"," +
                     "\"contenu\":\""+m.getContent()+"\"," +
                     "\"idEmetteur\":\""+m.getSenderId() +"\"," +
@@ -216,13 +216,13 @@ public class ClientDB {
                     "}";
         } else if(table.equals("plane")){
             Plane p = (Plane)o;
-            jsonString +="{"+
+            jsonString ="{"+
                     "\"atcNumber\":\""+p.getAtcNumber() +"\"," +
                     "\"numberSeats\":\""+p.getNumberSeats()+"\"," +
                     "}";
         } else if(table.equals("reservation")){
             Reservation r = (Reservation)o;
-            jsonString +="{"+
+            jsonString ="{"+
                     "\"idReservation\":\""+r.getReservationId()+"\"," +
                     "\"userId\":\""+r.getFlightId()+"\"," +
                     "\"idFlight\":\""+r.getUserId() +"\"," +
@@ -233,7 +233,8 @@ public class ClientDB {
                     "}";
         } else {
             User u = (User)o;
-            jsonString +="{"+
+            jsonString ="{"+
+                    "\"userId\":\"1\"," +
                     "\"lastName\":\""+u.getLastName()+"\"," +
                     "\"firstName\":\""+u.getFirstName() +"\"," +
                     "\"email\":\""+u.getEmail()+"\"," +
@@ -244,24 +245,44 @@ public class ClientDB {
         }
         indReq.source(jsonString, XContentType.JSON);
         IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id = indexResponse.getId();
         /*String index = indexResponse.getIndex();
         String type = indexResponse.getType();
-        String id = indexResponse.getId();
         long version = indexResponse.getVersion();*/
         if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
             System.out.println("The document has been created");
         } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
             System.out.println("The document has been uploaded");
         }
-        ReplicationResponse.ShardInfo shardInfo = indexResponse.getShardInfo();
+        /*ReplicationResponse.ShardInfo shardInfo = indexResponse.getShardInfo();
         if (shardInfo.getTotal() != shardInfo.getSuccessful()) {
-            System.out.println("Not all the shards has been written correctry in the document");
+            System.out.println("Not all the shards has been written correctly in the document");
         }
         if (shardInfo.getFailed() > 0) {
             for (ReplicationResponse.ShardInfo.Failure failure :
                     shardInfo.getFailures()) {
                 String reason = failure.reason();
                 System.out.println(reason);
+            }
+        }*/
+        if(table.equals("user")) {
+            UpdateRequest request = new UpdateRequest(
+                    table,
+                    "info",
+                    id);
+            jsonString = "{" +
+                    "\"userId\":\""+id+"\"" +
+                    "}";
+            request.doc(jsonString, XContentType.JSON);
+            UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
+            if (updateResponse.getResult() == DocWriteResponse.Result.CREATED) {
+                System.out.println("The document has been created");
+            } else if (updateResponse.getResult() == DocWriteResponse.Result.UPDATED) {
+                System.out.println("The document has been uploaded");
+            } else if (updateResponse.getResult() == DocWriteResponse.Result.DELETED) {
+                System.out.println("The document has been deleted");
+            } else if (updateResponse.getResult() == DocWriteResponse.Result.NOOP) {
+                System.out.println("Nothing happened");
             }
         }
     }
