@@ -6,6 +6,8 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.replication.ReplicationResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -14,6 +16,11 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import com.example.jetty_jersey.classes.*;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,18 +31,11 @@ import java.util.Map;
 
 public class ClientDB {
     private RestHighLevelClient client;
-    private int idMaxFlight,idMaxLicence,idMaxMessage,idMaxPlane,idMaxReservation,idMaxUser;
 
     public ClientDB(){
         client = new RestHighLevelClient(
                 RestClient.builder(
                         new HttpHost("localhost", 9200, "http")));
-        idMaxFlight = 0;
-        idMaxLicence = 0;
-        idMaxMessage = 0;
-        idMaxPlane = 0;
-        idMaxReservation = 0;
-        idMaxUser = 0;
     }
 
     public RestHighLevelClient getClient(){
@@ -115,62 +115,46 @@ public class ClientDB {
         return id;
     }
 */
-    /*Modify idMax of the specific table*/
-    public void setIdMax(String table,int n){
-        if(table.equals("flight")) idMaxFlight += n;
-        else if(table.equals("licence")) idMaxLicence += n;
-        else if(table.equals("message")) idMaxMessage += n;
-        else if(table.equals("plane")) idMaxPlane += n;
-        else if(table.equals("reservation")) idMaxReservation += n;
-        else idMaxUser += n;
-    }
-    /*Take idMax of the specific table*/
-    public int getIdMax(String table){
-        if(table.equals("flight")) return idMaxFlight;
-        else if(table.equals("licence")) return idMaxLicence;
-        else if(table.equals("message")) return idMaxMessage;
-        else if(table.equals("plane")) return idMaxPlane;
-        else if(table.equals("reservation")) return idMaxReservation;
-        else return idMaxUser;
+
+    /*Return a table with all the table's lines values*/
+    public SearchHit[] arrayTable(String table) throws IOException{
+        SearchRequest searchRequest = new SearchRequest(table);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] searchHits = hits.getHits();
+        return searchHits;
     }
 
-    /*List id and map data of a database*/
+    /*Take idMax of the specific table*/
+    public int getIdMax(String table) throws IOException {
+        int max = 0;
+        SearchHit[] sh = arrayTable(table);
+        for (SearchHit hit : sh) {
+            int id = Integer.parseInt(hit.getId());
+            if(max < id) max = id;
+        }
+        return max;
+    }
+
+    /*List map data of a database*/
     public ArrayList<Integer> listIdMap(String table) throws IOException{
         ArrayList<Integer> list = new ArrayList<Integer>();
-        int id = 1;
-        int idMax = getIdMax(table);
-        for(int i = 0; i< idMax; i++) {
-            GetRequest getRequest = new GetRequest(
-                    table,
-                    "info",
-                    ""+id
-            );
-            boolean exists = client.exists(getRequest, RequestOptions.DEFAULT);
-            if (exists) {
-                list.add(id);
-                id++;
-            }
+        SearchHit[] sh = arrayTable(table);
+        for (SearchHit hit : sh) {
+            int id = Integer.parseInt(hit.getId());
+            list.add(id);
         }
         return list;
     }
 
     public ArrayList<Map<String,Object>> listMap(String table) throws IOException {
         ArrayList<Map<String,Object>> list = new ArrayList<Map<String, Object>>();
-        int id = 1;
-        int idMax = getIdMax(table);
-        for(int i = 0; i < idMax; i++) {
-            GetRequest getRequest = new GetRequest(
-                    table,
-                    "info",
-                    ""+id
-            );
-            GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
-            boolean exists = client.exists(getRequest, RequestOptions.DEFAULT);
-            if (exists) {
-                list.add(getResponse.getSourceAsMap());
-                id++;
-            }
-        }
+        SearchHit[] sh = arrayTable(table);
+        for (SearchHit hit : sh)
+            list.add(hit.getSourceAsMap());
         return list;
     }
 
@@ -181,11 +165,11 @@ public class ClientDB {
             System.out.println("Not an existing database");
             return;
         }
-        setIdMax(table,1);
-        String id = ""+getIdMax(table);
+        int id = getIdMax(table)+1;
         IndexRequest indReq = new IndexRequest(
                 table,
-                "info");
+                "info",
+                ""+id);
         String jsonString = "";
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         if(table.equals("flight")){
@@ -234,18 +218,18 @@ public class ClientDB {
         } else {
             User u = (User)o;
             jsonString ="{"+
-                    "\"userId\":\"1\"," +
+                    "\"userId\":\""+id+"\"," +
                     "\"lastName\":\""+u.getLastName()+"\"," +
                     "\"firstName\":\""+u.getFirstName() +"\"," +
                     "\"email\":\""+u.getEmail()+"\"," +
                     "\"gsm\":\""+u.getGsm()+"\"," +
-                    "\"birthDate\":\""+df.format(u.getBirthDate())+"\"," +
+                    "\"birthDate\":\""+u.getBirthDate()+"\"," +
                     "\"password\":\""+u.getPassword()+"\"" +
                     "}";
         }
         indReq.source(jsonString, XContentType.JSON);
         IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
-        id = indexResponse.getId();
+        String ident = indexResponse.getId();
         /*String index = indexResponse.getIndex();
         String type = indexResponse.getType();
         long version = indexResponse.getVersion();*/
@@ -265,6 +249,7 @@ public class ClientDB {
                 System.out.println(reason);
             }
         }*/
+        /*
         if(table.equals("user")) {
             UpdateRequest request = new UpdateRequest(
                     table,
@@ -284,7 +269,7 @@ public class ClientDB {
             } else if (updateResponse.getResult() == DocWriteResponse.Result.NOOP) {
                 System.out.println("Nothing happened");
             }
-        }
+        }*/
     }
 
     /*GET functions*/
