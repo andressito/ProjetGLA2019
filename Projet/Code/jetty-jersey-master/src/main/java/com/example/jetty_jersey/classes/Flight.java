@@ -4,26 +4,48 @@ import java.util.Date;
 
 public class Flight {
     public String flightId;
-    public String departureAerodrom;
-    public String arrivalAerodrom;
-    public Date date;
     public String atcNumber;
+    public String departureAerodrom;
+    public String date;
+    public String departureTime;
+    public String seats;
+    public String type;
+    public String arrivalAerodrom;
+    public String arrivalTime;
+    public String price;
     public String userId;
 
-    public Flight(String idFlight, String departureAerodrom, String arrivalAerodrom, Date date, String atcNumber, String userId){
-        this.flightId= idFlight;
-        this.departureAerodrom= departureAerodrom;
-        this.arrivalAerodrom=arrivalAerodrom;
-        this.date=date;
-        this.atcNumber=atcNumber;
-        this.userId=userId;
+    //
+    public Flight(String atcNumber,String departureAerodrom,
+                  String date,String departureTime,String seats,String type,
+                  String arrivalAerodrom,String arrivalTime,String price,String userId) {
+        this.flightId = null;
+        this.atcNumber = atcNumber;
+        this.departureAerodrom = departureAerodrom;
+        this.date = date;
+        this.departureTime = departureTime;
+        this.seats = seats;
+        this.type = type;
+        this.arrivalAerodrom = arrivalAerodrom;
+        this.arrivalTime = arrivalTime;
+        this.price = price;
+        this.userId = userId;
     }
+
     public String getFlightId() {
         return flightId;
     }
 
     public void setFlightId(String flightId) {
         this.flightId = flightId;
+    }
+
+    public String getAtcNumber() {
+        return atcNumber;
+    }
+
+    public void setAtcNumber(String atcNumber) {
+        this.atcNumber = atcNumber;
     }
 
     public String getDepartureAerodrom() {
@@ -34,6 +56,38 @@ public class Flight {
         this.departureAerodrom = departureAerodrom;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public String getSeats() {
+        return seats;
+    }
+
+    public void setSeats(String seats) {
+        this.seats = seats;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getArrivalAerodrom() {
         return arrivalAerodrom;
     }
@@ -42,20 +96,20 @@ public class Flight {
         this.arrivalAerodrom = arrivalAerodrom;
     }
 
-    public Date getDate() {
-        return date;
+    public String getArrivalTime() {
+        return arrivalTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
-    public String getAtcNumber() {
-        return atcNumber;
+    public String getPrice() {
+        return price;
     }
 
-    public void setAtcNumber(String actNumber) {
-        this.atcNumber = actNumber;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getUserId() {

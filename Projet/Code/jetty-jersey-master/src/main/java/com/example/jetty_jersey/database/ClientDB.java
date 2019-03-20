@@ -15,6 +15,8 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -118,7 +120,8 @@ public class ClientDB {
             System.out.println("Not an existing database");
             return;
         }
-        int id = getIdMax(table)+1;
+        //int id = getIdMax(table)+1;
+        int id = 1;
         IndexRequest indReq = new IndexRequest(
                 table,
                 "info",
@@ -127,11 +130,12 @@ public class ClientDB {
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         if(table.equals("flight")){
             Flight f = (Flight)o;
+            f.setFlightId(""+id);
             jsonString ="{"+
                     "\"idFlight\":\""+f.getFlightId()+"\"," +
                     "\"departureAerodrom\":\""+f.getDepartureAerodrom()+"\"," +
                     "\"arrivalAerodrom\":\""+f.getArrivalAerodrom() +"\"," +
-                    "\"date\":\""+df.format(f.getDate())+"\"," +
+                    "\"date\":\""+f.getDate()+"\"," +
                     "\"atcNumber\":\""+f.getAtcNumber()+"\"," +
                     "\"userId\":\""+f.getUserId()+"\""+
                     "}";
@@ -202,8 +206,18 @@ public class ClientDB {
         ArrayList<Map<String,Object>> mapList = getListTable("flight");
         for(int i = 0; i<mapList.size(); i++) {
             Map<String,Object> map = mapList.get(i);
-            Date date = StringToDate(map,"date");
-            list.add(new Flight(map.get("flightId").toString(),map.get("departureAerodrom").toString(),map.get("arrivalAerodrom").toString(),date,map.get("atcNumber").toString(),map.get("userId").toString()));
+            Flight lister = new Flight(map.get("plane").toString(),
+                                map.get("departureAero").toString(),
+                                map.get("date").toString(),
+                                map.get("departureTime").toString(),
+                                map.get("seats").toString(),
+                                map.get("type").toString(),
+                                map.get("arrivalAedrome").toString(),
+                                map.get("arrivalTime").toString(),
+                                map.get("price").toString(),
+                                map.get("userId").toString());
+            lister.setFlightId(map.get("flightId").toString());
+            list.add(lister);
         }
         return list;
     }

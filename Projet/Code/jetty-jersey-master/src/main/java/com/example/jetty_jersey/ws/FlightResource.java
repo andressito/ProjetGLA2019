@@ -2,9 +2,14 @@ package com.example.jetty_jersey.ws;
 
 import com.example.jetty_jersey.bouchonDAO.BouchonFlightDAO;
 import com.example.jetty_jersey.classes.Flight;
+import com.example.jetty_jersey.classes.User;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +27,12 @@ public class FlightResource {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/create")
     public String createFlight(@FormParam("plane") String plane,
                 @FormParam("departureAero") String departureAero,
-                @FormParam("date") Date date,
+                @FormParam("date") String date,
                 @FormParam("departureTime") String departureTime,
                 @FormParam("seats") String seats,
                 @FormParam("type") String type,
@@ -34,10 +40,10 @@ public class FlightResource {
                 @FormParam("arrivalTime") String arrivalTime,
                 @FormParam("price") String price) {
 
-            Flight fl = new Flight("1",departureAero,arrivalAedrome,date,plane,"2");
-            bfdao.createFLight(fl);
-            if(bfdao.createFLight(fl))return "OK";
-            return "NONOK";
+        String userId = "1";
+        Flight fl = new Flight(plane,departureAero,date,departureTime,seats,type,arrivalAedrome,arrivalTime,price,userId);
+        if(bfdao.createFLight(fl)) return "{\"success\" : \"new flight added\"} ";
+        else return "{\"error\" : \"flight used\" }";
     }
 
     @GET

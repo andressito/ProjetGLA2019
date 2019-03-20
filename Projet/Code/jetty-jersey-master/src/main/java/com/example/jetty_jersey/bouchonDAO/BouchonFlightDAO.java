@@ -1,5 +1,6 @@
 package com.example.jetty_jersey.bouchonDAO;
 
+import com.example.jetty_jersey.JettyMain;
 import com.example.jetty_jersey.classes.Flight;
 import com.example.jetty_jersey.dao.FlightDAO;
 
@@ -9,29 +10,16 @@ import java.util.List;
 
 public class BouchonFlightDAO implements FlightDAO {
     static List<Flight>  liste= new ArrayList<Flight>();
-    static{
-        remplirBDFlight();
-    }
-    public static  void remplirBDFlight(){
-        Flight f1 = new Flight("F123","DAKAR","DAKAR",new Date(),"AC123","ID125");
-        Flight f2 = new Flight("F124","MEAUX","BOURGET",new Date(),"AC125","ID128");
-        Flight f3 = new Flight("F125","BOURGET","BOURGET",new Date(),"AC127","ID127");
-        Flight f4 = new Flight("F126","ST DENIS","ST DENIS",new Date(),"AC123","ID125");
-        Flight f5 = new Flight("F127","DIDEROT","DIDEROT",new Date(),"AC124","ID126");
-        liste.add(f1);
-        liste.add(f2);
-        liste.add(f3);
-        liste.add(f4);
-        liste.add(f5);
-    }
-    public boolean createFLight(Flight plane) {
-        for(int i=0; i<liste.size(); i++){
-            if(liste.get(i).atcNumber.equals(plane.atcNumber) &&
-                    liste.get(i).getDate().equals(plane.getDate()) &&
-                    liste.get(i).getDepartureAerodrom().equals(plane.getDepartureAerodrom())) return false;
+    public boolean createFLight(Flight flight) {
+        //System.out.println("les element envoyés"+flight);
+        try {
+
+            JettyMain.c.indexDB(flight);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        liste.add(plane);
-        return true;
+        return false;
     }
     public boolean updateFLight(String flightId) {
         for(int i=0; i<liste.size(); i++){
