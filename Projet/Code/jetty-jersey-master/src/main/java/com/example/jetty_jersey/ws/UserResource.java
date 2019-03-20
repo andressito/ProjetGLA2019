@@ -3,18 +3,19 @@ import com.example.jetty_jersey.bouchonDAO.BouchonUserDAO;
 import com.example.jetty_jersey.classes.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Path("/user")
 public class UserResource {
     public BouchonUserDAO buDAO = new BouchonUserDAO();
+
+    @Context private HttpServletRequest request;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -34,20 +35,11 @@ public class UserResource {
         if(!password.equals(passwordConfirm)){
             return "{\"error\" : \"password not matching\" }";
         }else{
-            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = null;
-            if(birthDate==null) return "{\"error\" : \"error date\" }";
-            try {
-                date=df.parse(birthDate);
-                User user = new User(fistName,lastName,email, DigestUtils.md5Hex(password),date,null);
-                if(buDAO.createUser(user)) return "{\"success\" : \"new user added\"} ";
-                else return "{\"error\" : \"email used\" }";
-            } catch (ParseException e) {
-                e.printStackTrace();
-
-            }
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            if(birthDate==null) return "{\"response\" : \"error date\" }";
+            User user = new User(fistName,lastName,email, DigestUtils.md5Hex(password),birthDate,null);
+            return "{\"response\" : \""+buDAO.createUser(user)+"\" }";
         }
-        return null;
 
     }
 
@@ -60,6 +52,8 @@ public class UserResource {
         if(res==-1){
             return "{\"error\" : \"email or password wrong\" }";
         }else{
+            request.getSession(true);
+
             return "{\"success\" : \"You are logged in\"} ";
         }
     }

@@ -2,15 +2,10 @@ package com.example.jetty_jersey.database;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.DocWriteResponse;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.support.replication.ReplicationResponse;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -20,7 +15,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -50,7 +44,7 @@ public class ClientDB {
     /*Return the string date int a map into a date.Using the key to find the date*/
     public Date StringToDate(Map<String,Object> map, String key) throws ParseException{
         String d = map.get(key).toString();
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Date date = df.parse(d);
         return date;
     }
@@ -74,48 +68,7 @@ public class ClientDB {
         }
         return res;
     }
-    /* Return the first free id of the index, -1 if base isn't listed*/
-    /*public int collectID(String table) throws IOException {
-        boolean b = true;
-        int id = 1;
-        while (b && !table.equals("unknown")) {
-            GetRequest getRequest = new GetRequest(
-                    table,
-                    "info",
-                    ""+id
-            );
-            getRequest.fetchSourceContext(new FetchSourceContext(false));
-            getRequest.storedFields("_none_");
-            b = client.exists(getRequest, RequestOptions.DEFAULT);
-            if (b)
-                id++;
-        }
-        if(table.equals("unknown"))
-            return -1;
-
-        if(table.equals("flight")){
-            if(idMaxFlight < id)
-                idMaxFlight = id;
-        } else if(table.equals("licence")){
-            if(idMaxLicence < id)
-                idMaxLicence = id;
-        } else if(table.equals("message")){
-            if(idMaxMessage < id)
-                idMaxMessage = id;
-        } else if(table.equals("planeS")){
-            if(idMaxPlane < id)
-                idMaxPlane = id;
-        } else if(table.equals("reservation")){
-            if(idMaxReservation < id)
-                idMaxReservation = id;
-        } else {
-            if(idMaxUser < id)
-                idMaxUser = id;
-        }
-        return id;
-    }
-*/
-
+    
     /*Return a table with all the table's lines values*/
     public SearchHit[] arrayTable(String table) throws IOException{
         SearchRequest searchRequest = new SearchRequest(table);
@@ -217,8 +170,9 @@ public class ClientDB {
                     "}";
         } else {
             User u = (User)o;
+            u.setUserId(""+id);
             jsonString ="{"+
-                    "\"userId\":\""+id+"\"," +
+                    "\"userId\":\""+u.getUserId()+"\"," +
                     "\"lastName\":\""+u.getLastName()+"\"," +
                     "\"firstName\":\""+u.getFirstName() +"\"," +
                     "\"email\":\""+u.getEmail()+"\"," +
@@ -229,47 +183,12 @@ public class ClientDB {
         }
         indReq.source(jsonString, XContentType.JSON);
         IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
-        String ident = indexResponse.getId();
-        /*String index = indexResponse.getIndex();
-        String type = indexResponse.getType();
-        long version = indexResponse.getVersion();*/
         if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
             System.out.println("The document has been created");
         } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
             System.out.println("The document has been uploaded");
         }
-        /*ReplicationResponse.ShardInfo shardInfo = indexResponse.getShardInfo();
-        if (shardInfo.getTotal() != shardInfo.getSuccessful()) {
-            System.out.println("Not all the shards has been written correctly in the document");
-        }
-        if (shardInfo.getFailed() > 0) {
-            for (ReplicationResponse.ShardInfo.Failure failure :
-                    shardInfo.getFailures()) {
-                String reason = failure.reason();
-                System.out.println(reason);
-            }
-        }*/
-        /*
-        if(table.equals("user")) {
-            UpdateRequest request = new UpdateRequest(
-                    table,
-                    "info",
-                    id);
-            jsonString = "{" +
-                    "\"userId\":\""+id+"\"" +
-                    "}";
-            request.doc(jsonString, XContentType.JSON);
-            UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
-            if (updateResponse.getResult() == DocWriteResponse.Result.CREATED) {
-                System.out.println("The document has been created");
-            } else if (updateResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-                System.out.println("The document has been uploaded");
-            } else if (updateResponse.getResult() == DocWriteResponse.Result.DELETED) {
-                System.out.println("The document has been deleted");
-            } else if (updateResponse.getResult() == DocWriteResponse.Result.NOOP) {
-                System.out.println("Nothing happened");
-            }
-        }*/
+        
     }
 
     /*GET functions*/
@@ -330,14 +249,18 @@ public class ClientDB {
         }
         return list;
     }
+    
+    
 
     public ArrayList<User> allUser() throws IOException, ParseException {
         ArrayList<User> list = new ArrayList<User>();
         ArrayList<Map<String,Object>> mapList = getListTable("user");
         for(int i = 0; i<mapList.size(); i++) {
             Map<String,Object> map = mapList.get(i);
-            Date date = StringToDate(map,"birthDate");
-            list.add(new User(map.get("lastName").toString(),map.get("firstName").toString(),map.get("email").toString(),map.get("gsm").toString(),date,map.get("password").toString()));
+            User test = new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),
+                    map.get("birthDate").toString(),map.get("gsm").toString());
+            test.setUserId(map.get("userId").toString());
+            list.add(test);
         }
         return list;
     }

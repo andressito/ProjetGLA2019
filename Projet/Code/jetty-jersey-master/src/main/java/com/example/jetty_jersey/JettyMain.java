@@ -76,86 +76,9 @@ public class JettyMain {
 		// Start server
 		server.start();
 
-         c = new ClientDB();
-
-        /*
-        Flight f1 = new Flight("F123","DAKAR","DAKAR",new Date(),"AC123","ID125");
-        Flight f2 = new Flight("F124","MEAUX","BOURGET",new Date(),"AC125","ID128");
-        Flight f3 = new Flight("F125","BOURGET","BOURGET",new Date(),"AC127","ID127");
-        Licence l1 = new Licence("L123","ID125",new Date());
-        Licence l2 = new Licence("L124","ID128",new Date());
-        Licence l3 = new Licence("L125","ID127",new Date());
-        Message m1 = new Message("M123","juste un test","ID125","ID126", new Date());
-        Message m2 = new Message("M124","juste un autre test","ID125","ID127", new Date());
-
-		c.indexDB(f1);
-        c.indexDB(f2);
-        c.indexDB(l1);
-        c.indexDB(l2);
-        c.indexDB(m1);
-        c.indexDB(m2);
+		c = new ClientDB();
 
 
-        ArrayList<Map<String,Object>> list = c.getListTable("flight");
-        for(int i = 0; i<list.size(); i++){
-            Map<String,Object> map = list.get(i);
-            System.out.println(map.toString());
-        }*/
-
-		c.closeClient();
-		/*RestHighLevelClient client = new RestHighLevelClient(
-				RestClient.builder(
-						new HttpHost("localhost", 9200, "http")));
-		IndexRequest request = new IndexRequest(
-				"licence",
-				"doc",
-				"1");
-		String jsonString ="{"+
-				"\"idLicence\":\""+l.getIdLicence() +"\"," +
-				"\"userId\":\""+l.getUserId()+"\"," +
-				"\"dateValidite\":\""+l.getDateValidite()+"\"" +
-				"}";
-		request.source(jsonString, XContentType.JSON);
-		IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
-		String index = indexResponse.getIndex();
-		String type = indexResponse.getType();
-		String id = indexResponse.getId();
-		long version = indexResponse.getVersion();
-		if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
-
-		} else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-
-		}
-		ReplicationResponse.ShardInfo shardInfo = indexResponse.getShardInfo();
-		if (shardInfo.getTotal() != shardInfo.getSuccessful()) {
-
-		}
-		if (shardInfo.getFailed() > 0) {
-			for (ReplicationResponse.ShardInfo.Failure failure :
-					shardInfo.getFailures()) {
-				String reason = failure.reason();
-			}
-		}*/
-
-		/*
-		GetRequest getRequest = new GetRequest(
-				"licence",
-				"info",
-				"1");
-		GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
-		String index = getResponse.getIndex();
-		String type = getResponse.getType();
-		String id = getResponse.getId();
-
-		if (getResponse.isExists()) {
-			long version = getResponse.getVersion();
-			String sourceAsString = getResponse.getSourceAsString();
-			Map<String, Object> sourceAsMap = getResponse.getSourceAsMap();
-			byte[] sourceAsBytes = getResponse.getSourceAsBytes();
-			System.out.println(sourceAsMap.toString());
-		} else {
-			client.close();
-		}*/
 	}
 
 }

@@ -8,10 +8,11 @@ public class User {
     public String firstName;
     public String email;
     public String gsm;
-    public Date birthDate;
+    public String birthDate;
     public String password;
 
-    public User(String firstName, String lastName, String email, String password, Date birthDate, String gsm ){
+    public User(String firstName, String lastName, String email, String password, String birthDate, String gsm ){
+        this.userId=null;
         this.lastName=lastName;
         this.firstName=firstName;
         this.email=email;
@@ -32,24 +33,12 @@ public class User {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getGsm() {
@@ -60,12 +49,8 @@ public class User {
         this.gsm = gsm;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
     }
 
     public String getPassword() {
