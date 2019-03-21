@@ -2,6 +2,7 @@ package com.example.jetty_jersey.database;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -73,23 +74,35 @@ public class ClientDB {
     
     /*Return a table with all the table's lines values*/
     public SearchHit[] arrayTable(String table) throws IOException{
-        SearchRequest searchRequest = new SearchRequest(table);
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-        searchRequest.source(searchSourceBuilder);
-        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-        SearchHits hits = searchResponse.getHits();
-        SearchHit[] searchHits = hits.getHits();
-        return searchHits;
+        SearchHit[] searchHits;
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices(table);
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            SearchRequest searchRequest = new SearchRequest(table);
+            SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+            searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+            searchRequest.source(searchSourceBuilder);
+            SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+            SearchHits hits = searchResponse.getHits();
+            searchHits = hits.getHits();
+            return searchHits;
+        }
+        return null;
     }
 
     /*Take idMax of the specific table*/
     public int getIdMax(String table) throws IOException {
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices(table);
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
         int max = 0;
-        SearchHit[] sh = arrayTable(table);
-        for (SearchHit hit : sh) {
-            int id = Integer.parseInt(hit.getId());
-            if(max < id) max = id;
+        if(exists) {
+            SearchHit[] sh = arrayTable(table);
+            for (SearchHit hit : sh) {
+                int id = Integer.parseInt(hit.getId());
+                if (max < id) max = id;
+            }
         }
         return max;
     }
@@ -106,10 +119,16 @@ public class ClientDB {
     }
 
     public ArrayList<Map<String,Object>> listMap(String table) throws IOException {
-        ArrayList<Map<String,Object>> list = new ArrayList<Map<String, Object>>();
-        SearchHit[] sh = arrayTable(table);
-        for (SearchHit hit : sh)
-            list.add(hit.getSourceAsMap());
+        ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices(table);
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            SearchHit[] sh = arrayTable(table);
+            for (SearchHit hit : sh)
+                list.add(hit.getSourceAsMap());
+            return list;
+        }
         return list;
     }
 
@@ -120,8 +139,11 @@ public class ClientDB {
             System.out.println("Not an existing database");
             return;
         }
-        //int id = getIdMax(table)+1;
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices(table);
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
         int id = 1;
+        if(exists) id = getIdMax(table)+1;
         IndexRequest indReq = new IndexRequest(
                 table,
                 "info",
@@ -197,69 +219,102 @@ public class ClientDB {
 
     /*GET functions*/
     public ArrayList<Map<String,Object>> getListTable(String table) throws IOException{
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices(table);
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
         return listMap(table);
     }
 
     /*Return list of a specific table*/
     public ArrayList<Flight> allFlight() throws IOException, ParseException {
         ArrayList<Flight> list = new ArrayList<Flight>();
-        ArrayList<Map<String,Object>> mapList = getListTable("flight");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            Flight lister = new Flight(map.get("plane").toString(),
-                                map.get("departureAero").toString(),
-                                map.get("date").toString(),
-                                map.get("departureTime").toString(),
-                                map.get("seats").toString(),
-                                map.get("type").toString(),
-                                map.get("arrivalAedrome").toString(),
-                                map.get("arrivalTime").toString(),
-                                map.get("price").toString(),
-                                map.get("userId").toString());
-            lister.setFlightId(map.get("flightId").toString());
-            list.add(lister);
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices("flight");
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            ArrayList<Map<String, Object>> mapList = getListTable("flight");
+            for (int i = 0; i < mapList.size(); i++) {
+                Map<String, Object> map = mapList.get(i);
+                Flight lister = new Flight(map.get("plane").toString(),
+                        map.get("departureAero").toString(),
+                        map.get("date").toString(),
+                        map.get("departureTime").toString(),
+                        map.get("seats").toString(),
+                        map.get("type").toString(),
+                        map.get("arrivalAedrome").toString(),
+                        map.get("arrivalTime").toString(),
+                        map.get("price").toString(),
+                        map.get("userId").toString());
+                lister.setFlightId(map.get("flightId").toString());
+                list.add(lister);
+            }
+            return list;
         }
         return list;
     }
 
     public ArrayList<Licence> allLicence() throws IOException, ParseException {
         ArrayList<Licence> list = new ArrayList<Licence>();
-        ArrayList<Map<String,Object>> mapList = getListTable("licence");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            Date date = StringToDate(map,"validityDate");
-            list.add(new Licence(map.get("licenceId").toString(),map.get("userId").toString(),date));
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices("licence");
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            ArrayList<Map<String, Object>> mapList = getListTable("licence");
+            for (int i = 0; i < mapList.size(); i++) {
+                Map<String, Object> map = mapList.get(i);
+                Date date = StringToDate(map, "validityDate");
+                list.add(new Licence(map.get("licenceId").toString(), map.get("userId").toString(), date));
+            }
+            return list;
         }
         return list;
     }
 
     public ArrayList<Message> allMessage() throws IOException, ParseException {
         ArrayList<Message> list = new ArrayList<Message>();
-        ArrayList<Map<String,Object>> mapList = getListTable("message");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            Date date = StringToDate(map,"dateEnvoi");
-            list.add(new Message(map.get("messageId").toString(),map.get("content").toString(),map.get("senderId").toString(),map.get("receiverId").toString(),date));
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices("message");
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            ArrayList<Map<String, Object>> mapList = getListTable("message");
+            for (int i = 0; i < mapList.size(); i++) {
+                Map<String, Object> map = mapList.get(i);
+                Date date = StringToDate(map, "dateEnvoi");
+                list.add(new Message(map.get("messageId").toString(), map.get("content").toString(), map.get("senderId").toString(), map.get("receiverId").toString(), date));
+            }
+            return list;
         }
         return list;
     }
 
     public ArrayList<Plane> allPlane() throws IOException, ParseException {
         ArrayList<Plane> list = new ArrayList<Plane>();
-        ArrayList<Map<String,Object>> mapList = getListTable("plane");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            list.add(new Plane(map.get("atcNumber").toString(),Integer.parseInt(map.get("numberSeats").toString())));
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices("plane");
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            ArrayList<Map<String, Object>> mapList = getListTable("plane");
+            for (int i = 0; i < mapList.size(); i++) {
+                Map<String, Object> map = mapList.get(i);
+                list.add(new Plane(map.get("atcNumber").toString(), Integer.parseInt(map.get("numberSeats").toString())));
+            }
+            return list;
         }
         return list;
     }
 
     public ArrayList<Reservation> allReservation() throws IOException, ParseException {
         ArrayList<Reservation> list = new ArrayList<Reservation>();
-        ArrayList<Map<String,Object>> mapList = getListTable("reservation");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            list.add(new Reservation(map.get("idReservation").toString(),map.get("userId").toString(),map.get("idFlight").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Double.parseDouble(map.get("price").toString()),map.get("status").toString()));
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices("reservation");
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            ArrayList<Map<String, Object>> mapList = getListTable("reservation");
+            for (int i = 0; i < mapList.size(); i++) {
+                Map<String, Object> map = mapList.get(i);
+                list.add(new Reservation(map.get("idReservation").toString(), map.get("userId").toString(), map.get("idFlight").toString(), Integer.parseInt(map.get("nbPlaces").toString()), Double.parseDouble(map.get("price").toString()), map.get("status").toString()));
+            }
+            return list;
         }
         return list;
     }
@@ -268,24 +323,35 @@ public class ClientDB {
 
     public ArrayList<User> allUser() throws IOException, ParseException {
         ArrayList<User> list = new ArrayList<User>();
-        ArrayList<Map<String,Object>> mapList = getListTable("user");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            User test = new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),
-                    map.get("birthDate").toString(),map.get("gsm").toString());
-            test.setUserId(map.get("userId").toString());
-            list.add(test);
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices("user");
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            ArrayList<Map<String, Object>> mapList = getListTable("user");
+            for (int i = 0; i < mapList.size(); i++) {
+                Map<String, Object> map = mapList.get(i);
+                User test = new User(map.get("firstName").toString(), map.get("lastName").toString(), map.get("email").toString(), map.get("password").toString(),
+                        map.get("birthDate").toString(), map.get("gsm").toString());
+                test.setUserId(map.get("userId").toString());
+                list.add(test);
+            }
+            return list;
         }
         return list;
     }
 
     /*Get a specific value of a table by using an id(user,flight, etc)*/
     public Map<String,Object> getValueTable(String table, String id) throws IOException {
-        ArrayList<Map<String,Object>> list = listMap(table);
-        for(int i = 0; i<list.size(); i++){
-            Map<String,Object> map = list.get(i);
-            if(map.containsValue(id))
-                return map;
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices(table);
+        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+        if(exists) {
+            ArrayList<Map<String, Object>> list = listMap(table);
+            for (int i = 0; i < list.size(); i++) {
+                Map<String, Object> map = list.get(i);
+                if (map.containsValue(id))
+                    return map;
+            }
         }
         return null;
     }
