@@ -52,6 +52,8 @@
 	<!--datepicker-->
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!--main js-->
+	<script type="text/javascript" src="js/AddFlight.js"></script>
 </head>
 <body>
 <style type="text/css">
@@ -95,51 +97,60 @@
 </div>
 
 <div class="loginbox">
-<form class="form" id="FormAddFlight" method="post" action="http://localhost:8080/ws/flight/create">
+<form class="form" id="FormAddFlight" method="post" action="#">
+	<div class="form-check">
+		<label class="white_label" for="Type">Type:</label>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input class="form-check-input" type="checkbox" onclick="detecter()" value="visit" id="visit"/>
+		<label class="form-check-label" for="visit"/>
+		Visit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input class="form-check-input" type="checkbox" value="visit" id="oneway"/>
+		<label class="form-check-label" for="oneway"/>
+		One way flight
+		</label>
+	</div>
 	<div>
-		 <label class="white_label" for="Plane">Plane :</label>
-		<input type="search" id="Plane" class="form-control mr-sm-2 home_input" name="plane"  aria-label="Departure aerodrome">
+		<label class="white_label" for="Plane">Plane :</label>
+		<input list="planes" type="search" id="Plane" class="form-control mr-sm-2 home_input" value="" aria-label="Add Plane">
+		<datalist id="planes">
+			<option>plane 1</option>
+	        <option>pl335d2</option>
+	        <option>kdfj45l</option>
+		</datalist>
 	</div>
 	<div>
 		<label class="white_label" for="DepartureA">Departure aerodrom :</label>
-		<input type="search" id="DepartureA" class="form-control mr-sm-2 home_input" name="departureAero"  aria-label="Departure aerodrome">
+		<input type="search" id="DepartureA" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome"/>
 	</div>
 
 	<div>
 		<label class="white_label" for="Date">Date :</label>
-		<input  type="date" id="Date" class="form-control mr-sm-2 home_input" name="date" aria-label="Departure aerodrome">
+		<input  type="date" id="Date" class="form-control mr-sm-2 home_input" aria-label="Departure date"/>
 	</div>
 	<div class="form-group">
 		<label class="white_label" for="DepartureT">Departure time :</label>
-		<input type="time" id="DepartureT" class="form-control mr-sm-2 home_input" name="departureTime" aria-label="Departure aerodrome">
+		<input type="search" id="DepartureT" class="form-control mr-sm-2 home_input" aria-label="Departure time"/>
 	</div>
 	<div>
 		<label class="white_label" for="Seats">Seats :</label>
-		<input type="search" id="Seats" class="form-control mr-sm-2 home_input" name="seats"  aria-label="Departure aerodrome">
-	</div>
-	<div class="form-check">
-		<label class="white_label" for="Type">Type:</label>
-		<input class="form-check-input" id="Type" type="checkbox" value="visit" name="type" id="defaultCheck1"/>
-		<label class="form-check-label" for="defaultCheck1">
-		Visit
-		</label>
+		<input type="number" min="0" max="15" id="Seats" class="form-control mr-sm-2 home_input"  aria-label="nb of seats"/>
 	</div>
 	<div>
-		<label class="white_label" for="ArrivalA">Arrival aerodrom :</label>
-		<input type="search" id="ArrivalA" class="form-control mr-sm-2 home_input" name="arrivalAedrome"  aria-label="Departure aerodrome">
+		<label class="white_label" id="labelAA" for="ArrivalA">Arrival aerodrom :</label>
+		<input type="search" id="ArrivalA" class="form-control mr-sm-2 home_input"  aria-label="Arrival aerodrome"/>
 	</div>
 	<div>
-		<label class="white_label" for="ArrivalT">Arrival time :</label>
-		<input type="time" id="ArrivalT" class="form-control mr-sm-2 home_input"  name="arrivalTime" aria-label="Departure aerodrome">
+		<label class="white_label" id="labelAT" for="ArrivalT">Arrival time :</label>
+		<input type="time" id="ArrivalT" class="form-control mr-sm-2 home_input"  aria-label="Arrival time"/>
 	</div>
 	<div>
 		<label class="white_label" for="Price">Price :</label>
-		<input type="search" id="Price" class="form-control mr-sm-2 home_input" name="price" aria-label="Departure aerodrome">
+		<input type="search" id="Price" class="form-control mr-sm-2 home_input" aria-label="Price"/>
 	</div>
 	<br>
 	<div>
 		<center>
-		<input type="submit" value="Save" class="btn btn-primary" />
+		<a href="#" class="btn btn-primary " id="Save"> Save </a>
 		<a href="#" class="btn btn-primary " id="Cancel"> Cancel </a>
 		</center>
 	</div>
