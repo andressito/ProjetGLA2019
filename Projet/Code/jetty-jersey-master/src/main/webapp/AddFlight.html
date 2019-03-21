@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
 	<!-- Facebook and Twitter integration -->
@@ -70,7 +71,7 @@
 	<header id="fh5co-header" role="banner">
 		<div class="container">
 			<div class="header-inner">
-				<h1><img src="images/planev.png" style="img-responsive" width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
+				<h1><img src="images/planev.png"  width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
 				<nav role="navigation">
 					<ul>
 						<li><a href="#" id="Flight">My flights</a></li>
@@ -96,71 +97,145 @@
 	</header>
 </div>
 
-<div class="loginbox">
-<form class="form" id="FormAddFlight" method="post" action="#">
-	<div class="form-check">
-		<label class="white_label" for="Type">Type:</label>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input class="form-check-input" type="checkbox" onclick="detecter()" value="visit" id="visit"/>
-		<label class="form-check-label" for="visit"/>
-		Visit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input class="form-check-input" type="checkbox" value="visit" id="oneway"/>
-		<label class="form-check-label" for="oneway"/>
-		One way flight
-		</label>
-	</div>
-	<div>
-		<label class="white_label" for="Plane">Plane :</label>
-		<input list="planes" type="search" id="Plane" class="form-control mr-sm-2 home_input" value="" aria-label="Add Plane">
-		<datalist id="planes">
-			<option>plane 1</option>
-	        <option>pl335d2</option>
-	        <option>kdfj45l</option>
-		</datalist>
-	</div>
-	<div>
-		<label class="white_label" for="DepartureA">Departure aerodrom :</label>
-		<input type="search" id="DepartureA" class="form-control mr-sm-2 home_input"  aria-label="Departure aerodrome"/>
-	</div>
 
-	<div>
-		<label class="white_label" for="Date">Date :</label>
-		<input  type="date" id="Date" class="form-control mr-sm-2 home_input" aria-label="Departure date"/>
-	</div>
-	<div class="form-group">
-		<label class="white_label" for="DepartureT">Departure time :</label>
-		<input type="search" id="DepartureT" class="form-control mr-sm-2 home_input" aria-label="Departure time"/>
-	</div>
-	<div>
-		<label class="white_label" for="Seats">Seats :</label>
-		<input type="number" min="0" max="15" id="Seats" class="form-control mr-sm-2 home_input"  aria-label="nb of seats"/>
-	</div>
-	<div>
-		<label class="white_label" id="labelAA" for="ArrivalA">Arrival aerodrom :</label>
-		<input type="search" id="ArrivalA" class="form-control mr-sm-2 home_input"  aria-label="Arrival aerodrome"/>
-	</div>
-	<div>
-		<label class="white_label" id="labelAT" for="ArrivalT">Arrival time :</label>
-		<input type="time" id="ArrivalT" class="form-control mr-sm-2 home_input"  aria-label="Arrival time"/>
-	</div>
-	<div>
-		<label class="white_label" for="Price">Price :</label>
-		<input type="search" id="Price" class="form-control mr-sm-2 home_input" aria-label="Price"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<aside>
+	<div class="animate-box">
+		<br>
+				<div class="col-md-4 col-md-offset-4" style="background-color: rgba(0,0,0,.5);">
+						<div class="col-md-12">
+							<div class="form-check">
+								<label class="white_label">Type:</label>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input class="form-check-input" type="checkbox" onclick="detecter()" value="visit" id="visit"/>
+								<label class="form-check-label" for="visit" style="color: white;"/>
+								Visit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input class="form-check-input" type="checkbox" value="oneway" id="oneway"/>
+								<label class="form-check-label" for="oneway" style="color: white;"//>
+								One way flight
+								</label>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<input list="planes" type="search" id="Plane" class="form-control mr-sm-2 home_input" value="" placeholder="Add Plane">
+								<datalist id="planes">
+									<option>plane 1</option>
+									<option>pl335d2</option>
+									<option>kdfj45l</option>
+								</datalist>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<input type="search" id="DepartureA"  class="form-control mr-sm-2 home_input"  placeholder="Departure aerodrome"/>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<input  type="date" id="Date" class="form-control mr-sm-2 home_input" placeholder="Departure date"/>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<input type="time" id="DepartureT" class="form-control mr-sm-2 home_input" placeholder="Departure time"/>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<input type="number" min="0" max="15" id="Seats" class="form-control mr-sm-2 home_input"  placeholder="nb of seats"/>
+							</div>
+						</div>
+					<div class="col-md-12" id="ArrivalA2">
+						<div class="form-group" >
+							<input type="search" id="ArrivalA" class="form-control mr-sm-2 home_input"  placeholder="Arrival aerodrome"/>
+						</div>
+					</div>
+					<div class="col-md-12" id="ArrivalT2">
+						<div class="form-group" >
+							<input type="time" id="ArrivalT" class="form-control mr-sm-2 home_input"  placeholder="Arrival time"/>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<input type="number" min="0" max="15" id="Price" class="form-control mr-sm-2 home_input"  placeholder="Price"/>
+						</div>
+					</div>
+				<br>
+						<div class="col-md-12">
+							<div class="form-group">
+								<a class="btn btn-primary " onclick="ajouter()"> Save </a>
+								<a class="btn btn-warning " id="Cancel"> Cancel </a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 	<br>
-	<div>
-		<center>
-		<a href="#" class="btn btn-primary " id="Save"> Save </a>
-		<a href="#" class="btn btn-primary " id="Cancel"> Cancel </a>
-		</center>
-	</div>
-</form>
-</div>
+</aside>
 
-	<!--datepicker js-->
-	<script type="text/javascript">
-		$( function() {$( "#datepicker" ).datepicker();} );
-	</script>
+
+
 
 	<!-- jQuery -->
 	<script src="js/jquery.min.js"></script>

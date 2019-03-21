@@ -14,7 +14,9 @@ public class Flight {
     public String arrivalTime;
     public String price;
     public String userId;
+    public Flight (){
 
+    }
     //
     public Flight(String atcNumber,String departureAerodrom,
                   String date,String departureTime,String seats,String type,

@@ -11,7 +11,6 @@ import java.util.List;
 public class BouchonFlightDAO implements FlightDAO {
     static List<Flight>  liste= new ArrayList<Flight>();
     public boolean createFLight(Flight flight) {
-        //System.out.println("les element envoyés"+flight);
         try {
 
             JettyMain.c.indexDB(flight);
