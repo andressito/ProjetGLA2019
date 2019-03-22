@@ -1,16 +1,18 @@
 package com.example.jetty_jersey.bouchonDAO;
 
+import com.example.jetty_jersey.JettyMain;
 import com.example.jetty_jersey.classes.Plane;
 import com.example.jetty_jersey.dao.PlaneDAO;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BouchonPlaneDAO implements PlaneDAO {
 
-
-    List<Plane> liste = new ArrayList<Plane>();
-    public void remplirBDPlane(){
+    static List<Plane>  liste= new ArrayList<Plane>();
+    /*public void remplirBDPlane(){
         Plane p1 = new Plane("ACT123",5);
         Plane p2 = new Plane("ACT124",3);
         Plane p3 = new Plane("ACT125",8);
@@ -21,19 +23,18 @@ public class BouchonPlaneDAO implements PlaneDAO {
         liste.add(p3);
         liste.add(p4);
         liste.add(p5);
-    }
+    }*/
 
 
 
     public boolean createPlane(Plane plane) {
-        remplirBDPlane();
-        for (int i=0; i<liste.size(); i++){
-            if (liste.get(i).getAtcNumber()==plane.getAtcNumber()){
-                return false;
-            }
+        try {
+            JettyMain.c.indexDB(plane);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        liste.add(plane);
-        return true;
+        return false;
     }
 
 
@@ -57,8 +58,15 @@ public class BouchonPlaneDAO implements PlaneDAO {
     }
 
     public List<Plane> getAllPlane() {
-        remplirBDPlane();
-        return liste;
+        ArrayList<Plane> planes = null;
+        try {
+            planes = JettyMain.c.allPlane();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return planes;
     }
 
     public Plane getPlaneDetails(String atcNumber) {
