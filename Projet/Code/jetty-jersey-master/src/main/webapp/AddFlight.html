@@ -95,66 +95,8 @@
 			</div>
 		</div>
 	</header>
+	<div class="container">
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <aside>
 	<div class="animate-box">
@@ -162,6 +104,7 @@
 				<div class="col-md-4 col-md-offset-4" style="background-color: rgba(0,0,0,.5);">
 						<div class="col-md-12">
 							<div class="form-check">
+								<br>
 								<label class="white_label">Type:</label>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<input class="form-check-input" type="checkbox" onclick="detecter()" value="visit" id="visit"/>
@@ -186,50 +129,59 @@
 
 						<div class="col-md-12">
 							<div class="form-group">
+								<label class="white_label" for="DepartureA">Departure aerodrom :</label>
 								<input type="search" id="DepartureA"  class="form-control mr-sm-2 home_input"  placeholder="Departure aerodrome"/>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
+								<label class="white_label" for="Date">Departure date :</label>
 								<input  type="date" id="Date" class="form-control mr-sm-2 home_input" placeholder="Departure date"/>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
+								<label class="white_label" for="DepartureT">Departure time :</label>
 								<input type="time" id="DepartureT" class="form-control mr-sm-2 home_input" placeholder="Departure time"/>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
+								<label class="white_label" for="Seats">Number of seats</label>
 								<input type="number" min="0" max="15" id="Seats" class="form-control mr-sm-2 home_input"  placeholder="nb of seats"/>
 							</div>
 						</div>
 					<div class="col-md-12" id="ArrivalA2">
 						<div class="form-group" >
+							<label class="white_label" for="ArrivalA">Arrival aerodrom :</label>
 							<input type="search" id="ArrivalA" class="form-control mr-sm-2 home_input"  placeholder="Arrival aerodrome"/>
 						</div>
 					</div>
 					<div class="col-md-12" id="ArrivalT2">
 						<div class="form-group" >
+							<label class="white_label" for="ArrivalT">Arrival time :</label>
 							<input type="time" id="ArrivalT" class="form-control mr-sm-2 home_input"  placeholder="Arrival time"/>
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<input type="number" min="0" max="15" id="Price" class="form-control mr-sm-2 home_input"  placeholder="Price"/>
+							<label class="white_label" for="DepartureA">Price :</label>
+							<input type="number" min="0" max="200" id="Price" class="form-control mr-sm-2 home_input"  placeholder="Price"/>
 						</div>
 					</div>
 				<br>
 						<div class="col-md-12">
+							<center>
 							<div class="form-group">
 								<a class="btn btn-primary " onclick="ajouter()"> Save </a>
 								<a class="btn btn-warning " id="Cancel"> Cancel </a>
-							</div>
+							</div><br>
+							</center>
 						</div>
 				</div>
 			</div>
 		</div>
-
+		<br>
 	</div>
 	<br>
 </aside>
