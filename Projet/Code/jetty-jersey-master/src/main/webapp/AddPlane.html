@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ChuChuFly | Add Flight</title>
+    <title>ChuChuFly | Add Plane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
@@ -52,6 +52,8 @@
     <!--datepicker-->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 <style type="text/css">
@@ -95,7 +97,7 @@
 </div>
 
 <div class="loginbox">
-    <form class="form" id="Addplane" method="post" action="http://localhost:8080/ws/plane/create">
+    <form >
         <div>
             <label class="white_label" for="atcNumber">atcNumber :</label>
             <input type="search" id="atcNumber" class="form-control mr-sm-2 home_input" name="atcNumber"  aria-label="atcNumber">
@@ -107,17 +109,13 @@
         <br>
         <div>
             <center>
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a href="#" class="btn btn-primary " id="Cancel"> Cancel </a>
+                <input onclick="ajouter()" value="Save" class="btn btn-primary" />
+                <a  class="btn btn-primary " id="Cancel"> Cancel </a>
             </center>
         </div>
     </form>
 </div>
 
-<!--datepicker js-->
-<script type="text/javascript">
-    $( function() {$( "#datepicker" ).datepicker();} );
-</script>
 
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
@@ -131,6 +129,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <!-- Flexslider -->
 <script src="js/jquery.flexslider-min.js"></script>
+<script src="js/plane.js"></script>
 
 <!-- MAIN JS -->
 <script src="js/main.js"></script>

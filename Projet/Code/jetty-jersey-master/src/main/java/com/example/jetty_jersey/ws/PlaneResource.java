@@ -5,7 +5,6 @@ import com.example.jetty_jersey.classes.Plane;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/plane")
@@ -21,13 +20,10 @@ public class PlaneResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public String createPlane(@FormParam("atcNumber") String atcNumber,
-                              @FormParam("numberSeats") int numberSeats) {
-            Plane p=new Plane(atcNumber,numberSeats);
-            if(bpDAO.createPlane(p)) return "SUCCESS";
-            return "FAILD";
+    public boolean createPlane(Plane plane) {
+            return bpDAO.createPlane(plane);
     }
 
     @GET
@@ -52,14 +48,7 @@ public class PlaneResource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/planes/{atcNumber}")
-    public List<Plane> deletePlane(@PathParam("atcNumber") String id){
-       /* List<Plane> all = remplirBase();
-        for (int i=0; i<all.size();i++){
-            if( all.get(i).getAtcNumber().equals(id)){
-                all.remove(all.get(i));
-                return all;
-            }
-        }*/
-        return  null;
+    public boolean deletePlane(@PathParam("atcNumber") String id){
+        return  bpDAO.deletePlane(id);
     }
 }
