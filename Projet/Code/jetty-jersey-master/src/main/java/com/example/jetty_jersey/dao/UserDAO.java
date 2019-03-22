@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface UserDAO {
 
-    String createUser(User user);
-    int signInUser(String email,String password);
+    boolean createUser(User user);
+    boolean signInUser(User user);
     boolean updateUser(String userId);
     boolean deleteUser( String userId);
     User getUserDetails(String userId);

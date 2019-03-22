@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Path("/user")
@@ -21,41 +19,25 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/users")
     public List<User> getAllUser() {
-        return null;
+        return buDAO.getAllUser();
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public String createUser(@FormParam("profile") String profile,@FormParam("firstName") String fistName,
-                             @FormParam("lastName") String lastName,@FormParam("birthDate")String birthDate,
-                             @FormParam("email") String email, @FormParam("password") String password,
-                             @FormParam("passwordConfirm") String passwordConfirm) {
-        if(!password.equals(passwordConfirm)){
-            return "{\"error\" : \"password not matching\" }";
-        }else{
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            if(birthDate==null) return "{\"response\" : \"error date\" }";
-            User user = new User(fistName,lastName,email, DigestUtils.md5Hex(password),birthDate,null);
-            return "{\"response\" : \""+buDAO.createUser(user)+"\" }";
-        }
-
+    public boolean createUser(User user) {
+        String mdp = user.getPassword();
+        user.setPassword(DigestUtils.md5Hex(mdp));
+        return buDAO.createUser(user);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/signin")
-    public String signIn(@FormParam("email") String email, @FormParam("password") String password) {
-        int res = buDAO.signInUser(email,password);
-        if(res==-1){
-            return "{\"error\" : \"email or password wrong\" }";
-        }else{
-            request.getSession(true);
-
-            return "{\"success\" : \"You are logged in\"} ";
-        }
+    public boolean signIn(User user) {
+        return buDAO.signInUser(user);
     }
 
     @GET

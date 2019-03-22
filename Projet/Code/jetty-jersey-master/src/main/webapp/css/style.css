@@ -1258,7 +1258,7 @@ form.form {
 }
 
 
-form.SignUpForm{
+div.SignUpForm{
   position:absolute;
   font-size: 18px;
   padding-left: 100px;
@@ -1276,7 +1276,7 @@ form.SignUpForm{
   background-color: rgba(64,75,78,0.7);
 }
 
-form.SignInForm{
+div.SignInForm{
   position:absolute;
   font-size: 18px;
   padding-left: 100px;

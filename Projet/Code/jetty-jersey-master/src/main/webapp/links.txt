@@ -1,3 +1,0 @@
-signUn : http://localhost:8080/ws/user/create
-sigIN : http://localhost:8080/ws/user/
-addFlight : http://localhost:8080/ws/flight/create

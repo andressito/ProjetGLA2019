@@ -47,11 +47,13 @@
 		<!--[if lt IE 9]>
 		<script src="js/respond.min.js"></script>
 		<![endif]-->
-
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
 		<!--datepicker-->
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="js/signup.js"></script>
 	</head>
 	<body>
 		<style type="text/css">
@@ -82,8 +84,8 @@
 			</header>
 		</div>
 
-		<div class="loginbox">
-			<form class="SignInForm" method="post" action="http://localhost:8080/ws/user/signin">
+
+			<div class="SignInForm" >
 				<div>
 					<label class="white_label" for="email">Email :</label>
 					<input  id="email" name="email"   required="required" type="email" placeholder="alexander.denver@gmail.com" class="form-control mr-sm-2 home_input" aria-label="Departure aerodrome"/>
@@ -95,19 +97,15 @@
 					<br>
 				<div>
 					<center>
-						<input type="submit" class="btn btn-primary"  value="Sign in"/>
+						<input type="submit" class="btn btn-primary"  value="Sign in" id="btSignIn"/>
 						<br>
 						<br>
 						<a href="SignUp.html">Don't have an account yet? Sign up here!</a>
 					</center>
 				</div>
-			</form>
-		</div>
+			</div>
 
 		<!--datepicker js-->
-		<script type="text/javascript">
-			$( function() {$( "#datepicker" ).datepicker();} );
-		</script>
 		<!-- jQuery -->
 		<script src="js/jquery.min.js"></script>
 		<!-- jQuery Easing -->

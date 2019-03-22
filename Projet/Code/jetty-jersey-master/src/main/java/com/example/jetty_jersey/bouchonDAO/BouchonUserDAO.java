@@ -16,14 +16,14 @@ import java.util.Map;
 
 public class BouchonUserDAO implements UserDAO {
 
-    public String createUser(User user) {
+    public boolean createUser(User user) {
         try {
             List<User> liste=JettyMain.c.allUser();
             for(int i=0; i<liste.size(); i++){
-                if(liste.get(i).getEmail().equals(user.getEmail())) return "mail used";
+                if(liste.get(i).getEmail().equals(user.getEmail())) return false;
             }
             JettyMain.c.indexDB(user);
-            return "User add";
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -31,24 +31,23 @@ public class BouchonUserDAO implements UserDAO {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return "error add";
+        return false;
     }
 
-    public int signInUser(String email, String password) {
+    public boolean signInUser(User user) {
         try {
             List<User> liste=JettyMain.c.allUser();
             for(int i=0; i<liste.size();i++){
                 System.out.println(liste.get(i).getPassword());
-                if(liste.get(i).getEmail().equals(email) && liste.get(i).getPassword().equals(DigestUtils.md5Hex(password)))
-                    return 1;
+                if(liste.get(i).getEmail().equals(user.getEmail()) && liste.get(i).getPassword().equals(DigestUtils.md5Hex(user.getPassword())))
+                    return true;
             }
-            return -1;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return -1;
+        return false;
     }
 
     public boolean updateUser(String userId) {
