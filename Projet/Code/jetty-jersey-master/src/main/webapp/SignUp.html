@@ -40,18 +40,24 @@
 	<link rel="stylesheet" href="css/owl.theme.default.min.css">
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
-	<!-- Modernizr JS -->
+		<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
+
 	<![endif]-->
+		<script src="js/signup.js"></script>
 
 
 	<!--datepicker-->
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 	</head>
 	<body>
 		<style type="text/css">
@@ -82,7 +88,7 @@
 		</div>
 
 		<div class="loginbox">
-			<form class="SignUpForm" method="POST" action="http://localhost:8080/ws/user/create">
+			<div class="SignUpForm">
 				<div>
 					<label class="white_label" for="firstName">First name :</label>
 					<input id="firstName" name="firstName"  required="required" type="text" placeholder="Alexander"  class="form-control mr-sm-2 home_input"/>
@@ -110,17 +116,12 @@
 				<br>
 				<div>
 					<center>
-						<input type="submit" class="btn btn-primary" value="Submit"/>
+						<input type="submit" class="btn btn-primary" value="Submit" onclick="fenvoi()"/>
 						<a href="#" class="btn btn-primary "> Cancel </a>
 					</center>
 				</div>
-			</form>
+			</div>
 		</div>
-
-		<!--datepicker js-->
-		<script type="text/javascript">
-			$( function() {$( "#datepicker" ).datepicker();} );
-		</script>
 
 		<!-- jQuery -->
 		<script src="js/jquery.min.js"></script>
