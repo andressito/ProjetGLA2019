@@ -4,6 +4,8 @@ public class Plane {
     public String atcNumber;
     public int numberSeats;
 
+    public Plane(){}
+
     public Plane(String atcNumber, int numberSeats){
         this.atcNumber=atcNumber;
         this.numberSeats=numberSeats;
