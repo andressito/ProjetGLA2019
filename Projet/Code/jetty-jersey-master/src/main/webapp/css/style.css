@@ -1316,8 +1316,32 @@ nav.crumb{
   color: white;
 }
 
+.about{
+  background-color: rgba(0,0,0,0.6);
+  height: 400px;
+  padding: 20px;
+  text-align: center;
+  justify-content: center;
+}
+
+.about h2{
+  color: #27E1CE;
+}
 
 
+.about p{
+  font-size: 24px;
+  color: rgba(255,255,255,0.8);
+
+}
+
+.dropdown-menu {
+  background-color: rgba(0,0,0,0.8);
+}
+
+.dropdown ul li ::hover {
+  background-color: rgba(0,0,0,0.6);
+}
 
 
 /*# sourceMappingURL=style.css.map */

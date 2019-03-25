@@ -2,63 +2,31 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ChuChuFly | Sign Up Form</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
-
-
-	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
-
-
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico">
-
-	<link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
-
-	<!-- Animate.css -->
-	<link rel="stylesheet" href="css/animate.css">
-	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="css/icomoon.css">
-	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<!-- Flexslider  -->
-	<link rel="stylesheet" href="css/flexslider.css">
-	<!-- Owl Carousel  -->
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/owl.theme.default.min.css">
-	<!-- Theme style  -->
-	<link rel="stylesheet" href="css/style.css">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>ChuChuFly | Sign Up Form</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
+		<!-- Animate.css -->
+		<link rel="stylesheet" href="css/animate.css">
+		<!-- Icomoon Icon Fonts-->
+		<link rel="stylesheet" href="css/icomoon.css">
+		<!-- Bootstrap  -->
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<!-- Flexslider  -->
+		<link rel="stylesheet" href="css/flexslider.css">
+		<!-- Owl Carousel  -->
+		<link rel="stylesheet" href="css/owl.carousel.min.css">
+		<link rel="stylesheet" href="css/owl.theme.default.min.css">
+		<!-- Theme style  -->
+		<link rel="stylesheet" href="css/style.css">
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-
-		<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
-	<!-- FOR IE9 below -->
-	<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-
-	<![endif]-->
-		<script src="js/signup.js"></script>
-
-
-	<!--datepicker-->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+		<script src="js/modernizr-2.6.2.min.js"></script>
+		
+		<script type="text/javascript" src="js/BusinessObjects/user.js"></script>
 	</head>
+	
 	<body>
 		<style type="text/css">
 			body {
@@ -85,43 +53,86 @@
 					</div>
 				</div>
 			</header>
+			<div class="container">
 		</div>
 
-		<div class="loginbox">
-			<div class="SignUpForm">
-				<div>
-					<label class="white_label" for="firstName">First name :</label>
-					<input id="firstName" name="firstName"  required="required" type="text" placeholder="Alexander"  class="form-control mr-sm-2 home_input"/>
-				</div>
-				<div>
-					<label class="white_label" for="lastName">Last name :</label>
-					<input id="lastName" name="lastName"  required="required" type="text" placeholder="DENVER" class="form-control mr-sm-2 home_input"/>
-				</div>
-				<div>
-					<label class="white_label" for="birthDate">Birth date :</label>
-					<input id="birthDate" name="birthDate"  required="required" type="date" class="form-control mr-sm-2 home_input"/>
-				</div>
-				<div>
-					<label class="white_label" for="email">Email :</label>
-					<input  id="email" name="email" required="required" type="email" placeholder="alexander.denver@gmail.com" class="form-control mr-sm-2 home_input" />
-				</div>
-				<div class="form-group">
-					<label class="white_label" for="password">Password :</label>
-					<input type="password" class="form-control mr-sm-2 home_input" id="password" name="password"  required="required"  placeholder="eg. X8df!90EO"/>
-				</div>
-				<div>
-					<label class="white_label" for="passwordConfirm">Please confirm your password :</label>
+
+		<aside>
+		<div class="animate-box">
+			<br>
+				<div class="col-md-4 col-md-offset-4" style="background-color: rgba(0,0,0,.5);">
+					<div class="col-md-12">
+						<div class="form-check">
+							<br>
+							<label class="white_label">Role:</label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input class="form-check-input" type="checkbox" onclick="pilot_detecter()" checked="true" value="pilot" id="pilot"/>
+							<label class="form-check-label" for="pilot" style="color: white;"/>
+							Pilot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input class="form-check-input" type="checkbox" onclick="passenger_detecter()" value="passenger" id="passenger"/>
+							<label class="form-check-label" for="passenger" style="color: white;"//>
+							Passenger
+							</label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="white_label" for="firstName">First name :</label>
+							<input id="firstName" name="firstName"  required="required" type="text" placeholder="Alexander"  class="form-control mr-sm-2 home_input"/>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="white_label" for="lastName">Last name :</label>
+							<input id="lastName" name="lastName"  required="required" type="text" placeholder="DENVER" class="form-control mr-sm-2 home_input"/>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="white_label" for="birthDate">Birth date :</label>
+							<input id="birthDate" name="birthDate"  required="required" type="date" class="form-control mr-sm-2 home_input"/>
+						</div>
+					</div>
+					<div class="col-md-12" id="Licence">
+						<div class="form-group">
+							<label class="white_label" for="licence">Licence expiration date :</label>
+							<input id="licence" name="licence"  required="required" type="date" class="form-control mr-sm-2 home_input"/>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="white_label" for="email">Email :</label>
+							<input  id="email" name="email" required="required" type="email" placeholder="alexander.denver@gmail.com" class="form-control mr-sm-2 home_input" />
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="white_label" for="password">Password :</label>
+							<input type="password" class="form-control mr-sm-2 home_input" id="password" name="password"  required="required"  placeholder="eg. X8df!90EO"/>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="white_label" for="passwordConfirm">Please confirm your password :</label>
 					<input type="password" class="form-control mr-sm-2 home_input" id="passwordConfirm" name="passwordConfirm" required="required" placeholder="eg. X8df!90EO" />
-				</div>
-				<br>
-				<div>
-					<center>
-						<input type="submit" class="btn btn-primary" value="Submit" onclick="fenvoi()"/>
-						<a href="#" class="btn btn-primary "> Cancel </a>
-					</center>
+						</div>
+					</div>
+					<br>
+						<div class="col-md-12">
+							<center>
+							<div class="form-group">
+								<a class="btn btn-primary " type="submit" onclick="fenvoi()"> Save </a>
+								<a class="btn btn-warning " id="Cancel"> Cancel </a>
+							</div><br>
+							</center>
+						</div>
+					</div>
 				</div>
 			</div>
+			<br>
 		</div>
+		<br>
+	</aside>
 
 		<!-- jQuery -->
 		<script src="js/jquery.min.js"></script>
