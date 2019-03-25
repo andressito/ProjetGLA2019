@@ -55,6 +55,8 @@ function ajouterUser(){
 
     }).success(function (result) {
         if(result){
+            localStorage.setItem("save",email);
+            sessionStorage.setItem("email",email);
             window.location.href="http://localhost:8080/";
             swal({
                 title: "ChuChuFly!",
@@ -84,6 +86,8 @@ $(function(){
             dataType: "json"
         }).success( function (result) {
             if(result){
+                localStorage.setItem("save",email);
+                sessionStorage.setItem("email",email);
                 window.location.href="http://localhost:8080/";
                 swal({
                     title: "ChuChuFly!",
