@@ -549,52 +549,6 @@ public class ClientDB {
         return list;
     }
 
-    /*
-    public ArrayList<Flight> getFlights(String aerodrom) throws IOException{
-        ArrayList<Flight> list = new ArrayList<Flight>();
-        ArrayList<Map<String,Object>> mapList = listMap("flight");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            if(map.get("departureAerodrom").toString().equals(aerodrom) || map.get("arrivalAerodrom").toString().equals(aerodrom)) {
-                Flight f = createFlight(map);
-                list.add(f);
-            }
-        }
-        return list;
-    }
-
-    /*Return a list a flight which their dates are superior to the date in argument*/
-    /*public ArrayList<Flight> getFlights(Date date) throws IOException,ParseException{
-        ArrayList<Flight> list = new ArrayList<Flight>();
-        ArrayList<Map<String,Object>> mapList = listMap("flight");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            Date d = StringToDate(map,"date");
-            if(d.compareTo(date) > 0) {
-                Flight f = createFlight(map);
-                list.add(f);
-            }
-        }
-        return list;
-    }
-
-
-    /*Return a list of flight whitch their dates are superior to the date in argument and correspond to the aerodrom*/
-    /*public ArrayList<Flight> getFlights(String aerodrom, String date) throws IOException,ParseException{
-        ArrayList<Flight> list = new ArrayList<Flight>();
-        ArrayList<Map<String,Object>> mapList = listMap("flight");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
-            Date d = StringToDate(map,"date");
-            if((map.get("departureAerodrom").toString().equals(aerodrom) || map.get("arrivalAerodrom").toString().equals(aerodrom)) && d.compareTo(StringToDate(date)) > 0){
-                Flight f = createFlight(map);
-                list.add(f);
-            }
-
-        }
-        return list;
-    }
-
     /*Get a specific value of a table by using an id(user,flight, etc)*/
     public Map<String,Object> getValueTable(String table, String id) throws IOException {
         ArrayList<Map<String,Object>> list = listMap(table);
@@ -618,6 +572,10 @@ public class ClientDB {
         String jsonString = "{" +
                 "\"validityDate\":\""+l.getValidityDate()+"\"," +
                 "}";
+        updateCheck(request, jsonString);
+    }
+
+    private void updateCheck(UpdateRequest request, String jsonString) throws IOException {
         request.doc(jsonString, XContentType.JSON);
         UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
         if (updateResponse.getResult() == DocWriteResponse.Result.CREATED) {
@@ -643,13 +601,7 @@ public class ClientDB {
                 "\"birthDate\":\""+u.getBirthDate()+"\"," +
                 "\"password\":\""+u.getPassword()+"\"" +
                 "}";
-        request.doc(jsonString, XContentType.JSON);
-        UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
-        if (updateResponse.getResult() == DocWriteResponse.Result.CREATED) {
-            System.out.println("The document has been created");
-        } else if (updateResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-            System.out.println("The document has been updated");
-        }
+        updateCheck(request, jsonString);
     }
 
     public void updatePlaneInIndex(Object o) throws Exception {
@@ -663,13 +615,7 @@ public class ClientDB {
         String jsonString = "{" +
                 "\"numberSeats\":\""+p.getNumberSeats()+"\"," +
                 "}";
-        request.doc(jsonString, XContentType.JSON);
-        UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
-        if (updateResponse.getResult() == DocWriteResponse.Result.CREATED) {
-            System.out.println("The document has been created");
-        } else if (updateResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-            System.out.println("The document has been updated");
-        }
+        updateCheck(request, jsonString);
     }
 
     public void updateFlightInIndex(Object o) throws Exception{
@@ -686,13 +632,7 @@ public class ClientDB {
                 "\"date\":\""+f.getDate()+"\"," +
                 "\"atcNumber\":\""+f.getAtcNumber()+"\"," +
                 "}";
-        request.doc(jsonString, XContentType.JSON);
-        UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
-        if (updateResponse.getResult() == DocWriteResponse.Result.CREATED) {
-            System.out.println("The document has been created");
-        } else if (updateResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-            System.out.println("The document has been updated");
-        }
+        updateCheck(request, jsonString);
     }
 
     /*DELETE functions*/
@@ -706,12 +646,16 @@ public class ClientDB {
                         "flight",
                         "info",
                         id);
-                DeleteResponse deleteResponse = client.delete(request, RequestOptions.DEFAULT);
-                ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
-                if (shardInfo.getTotal() != shardInfo.getSuccessful())
-                    System.out.println("DELETE");
+                deleteCheck(request);
             }
         }
+    }
+
+    private void deleteCheck(DeleteRequest request) throws IOException {
+        DeleteResponse deleteResponse = client.delete(request, RequestOptions.DEFAULT);
+        ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
+        if (shardInfo.getTotal() != shardInfo.getSuccessful())
+            System.out.println("DELETE");
     }
 
     public void deleteLicence(String licenceId) throws IOException{
@@ -724,10 +668,7 @@ public class ClientDB {
                         "licence",
                         "info",
                         id);
-                DeleteResponse deleteResponse = client.delete(request, RequestOptions.DEFAULT);
-                ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
-                if (shardInfo.getTotal() != shardInfo.getSuccessful())
-                    System.out.println("DELETE");
+                deleteCheck(request);
             }
         }
     }
@@ -742,10 +683,7 @@ public class ClientDB {
                         "message",
                         "info",
                         id);
-                DeleteResponse deleteResponse = client.delete(request, RequestOptions.DEFAULT);
-                ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
-                if (shardInfo.getTotal() != shardInfo.getSuccessful())
-                    System.out.println("DELETE");
+                deleteCheck(request);
             }
         }
     }
@@ -760,10 +698,7 @@ public class ClientDB {
                         "plane",
                         "info",
                         id);
-                DeleteResponse deleteResponse = client.delete(request, RequestOptions.DEFAULT);
-                ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
-                if (shardInfo.getTotal() != shardInfo.getSuccessful())
-                    System.out.println("DELETE");
+                deleteCheck(request);
             }
         }
     }
@@ -778,10 +713,7 @@ public class ClientDB {
                         "reservation",
                         "info",
                         id);
-                DeleteResponse deleteResponse = client.delete(request, RequestOptions.DEFAULT);
-                ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
-                if (shardInfo.getTotal() != shardInfo.getSuccessful())
-                    System.out.println("DELETE");
+                deleteCheck(request);
             }
         }
     }
@@ -796,10 +728,7 @@ public class ClientDB {
                         "user",
                         "info",
                         id);
-                DeleteResponse deleteResponse = client.delete(request, RequestOptions.DEFAULT);
-                ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
-                if (shardInfo.getTotal() != shardInfo.getSuccessful())
-                     System.out.println("DELETE");
+                deleteCheck(request);
             }
         }
     }
