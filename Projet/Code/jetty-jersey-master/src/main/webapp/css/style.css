@@ -1336,10 +1336,10 @@ nav.crumb{
 }
 
 .dropdown-menu {
-  background-color: rgb(0,0,0,0.8);
+  background-color: rgba(0,0,0,0.8);
 }
 
-.dropdown-men ul li :hover {
+.dropdown ul li ::hover {
   background-color: rgba(0,0,0,0.6);
 }
 
