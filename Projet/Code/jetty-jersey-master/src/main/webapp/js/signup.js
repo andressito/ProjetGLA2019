@@ -56,6 +56,7 @@ function ajouterUser(){
     }).success(function (result) {
         if(result){
             localStorage.setItem("save",email);
+            localStorage.setItem("FirstName",fistName);
             sessionStorage.setItem("email",email);
             window.location.href="http://localhost:8080/";
             swal({

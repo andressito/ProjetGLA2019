@@ -44,8 +44,15 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/users/{idUser}")
     public User getUser(@PathParam("idUser") String id) {
-
         return null;
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/useremail")
+    public User getUserByEmail(User user){
+        return buDAO.getUserByEmail(user);
     }
 
     @PUT

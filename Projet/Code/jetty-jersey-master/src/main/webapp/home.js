@@ -2,6 +2,7 @@ $(document).ready(function() {
     if(localStorage.getItem("save")){
         if(sessionStorage.getItem("email")){
             var email = sessionStorage.getItem("email");
+
         }else{
             var email=localStorage.getItem("save");
             sessionStorage.setItem("email",email);

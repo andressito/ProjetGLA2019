@@ -34,6 +34,20 @@ public class BouchonUserDAO implements UserDAO {
         return false;
     }
 
+    public User getUserByEmail(User user){
+        try {
+            List<User> list = JettyMain.c.allUser();
+            for(int i=0; i< list.size(); i++){
+                if (list.get(i).getEmail().equals(user.getEmail())) return list.get(i);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean signInUser(User user) {
         try {
             List<User> liste=JettyMain.c.allUser();
