@@ -402,6 +402,7 @@ public class ClientDB {
     /*Return a list a flight by specific Aerodrom(departure or arrival)*/
     public ArrayList<Flight> getFlights(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched) throws Exception{
         ArrayList<Flight> list = new ArrayList<Flight>();
+        ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
         ArrayList<Map<String,Object>> mapList = listMap("flight");
         if(departureAerodromSearched != null && arrivalAerodromSearched == null && dateSearched == null && typeSearched == null) {
             for (int i = 0; i < mapList.size(); i++) {
@@ -417,8 +418,7 @@ public class ClientDB {
                 Map<String, Object> map = mapList.get(i);
                 Date d = StringToDate(map,"date");
                 if ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) {
-                    Flight f = createFlight(map);
-                    if (Integer.parseInt(f.getSeats()) > 0) list.add(f);
+                    addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 } //Search with date
             }
         }
@@ -454,8 +454,7 @@ public class ClientDB {
                 Map<String, Object> map = mapList.get(i);
                 Date d = StringToDate(map,"date");
                 if ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && (d.compareTo(StringToDate(dateSearched)) > 0)) {
-                    Flight f = createFlight(map);
-                    if (Integer.parseInt(f.getSeats()) > 0) list.add(f);
+                    addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 } //Search with departure aerodrom and date
             }
         }
@@ -473,8 +472,7 @@ public class ClientDB {
                 Map<String, Object> map = mapList.get(i);
                 Date d = StringToDate(map,"date");
                 if ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && (d.compareTo(StringToDate(dateSearched))) > 0) {
-                    Flight f = createFlight(map);
-                    if (Integer.parseInt(f.getSeats()) > 0) list.add(f);
+                    addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 } //Search with arrival aerodrom and date
             }
         }
@@ -492,8 +490,7 @@ public class ClientDB {
                 Map<String, Object> map = mapList.get(i);
                 Date d = StringToDate(map,"date");
                 if ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0) && map.get("type").toString().equals(typeSearched) && (d.compareTo(StringToDate(dateSearched)) > 0)) {
-                    Flight f = createFlight(map);
-                    if (Integer.parseInt(f.getSeats()) > 0) list.add(f);
+                    addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 } //Search with date and type
             }
         }
@@ -502,8 +499,7 @@ public class ClientDB {
                 Map<String, Object> map = mapList.get(i);
                 Date d = StringToDate(map,"date");
                 if ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && (d.compareTo(StringToDate(dateSearched))) > 0) {
-                    Flight f = createFlight(map);
-                    if (Integer.parseInt(f.getSeats()) > 0) list.add(f);
+                    addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 } //Search with date, departure and arrival aerodrom
             }
         }
@@ -521,8 +517,7 @@ public class ClientDB {
                 Map<String, Object> map = mapList.get(i);
                 Date d = StringToDate(map,"date");
                 if (map.get("type").toString().equals(typeSearched) && (d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched)) {
-                    Flight f = createFlight(map);
-                    if (Integer.parseInt(f.getSeats()) > 0) list.add(f);
+                    addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 } //Search with type, date and arrival aerodrom
             }
         }
@@ -531,8 +526,7 @@ public class ClientDB {
                 Map<String, Object> map = mapList.get(i);
                 Date d = StringToDate(map,"date");
                 if (map.get("type").toString().equals(typeSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && (d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) {
-                    Flight f = createFlight(map);
-                    if (Integer.parseInt(f.getSeats()) > 0) list.add(f);
+                    addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 } //Search with type, date and departure aerodrom
             }
         }
@@ -541,12 +535,18 @@ public class ClientDB {
                 Map<String, Object> map = mapList.get(i);
                 Date d = StringToDate(map,"date");
                 if (map.get("type").toString().equals(typeSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && (d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) {
-                    Flight f = createFlight(map);
-                    if (Integer.parseInt(f.getSeats()) > 0) list.add(f);
+                    addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 } //Search with type, date, departure and arrival aerodrom
             }
         }
+        if(list.size() == 0) return listAfterDate;
         return list;
+    }
+
+    private void addToFlightSearchList(String dateSearched, ArrayList<Flight> list, ArrayList<Flight> listAfterDate, Map<String, Object> map, Date d) throws ParseException {
+        Flight f = createFlight(map);
+        if ((Integer.parseInt(f.getSeats()) > 0) && (d.compareTo(StringToDate(dateSearched)) == 0)) list.add(f);
+        if ((Integer.parseInt(f.getSeats()) > 0) && (d.compareTo(StringToDate(dateSearched)) > 0)) listAfterDate.add(f);
     }
 
     /*Get a specific value of a table by using an id(user,flight, etc)*/
