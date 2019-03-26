@@ -1,5 +1,8 @@
 package com.example.jetty_jersey.database;
 
+
+import com.example.jetty_jersey.classes.*;
+
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
@@ -16,7 +19,6 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
-import com.example.jetty_jersey.classes.*;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -37,7 +39,7 @@ public class ClientDB {
     private RestHighLevelClient client;
     private int idMaxFlight, idMaxLicence, idMaxMessage, idMaxPlane, idMaxReservation, idMaxUser;
 
-    public ClientDB() throws IOException, InterruptedException{
+    public ClientDB() throws IOException{
         client = new RestHighLevelClient(
                 RestClient.builder(
                         new HttpHost("localhost", 9200, "http")));
@@ -154,20 +156,19 @@ public class ClientDB {
         return null;
     }
 
+
     /*Take idMax of the specific table using the variables*/
     public int getIdMax1(String table){
-        int max = 0;
-        if(table.equals("flight")) max = idMaxFlight;
-        else if(table.equals("licence")) max = idMaxLicence;
-        else if(table.equals("message")) max = idMaxMessage;
-        else if(table.equals("plane")) max = idMaxPlane;
-        else if(table.equals("reservation")) max = idMaxReservation;
-        else max = idMaxUser;
-        return max;
+        if(table.equals("flight")) return idMaxFlight;
+        else if(table.equals("licence")) return idMaxLicence;
+        else if(table.equals("message")) return idMaxMessage;
+        else if(table.equals("plane")) return idMaxPlane;
+        else if(table.equals("reservation")) return idMaxReservation;
+        else return idMaxUser;
     }
 
     /*Take idMax of the specific table using the database*/
-    public int getIdMax2(String table) throws IOException, InterruptedException{
+    public int getIdMax2(String table) throws IOException {
         int max = 0;
         SearchHit[] sh = arrayTable("idmax");
         if(sh == null || sh.length == 0)
@@ -177,6 +178,15 @@ public class ClientDB {
         return max;
     }
 
+    /*Set idMax depending on the table*/
+    public void setIdMax(String table, int val){
+        if(table.equals("flight")) idMaxFlight = val;
+        else if(table.equals("licence")) idMaxLicence = val;
+        else if(table.equals("message")) idMaxMessage = val;
+        else if(table.equals("plane")) idMaxPlane = val;
+        else if(table.equals("reservation")) idMaxReservation = val;
+        else idMaxUser = val;
+    }
     public boolean updateId(String table, int max) throws IOException{
         UpdateRequest request = new UpdateRequest(
                     "idmax",
@@ -187,12 +197,7 @@ public class ClientDB {
                 "}";
         request.doc(jsonString, XContentType.JSON);
         UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
-        if(table.equals("flight")) idMaxFlight = max;
-        else if(table.equals("licence")) idMaxLicence = max;
-        else if(table.equals("message")) idMaxMessage = max;
-        else if(table.equals("plane")) idMaxPlane = max;
-        else if(table.equals("reservation")) idMaxReservation = max;
-        else idMaxUser = max;
+        setIdMax(table,max);
         return updateResponse.getResult() == DocWriteResponse.Result.UPDATED;
     }
 
@@ -550,7 +555,7 @@ public class ClientDB {
     }
 
     /*Get a specific value of a table by using an id(user,flight, etc)*/
-    public Map<String,Object> getValueTable(String table, String id) throws IOException {
+    public Map<String,Object> getLineTable(String table, String id) throws IOException {
         ArrayList<Map<String,Object>> list = listMap(table);
         for(int i = 0; i<list.size(); i++){
             Map<String,Object> map = list.get(i);
@@ -635,22 +640,7 @@ public class ClientDB {
         updateCheck(request, jsonString);
     }
 
-    /*DELETE functions*/
-    public void deleteFlight(String flightId) throws IOException{
-        SearchHit[] sh = arrayTable("flight");
-        for(int i = 0; i < sh.length; i++){
-            String id  = sh[i].getId();
-            Map<String,Object> map = sh[i].getSourceAsMap();
-            if(map.get("flightId").equals(flightId)){
-                DeleteRequest request = new DeleteRequest(
-                        "flight",
-                        "info",
-                        id);
-                deleteCheck(request);
-            }
-        }
-    }
-
+    /*DELETE function*/
     private void deleteCheck(DeleteRequest request) throws IOException {
         DeleteResponse deleteResponse = client.delete(request, RequestOptions.DEFAULT);
         ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
@@ -658,76 +648,24 @@ public class ClientDB {
             System.out.println("DELETE");
     }
 
-    public void deleteLicence(String licenceId) throws IOException{
-        SearchHit[] sh = arrayTable("licence");
-        for(int i = 0; i < sh.length; i++){
-            String id  = sh[i].getId();
-            Map<String,Object> map = sh[i].getSourceAsMap();
-            if(map.get("licenceId").equals(licenceId)){
-                DeleteRequest request = new DeleteRequest(
-                        "licence",
-                        "info",
-                        id);
-                deleteCheck(request);
-            }
-        }
-    }
 
-    public void deleteMessage(String messageId) throws IOException{
-        SearchHit[] sh = arrayTable("licence");
-        for(int i = 0; i < sh.length; i++){
-            String id  = sh[i].getId();
-            Map<String,Object> map = sh[i].getSourceAsMap();
-            if(map.get("messageId").equals(messageId)){
+    public void delete(String id, String table) throws IOException {
+        SearchHit[] sh = arrayTable(table);
+        for (int i = 0; i < sh.length; i++) {
+            String _id = sh[i].getId();
+            Map<String, Object> map = sh[i].getSourceAsMap();
+            Object o;
+            if (table.equals("flight")) o = map.get("flightId");
+            else if (table.equals("licence")) o = map.get("licenceId");
+            else if (table.equals("message")) o = map.get("messageId");
+            else if (table.equals("plane")) o = map.get("atcNumber");
+            else if (table.equals("reservation")) o = map.get("reservationId");
+            else o = map.get("userId");
+            if (o.equals(id)) {
                 DeleteRequest request = new DeleteRequest(
-                        "message",
+                        table,
                         "info",
-                        id);
-                deleteCheck(request);
-            }
-        }
-    }
-
-    public void deletePlane(String atcNumber) throws IOException{
-        SearchHit[] sh = arrayTable("plane");
-        for(int i = 0; i < sh.length; i++){
-            String id  = sh[i].getId();
-            Map<String,Object> map = sh[i].getSourceAsMap();
-            if(map.get("atcNumber").equals(atcNumber)){
-                DeleteRequest request = new DeleteRequest(
-                        "plane",
-                        "info",
-                        id);
-                deleteCheck(request);
-            }
-        }
-    }
-
-    public void deleteReservation(String reservationId) throws IOException{
-        SearchHit[] sh = arrayTable("reservation");
-        for(int i = 0; i < sh.length; i++){
-            String id  = sh[i].getId();
-            Map<String,Object> map = sh[i].getSourceAsMap();
-            if(map.get("reservationId").equals(reservationId)){
-                DeleteRequest request = new DeleteRequest(
-                        "reservation",
-                        "info",
-                        id);
-                deleteCheck(request);
-            }
-        }
-    }
-
-    public void deleteUser(String userId) throws IOException{
-        SearchHit[] sh = arrayTable("user");
-        for(int i = 0; i < sh.length; i++){
-            String id  = sh[i].getId();
-            Map<String,Object> map = sh[i].getSourceAsMap();
-            if(map.get("userId").equals(userId)){
-                DeleteRequest request = new DeleteRequest(
-                        "user",
-                        "info",
-                        id);
+                        _id);
                 deleteCheck(request);
             }
         }
