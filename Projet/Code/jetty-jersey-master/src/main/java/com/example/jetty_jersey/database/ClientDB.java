@@ -3,6 +3,7 @@ package com.example.jetty_jersey.database;
 
 import com.example.jetty_jersey.classes.*;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
@@ -27,6 +28,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -84,6 +86,14 @@ public class ClientDB {
         client.close();
     }
 
+    public boolean canConnect(String email, String mdp) throws IOException, ParseException{
+        ArrayList<User> l = allUser();
+        for(int i = 0; i<l.size(); i++) {
+            User u = l.get(i);
+            if (email.equals(u.getEmail()) && DigestUtils.md5Hex(mdp).equals(DigestUtils.md5Hex(u.getPassword()))) return true;
+        }
+        return false;
+    }
     public boolean ifTableExist(String table) throws IOException{
         GetIndexRequest request = new GetIndexRequest();
         request.indices(table);
@@ -296,7 +306,7 @@ public class ClientDB {
                     "\"email\":\""+u.getEmail()+"\"," +
                     "\"gsm\":\""+u.getGsm()+"\"," +
                     "\"birthDate\":\""+u.getBirthDate()+"\"," +
-                    "\"password\":\""+u.getPassword()+"\"" +
+                    "\"password\":\""+DigestUtils.md5Hex(u.getPassword())+"\"" +
                     "}";
         }
         indReq.source(jsonString, XContentType.JSON);
@@ -339,7 +349,7 @@ public class ClientDB {
     }
 
     public User createUser(Map<String,Object> map){
-        return new User(map.get("lastName").toString(),map.get("firstName").toString(),map.get("email").toString(),map.get("gsm").toString(),map.get("birthDate").toString(),map.get("password").toString());
+        return new User(map.get("lastName").toString(),map.get("firstName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString());
     }
     /*GET functions*/
     /*Return list of a specific table by transforming the list of map of the this table*/
