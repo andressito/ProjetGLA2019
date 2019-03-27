@@ -52,7 +52,7 @@ public class BouchonUserDAO implements UserDAO {
         try {
             List<User> liste=JettyMain.c.allUser();
             for(int i=0; i<liste.size();i++){
-                System.out.println(liste.get(i).getPassword());
+                System.out.println(liste.get(i));
                 if(liste.get(i).getEmail().equals(user.getEmail()) && liste.get(i).getPassword().equals(DigestUtils.md5Hex(user.getPassword())))
                     return true;
             }

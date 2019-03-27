@@ -8,12 +8,16 @@ $(document).ready(function() {
             sessionStorage.setItem("email",email);
 
         }
-        $("#menu2").show();
-        $("#menu1").hide();
-        $('#id1').val(email);
+
+        $.get("../Menu/MenuPilot.html", function(data) {
+            $("#menu").html(data);
+        });
+
     }else{
-        $("#menu1").show();
-        $("#menu2").hide();
+        $.get("../Menu/Menu.html", function(data) {
+            $("#menu").html(data);
+        });
+
     }
 });
 

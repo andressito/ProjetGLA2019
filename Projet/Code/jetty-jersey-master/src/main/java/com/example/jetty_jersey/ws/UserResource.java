@@ -47,13 +47,7 @@ public class UserResource {
         return null;
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/useremail")
-    public User getUserByEmail(User user){
-        return buDAO.getUserByEmail(user);
-    }
+
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
