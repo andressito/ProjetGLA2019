@@ -1,25 +1,81 @@
+$(document).ready(function() {
+
+    if(localStorage.getItem("save")){
+        window.location.href="http://localhost:8080/";
+
+    }else{
+        if(document.getElementById('passenger'))
+            if(document.getElementById('passenger').checked){
+                document.getElementById('Licence').style.display='none';
+            }
+            else{
+                document.getElementById('Licence').style.display='inline';
+            }
+    }
+});
+function passenger_detecter(){
+        if(document.getElementById('passenger').checked){
+            document.getElementById('Licence').style.display='none';
+        }
+        else{
+            document.getElementById('Licence').style.display='inline';
+        }
+}
 function pilot_detecter(){
     if(document.getElementById('pilot').checked){
         document.getElementById('Licence').style.display='inline';
-        document.getElementById('passenger').checked="false";
     }
     else{
         document.getElementById('Licence').style.display='none';
-        document.getElementById('passenger').checked="true";
     }
 }
 
-function passenger_detecter(){
-    if(document.getElementById('passenger').checked){
-        document.getElementById('Licence').style.display='none';
-        document.getElementById('pilot').checked="false";
-    }
-    else{
-        document.getElementById('Licence').style.display='inline';
-        document.getElementById('pilot').checked="true";
+function tester(x) {
+    if($("#"+x).val()=="" || $("#"+x).val().length <2){
+        $('#'+x).focus();
+        return false;
     }
 }
+
+
+
 function fenvoi() {
+    if($("#firstName").val()=="" || $("#firstName").val().length <2){
+        $('#firstName').focus();
+        return false;
+    }
+    if($("#lastName").val()=='' || $("#lastName").val().length <2){
+        $('#lastName').focus();
+        return false;
+    }
+    if($("#birthDate").val()==""){
+        $('#birthDate').focus();
+        return false;
+    }
+    if(document.getElementById('pilot').checked){
+        if($("#licencePilot").val()==""){
+            $('#licencePilot').focus();
+            return false;
+        }
+    }
+    if($("#email").val()==""){
+        $('#email').focus();
+        return false;
+    }
+    if($("#password").val()==""){
+        $('#password').focus();
+        return false;
+    }
+    if($("#passwordConfirm").val()==""){
+        $('#passwordConfirm').focus();
+        return false;
+    }
+
+
+    //continuer les tester avant d'envoyer le tout
+
+
+
 
     var birth= $("#birthDate").val();
     var d = new Date();
@@ -41,6 +97,7 @@ function fenvoi() {
             text: "passwords D'ont Match",
             icon: "error"
         });
+        return false;
     }
     if(longueurp1 < 6){
         swal({
@@ -48,18 +105,25 @@ function fenvoi() {
             text: "passwords not strong enough",
             icon: "error"
         });
+        return false;
     }
-    if(days<20 || days>80){
+    if(days<20 || days>90){
         swal({
             title: "ChuChuFly!",
             text: "birth date is not allowed",
             icon: "error"
         });
+        return false;
     }
-    ajouterUser();
+    if(document.getElementById('passenger').checked){
+        ajouterPassenger();
+    }
+    else{
+        ajoutePilot();
+    }
 }
 
-function ajouterUser(){
+function ajouterPassenger(){
     var fistName=$("#firstName").val();
     var lastName=$("#lastName").val();
     var bithDate=$("#birthDate").val();
@@ -93,6 +157,7 @@ function ajouterUser(){
             });
         }
     });
+
 }
 
 $(function(){

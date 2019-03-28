@@ -1,5 +1,7 @@
 $(document).ready(function() {
     if(localStorage.getItem("save")){
+        //sessionStorage.clear();
+        //localStorage.clear();
         if(sessionStorage.getItem("email")){
             var email = sessionStorage.getItem("email");
 
@@ -8,16 +10,9 @@ $(document).ready(function() {
             sessionStorage.setItem("email",email);
 
         }
-
-        $.get("../Menu/MenuPilot.html", function(data) {
-            $("#menu").html(data);
-        });
-
+        $("#menu").load('../Menu/MenuPilot.html');
     }else{
-        $.get("../Menu/Menu.html", function(data) {
-            $("#menu").html(data);
-        });
-
+        $("#menu").load('../Menu/Menu.html');
     }
 });
 

@@ -18,7 +18,7 @@
                                     <li><a href="#" id="dashboard">Dashboard</a></li>
                                     <li><a href="#"id="edit">Edit profile</a></li>
                                     <li><a href="#" id="setting">Settings</a></li>
-                                    <li><a href="#" id="sign">Sign out</a></li>
+                                    <li><a href="" style="text-script:'../js/home.js'" id="signOut"  >Sign out</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -28,3 +28,17 @@
         </div>
     </header>
 </div>
+<script>
+    $(function () {
+        $("#signOut").click(function () {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href="http://localhost:8080/";
+            swal({
+                title: "ChuChuFly!",
+                text: "Success Sign Out",
+                icon: "success"
+            });
+        });
+    });
+</script>
