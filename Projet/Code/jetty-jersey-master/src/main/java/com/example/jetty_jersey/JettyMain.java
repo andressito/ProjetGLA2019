@@ -87,11 +87,12 @@ public class JettyMain {
         /*c.indexDB(u1);
         c.indexDB(u2);
         c.indexDB(u3);*/
+
         /*
         ArrayList<User> l = c.allUser();
         for(int i = 0; i < l.size(); i++)
-            System.out.println(l.get(i).getPassword());
-        System.out.println(c.canConnect("alex.denver@gmail.com", DigestUtils.md5Hex("azerty")));*/
+            System.out.println(l.get(i).getFirstName()+", "+l.get(i).getLastName()+", "+l.get(i).getEmail()+", "+l.get(i).getPassword()+", "+l.get(i).getBirthDate()+", "+l.get(i).getGsm());
+            */
     }
 
 }
