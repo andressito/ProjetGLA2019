@@ -337,19 +337,21 @@ public class ClientDB {
     public Message createMessage(Map<String,Object> map) throws ParseException{
         Date date = StringToDate(map,"sendingDate");
         return new Message(map.get("messageId").toString(),map.get("content").toString(),map.get("senderId").toString(),map.get("receiverId").toString(),date);
-
     }
 
     public Plane createPlane(Map<String,Object> map){
         return new Plane(map.get("atcNumber").toString(),Integer.parseInt(map.get("numberSeats").toString()));
     }
 
-    public Reservation createReservation(Map<String,Object> map){
-        return new Reservation(map.get("reservationId").toString(),map.get("userId").toString(),map.get("flightId").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Double.parseDouble(map.get("price").toString()),map.get("status").toString());
+    public Reservation createReservation(Map<String,Object> map) throws ParseException{
+        Date date = StringToDate(map,"date");
+        Reservation r = new Reservation(map.get("reservationId").toString(),map.get("userId").toString(),map.get("flightId").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Double.parseDouble(map.get("price").toString()),map.get("status").toString());
+        r.setDate(date);
+        return r;
     }
 
     public User createUser(Map<String,Object> map){
-        return new User(map.get("lastName").toString(),map.get("firstName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString());
+        return new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString());
     }
     /*GET functions*/
     /*Return list of a specific table by transforming the list of map of the this table*/
