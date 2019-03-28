@@ -90,10 +90,11 @@ public class ClientDB {
         ArrayList<User> l = allUser();
         for(int i = 0; i<l.size(); i++) {
             User u = l.get(i);
-            if (email.equals(u.getEmail()) && DigestUtils.md5Hex(mdp).equals(DigestUtils.md5Hex(u.getPassword()))) return true;
+            if (email.equals(u.getEmail()) && mdp.equals(u.getPassword())) return true;
         }
         return false;
     }
+
     public boolean ifTableExist(String table) throws IOException{
         GetIndexRequest request = new GetIndexRequest();
         request.indices(table);
@@ -306,7 +307,7 @@ public class ClientDB {
                     "\"email\":\""+u.getEmail()+"\"," +
                     "\"gsm\":\""+u.getGsm()+"\"," +
                     "\"birthDate\":\""+u.getBirthDate()+"\"," +
-                    "\"password\":\""+DigestUtils.md5Hex(u.getPassword())+"\"" +
+                    "\"password\":\""+u.getPassword()+"\"" +
                     "}";
         }
         indReq.source(jsonString, XContentType.JSON);
