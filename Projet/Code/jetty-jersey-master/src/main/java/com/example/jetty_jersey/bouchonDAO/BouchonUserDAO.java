@@ -22,7 +22,7 @@ public class BouchonUserDAO implements UserDAO {
             for(int i=0; i<liste.size(); i++){
                 if(liste.get(i).getEmail().equals(user.getEmail())) return false;
             }
-            JettyMain.c.indexDB(user);
+            JettyMain.c.indexDB(user,null);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,8 +43,6 @@ public class BouchonUserDAO implements UserDAO {
                     return true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
         return false;

@@ -80,19 +80,6 @@ public class JettyMain {
 
 		c = new ClientDB();
 
-		User u1 = new User("Alex","DENVER","alex.denver@gmail.com","azerty","1991-01-27","06 07 08 09 10");
-        User u2 = new User("Basil","DENVER","baz.denver@gmail.com","123456","1989-09-21","06 11 12 13 14");
-        User u3 = new User("Camille","DENVER","cam.denver@gmail.com","abcdef","1993-05-18","06 15 16 17 18");
-
-        /*c.indexDB(u1);
-        c.indexDB(u2);
-        c.indexDB(u3);*/
-
-        /*
-        ArrayList<User> l = c.allUser();
-        for(int i = 0; i < l.size(); i++)
-            System.out.println(l.get(i).getFirstName()+", "+l.get(i).getLastName()+", "+l.get(i).getEmail()+", "+l.get(i).getPassword()+", "+l.get(i).getBirthDate()+", "+l.get(i).getGsm());
-            */
     }
 
 }

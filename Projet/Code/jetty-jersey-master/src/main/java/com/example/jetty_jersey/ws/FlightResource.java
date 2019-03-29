@@ -2,10 +2,9 @@ package com.example.jetty_jersey.ws;
 
 import com.example.jetty_jersey.bouchonDAO.BouchonFlightDAO;
 import com.example.jetty_jersey.classes.Flight;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import java.util.ArrayList;
 
 @Path("/flight")
 public class FlightResource {
@@ -13,7 +12,7 @@ public class FlightResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/flights")
-    public List<Flight> getAllFlight() {
+    public ArrayList<Flight> getAllFlight() {
         return bfdao.getListeFlight();
     }
 
@@ -21,32 +20,16 @@ public class FlightResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public boolean createFlight(Flight fl) {
-        return bfdao.createFLight(fl);
+    public boolean createFlight(Flight flight) {
+        System.out.println(flight);
+        return bfdao.createFLight(flight);
     }
-    /*public String createFlight(@FormParam("plane") String plane,
-                @FormParam("departureAero") String departureAero,
-                @FormParam("date") String date,
-                @FormParam("departureTime") String departureTime,
-                @FormParam("seats") String seats,
-                @FormParam("type") String type,
-                @FormParam("arrivalAedrome") String arrivalAedrome,
-                @FormParam("arrivalTime") String arrivalTime,
-                @FormParam("price") String price) {
-
-        String userId = "1";
-        Flight fl = new Flight(plane,departureAero,date,departureTime,seats,type,arrivalAedrome,arrivalTime,price,userId);
-        if(bfdao.createFLight(fl)) return "{\"success\" : \"new flight added\"} ";
-        else return "{\"error\" : \"flight used\" }";
-    }*/
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/flights/{flightId}")
     public Flight getFlight(@PathParam("flightId") String flightId) {
         return  bfdao.getFlightDetails(flightId);
     }
-
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
