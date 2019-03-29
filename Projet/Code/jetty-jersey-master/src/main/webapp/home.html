@@ -23,6 +23,7 @@
 
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
+	<script type="text/javascript" src="js/BusinessObjects/flight.js"></script>
 </head>
 <body>
 
@@ -59,7 +60,7 @@
 							<form class="form-inline">
 								<input id="" type="search" class="form-control mr-sm-2 home_input" placeholder="Departure Location" aria-label="Departure aerodrome">
 								<input  type="date" id="#datepicker" class="form-control mr-sm-2 home_input" placeholder="Departure date" name="date"/>
-								<a href="SearchList.html" class="btn btn-primary btn-lg"> Search </a>
+								<a href="SearchList.html" class="btn btn-primary btn-lg" onclick="getFlightList()"> Search </a>
 							</form>
 						</div>
 					</div>

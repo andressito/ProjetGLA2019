@@ -345,28 +345,37 @@ public class ClientDB {
 
     /*Function of creation of instances*/
     public Flight createFlight(Map<String,Object> map){
-        Flight f = new Flight(map.get("atcNumber").toString(),map.get("departureAerodrom").toString(),map.get("date").toString(),map.get("departureTime").toString(),map.get("seats").toString(),map.get("type").toString(),map.get("arrivalAerodrom").toString(),map.get("arrivalTime").toString(),map.get("price").toString(),map.get("userId").toString());
+        Flight f = new Flight(map.get("atcNumber").toString(),
+                map.get("departureAerodrom").toString(),
+                map.get("date").toString(),
+                map.get("departureTime").toString(),
+                map.get("seats").toString(),
+                map.get("type").toString(),
+                map.get("arrivalAerodrom").toString(),
+                map.get("arrivalTime").toString(),
+                map.get("price").toString(),
+                map.get("userId").toString());
         f.setFlightId(map.get("flightId").toString());
+        //f.setFlightId(map.get("idFlight").toString());
         return f;
     }
-
-    public Licence createLicence(Map<String,Object> map) {
+    /*public Licence createLicence(Map<String,Object> map) {
         return new Licence(map.get("licenceId").toString(),map.get("userId").toString(),map.get("validityDate").toString());
     }
 
     public Message createMessage(Map<String,Object> map) {
         return new Message(map.get("messageId").toString(),map.get("content").toString(),map.get("senderId").toString(),map.get("receiverId").toString(),map.get("sendingDate").toString());
-    }
+    }*/
 
     public Plane createPlane(Map<String,Object> map){
         return new Plane(map.get("atcNumber").toString(),Integer.parseInt(map.get("numberSeats").toString()));
     }
 
-    public Reservation createReservation(Map<String,Object> map){
+    /* Reservation createReservation(Map<String,Object> map){
         Reservation r = new Reservation(map.get("reservationId").toString(),map.get("userId").toString(),map.get("flightId").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Double.parseDouble(map.get("price").toString()),map.get("status").toString());
         r.setDate(map.get("date").toString());
         return r;
-    }
+    }*/
 
     public User createUser(Map<String,Object> map){
         return new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString(),map.get("userType").toString());
@@ -383,7 +392,7 @@ public class ClientDB {
         return list;
     }
 
-    public ArrayList<Licence> allLicence() throws IOException {
+    /*public ArrayList<Licence> allLicence() throws IOException {
         ArrayList<Licence> list = new ArrayList<Licence>();
         ArrayList<Map<String,Object>> mapList = listMap("licence");
         for(Map<String,Object> map : mapList) {
@@ -401,23 +410,16 @@ public class ClientDB {
         return list;
     }
 
-    public ArrayList<Plane> allPlane() throws IOException {
-        ArrayList<Plane> list = new ArrayList<Plane>();
-        ArrayList<Map<String,Object>> mapList = listMap("plane");
-        for(Map<String,Object> map : mapList) {
-            list.add(createPlane(map));
-        }
-        return list;
-    }
 
-    public ArrayList<Reservation> allReservation() throws IOException {
+
+    /*public ArrayList<Reservation> allReservation() throws IOException {
         ArrayList<Reservation> list = new ArrayList<Reservation>();
         ArrayList<Map<String,Object>> mapList = listMap("reservation");
         for(Map<String,Object> map : mapList) {
             list.add(createReservation(map));
         }
         return list;
-    }
+    }*/
 
     public ArrayList<User> allUser() throws IOException {
         ArrayList<User> list = new ArrayList<User>();
@@ -427,7 +429,14 @@ public class ClientDB {
         }
         return list;
     }
-
+    public ArrayList<Plane> allPlane() throws IOException {
+        ArrayList<Plane> list = new ArrayList<Plane>();
+        ArrayList<Map<String,Object>> mapList = listMap("plane");
+        for(Map<String,Object> map : mapList) {
+            list.add(createPlane(map));
+        }
+        return list;
+    }
     /*Return a list a flight by specific Aerodrom(departure or arrival)*/
     public ArrayList<Flight> getFlights(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched) throws Exception{
         ArrayList<Flight> list = new ArrayList<Flight>();

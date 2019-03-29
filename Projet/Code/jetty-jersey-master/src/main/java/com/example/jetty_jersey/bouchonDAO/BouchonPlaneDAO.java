@@ -12,24 +12,9 @@ import java.util.List;
 public class BouchonPlaneDAO implements PlaneDAO {
 
     static List<Plane>  liste= new ArrayList<Plane>();
-    /*public void remplirBDPlane(){
-        Plane p1 = new Plane("ACT123",5);
-        Plane p2 = new Plane("ACT124",3);
-        Plane p3 = new Plane("ACT125",8);
-        Plane p4 = new Plane("ACT126",7);
-        Plane p5 = new Plane("ACT127",2);
-        liste.add(p1);
-        liste.add(p2);
-        liste.add(p3);
-        liste.add(p4);
-        liste.add(p5);
-    }*/
-
-
-
     public boolean createPlane(Plane plane) {
         try {
-            JettyMain.c.indexDB(plane);
+            JettyMain.c.indexDB(plane,null);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,8 +47,6 @@ public class BouchonPlaneDAO implements PlaneDAO {
         try {
             planes = JettyMain.c.allPlane();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
         return planes;

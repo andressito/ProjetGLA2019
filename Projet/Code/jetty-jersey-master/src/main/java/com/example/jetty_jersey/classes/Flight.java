@@ -1,7 +1,5 @@
 package com.example.jetty_jersey.classes;
 
-import java.util.Date;
-
 public class Flight {
     public String flightId;
     public String atcNumber;
