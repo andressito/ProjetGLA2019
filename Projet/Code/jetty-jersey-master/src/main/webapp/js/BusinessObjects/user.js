@@ -164,6 +164,16 @@ $(function(){
     $("#btSignIn").click(function(){
         var email =$("#email").val();
         var password=$("#password").val();
+        if(email.length<5){
+            $('#email').focus();
+            return false;
+        }
+
+        if(password.length<5){
+            $('#password').focus();
+            return false;
+        }
+
         $.ajax({
             url:"http://localhost:8080/ws/user/signin",
             type:"POST",
@@ -172,6 +182,7 @@ $(function(){
             cache: false,
             dataType: "json"
         }).success( function (result) {
+
             if(result){
                 localStorage.setItem("save",email);
                 sessionStorage.setItem("email",email);

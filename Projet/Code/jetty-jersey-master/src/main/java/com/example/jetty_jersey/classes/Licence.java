@@ -1,16 +1,21 @@
 package com.example.jetty_jersey.classes;
 
-import java.util.Date;
+
 
 public class Licence {
     public String licenceId;
     public String userId;
-    public Date validityDate;
+    public String validityDate;
+    int mark;
+    int numberHoursFlight;
 
-    public Licence(String licenceId, String userId, Date validityDate){
+
+    public Licence(String licenceId, String userId, String validityDate,int mark, int numberHoursFlight){
         this.licenceId=licenceId;
         this.userId=userId;
         this.validityDate=validityDate;
+        this.mark=mark;
+        this.numberHoursFlight=numberHoursFlight;
     }
 
     public String getLicenceId() {
@@ -29,11 +34,27 @@ public class Licence {
         this.userId = userId;
     }
 
-    public Date getValidityDate() {
+    public String getValidityDate() {
         return validityDate;
     }
 
-    public void setValidityDate(Date validityDate) {
+    public void setValidityDate(String validityDate) {
         this.validityDate = validityDate;
+    }
+
+    public int getMark() {
+        return mark;
+    }
+
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
+
+    public int getNumberHoursFlight() {
+        return numberHoursFlight;
+    }
+
+    public void setNumberHoursFlight(int numberHoursFlight) {
+        this.numberHoursFlight = numberHoursFlight;
     }
 }

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public class BouchonFlightDAO implements FlightDAO {
-    static List<Flight>  liste= new ArrayList<Flight>();
+    static ArrayList<Flight>  liste= new ArrayList<Flight>();
     public boolean createFLight(Flight flight) {
         try {
 
@@ -42,8 +42,14 @@ public class BouchonFlightDAO implements FlightDAO {
         return null;
     }
 
-    public List<Flight> getListeFlight() {
-        return liste;
+    public ArrayList<Flight> getListeFlight() {
+        try {
+            liste = JettyMain.c.allFlight();
+            return liste;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Flight getFlightDetails(String idFlight) {
