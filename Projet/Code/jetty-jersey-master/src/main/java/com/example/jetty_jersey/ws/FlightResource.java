@@ -2,11 +2,9 @@ package com.example.jetty_jersey.ws;
 
 import com.example.jetty_jersey.bouchonDAO.BouchonFlightDAO;
 import com.example.jetty_jersey.classes.Flight;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.List;
 
 @Path("/flight")
 public class FlightResource {
@@ -22,8 +20,9 @@ public class FlightResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public boolean createFlight(Flight fl) {
-        return bfdao.createFLight(fl);
+    public boolean createFlight(Flight flight) {
+        System.out.println(flight);
+        return bfdao.createFLight(flight);
     }
     @GET
     @Produces(MediaType.APPLICATION_JSON)
