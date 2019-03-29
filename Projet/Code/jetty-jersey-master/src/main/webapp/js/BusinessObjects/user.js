@@ -53,8 +53,8 @@ function fenvoi() {
         return false;
     }
     if(document.getElementById('pilot').checked){
-        if($("#licencePilot").val()==""){
-            $('#licencePilot').focus();
+        if($("#validityDate").val()==""){
+            $('#validityDate').focus();
             return false;
         }
     }
@@ -71,12 +71,6 @@ function fenvoi() {
         return false;
     }
 
-
-    //continuer les tester avant d'envoyer le tout
-
-
-
-
     var birth= $("#birthDate").val();
     var d = new Date();
     var month = d.getMonth()+1;
@@ -85,12 +79,10 @@ function fenvoi() {
     var passe1= $("#password").val();
     var passe2= $("#passwordConfirm").val();
     var longueurp1 = passe1.length;
-    var longueurp2 = passe2.length;
-    console.log(longueurp1);
-    d1=Date.parse(birth);
-    d2=Date.parse(output);
-    tmp=d2-d1;
-    days = Math.floor(tmp / 31536000000);
+    var d1=Date.parse(birth);
+    var d2=Date.parse(output);
+    var tmp=d2-d1;
+    var days = Math.floor(tmp / 31536000000);
     if(passe1 != passe2) {
         swal({
             title: "ChuChuFly!",
@@ -116,23 +108,39 @@ function fenvoi() {
         return false;
     }
     if(document.getElementById('passenger').checked){
-        ajouterPassenger();
+        addPassenger();
     }
     else{
-        ajoutePilot();
+        var date= $("#validityDate").val();
+        var today = new Date();
+        var valDate = new Date(date);
+        today.setMonth(2);
+        if(today>valDate){
+            $('#validityDate').focus();
+            return false;
+        }
+        addPilot();
     }
 }
 
-function ajouterPassenger(){
+function addPassenger(){
     var fistName=$("#firstName").val();
     var lastName=$("#lastName").val();
     var bithDate=$("#birthDate").val();
     var email=$("#email").val();
     var password=$("#password").val();
+    var type="passenger";
+    var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
+    "\""+bithDate+"\" , \"email\":\""+email+"\", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
+    var licence='{ "licenceId": "null"}';
+    sendMethodPost(user,licence);
+}
+
+function sendMethodPost(user,licence) {
     $.ajax({
         url: "http://localhost:8080/ws/user/create",
         type: "POST",
-        data: "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": \""+bithDate+"\" , \"email\":\""+email+"\" ,\"password\": \""+password+"\"}",
+        data: '{ "user": "'+user+'", "licence": "'+licence+'" }',
         contentType: "application/json",
         cache: false,
         dataType: "json"
@@ -157,7 +165,20 @@ function ajouterPassenger(){
             });
         }
     });
+}
 
+function addPilot(){
+    var fistName=$("#firstName").val();
+    var lastName=$("#lastName").val();
+    var bithDate=$("#birthDate").val();
+    var email=$("#email").val();
+    var password=$("#password").val();
+    var type="pilot";
+    var validityDate= $("#validityDate").val();
+    var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
+        "\""+bithDate+"\" , \"email\":\""+email+"\", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
+    var licence='{ "validityDate": "'+validityDate+'"}';
+    sendMethodPost(user,licence);
 }
 
 $(function(){
