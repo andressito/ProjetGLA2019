@@ -1,6 +1,7 @@
 package com.example.jetty_jersey.bouchonDAO;
 
 import com.example.jetty_jersey.JettyMain;
+import com.example.jetty_jersey.classes.Licence;
 import com.example.jetty_jersey.classes.User;
 import com.example.jetty_jersey.dao.UserDAO;
 import com.example.jetty_jersey.database.ClientDB;
@@ -16,13 +17,15 @@ import java.util.Map;
 
 public class BouchonUserDAO implements UserDAO {
 
-    public boolean createUser(User user) {
+    public boolean createUser(User user, Licence licence) {
         try {
             List<User> liste=JettyMain.c.allUser();
+
             for(int i=0; i<liste.size(); i++){
+                System.out.println(liste.get(i).getEmail());
                 if(liste.get(i).getEmail().equals(user.getEmail())) return false;
             }
-            JettyMain.c.indexDB(user,null);
+            JettyMain.c.indexDB(user,licence);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,20 +35,6 @@ public class BouchonUserDAO implements UserDAO {
             ex.printStackTrace();
         }
         return false;
-    }
-
-    public User getUserByEmail(User user){
-        try {
-            List<User> list = JettyMain.c.allUser();
-            for(int i=0; i< list.size(); i++){
-                if (list.get(i).getEmail().equals(user.getEmail())) return list.get(i);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public boolean signInUser(User user) {

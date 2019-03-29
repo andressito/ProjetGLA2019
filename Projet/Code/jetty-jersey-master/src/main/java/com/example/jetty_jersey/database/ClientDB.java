@@ -329,7 +329,7 @@ public class ClientDB {
                         "info",
                         ""+id);
                 jsonString = "{" +
-                        "\"licenceId\":\"" + licence.getLicenceId() + "\"," +
+                        "\"licenceId\":\"" + createId(5) + "\"," +
                         "\"userId\":\"" + licence.getUserId() + "\"," +
                         "\"validityDate\":\"" + licence.getValidityDate() + "\"" +
                         "\"mark\":\"" + licence.getMark() + "\"" +

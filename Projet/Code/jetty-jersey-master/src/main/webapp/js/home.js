@@ -28,3 +28,16 @@ $(function () {
         });
     });
 });
+
+function getFlightList(){
+    var departureAerodrome=$("#departureAerodrome").val();
+    var departureDate=$("#departureDate").val();
+    //enregistrement dans les cookies
+    this.createCookie('departureAerodrome',''+departureAerodrome);
+    this.createCookie('departureDate',''+departureDate);
+    document.location.href = "SearchList.html";
+}
+
+function createCookie(name,value) {
+    document.cookie = name + "=" + value + "; path=/";
+}

@@ -1,7 +1,10 @@
 package com.example.jetty_jersey.ws;
 import com.example.jetty_jersey.bouchonDAO.BouchonUserDAO;
+import com.example.jetty_jersey.classes.Licence;
 import com.example.jetty_jersey.classes.User;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -22,14 +25,62 @@ public class UserResource {
         return buDAO.getAllUser();
     }
 
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public boolean createUser(User user) {
-        String mdp = user.getPassword();
-        user.setPassword(DigestUtils.md5Hex(mdp));
-        return buDAO.createUser(user);
+    public boolean createUser(Object o) {
+        String fistName=null,lastName=null,birthDate=null,email=null,type=null,password=null,gsm=null;
+        String validityDate=null;
+        String test = o.toString();
+        test=test.replace("\"","\\\"");
+        test=test.replace("user={","\"user\":\"{");
+        test=test.replace("licence={","\"licence\":\"{");
+        test=test.replace(", \"licence"," \" ,\"licence");
+        test=test.replace("}}","} \" }");
+        JSONObject testJson = new JSONObject(test);
+        String user = testJson.getString("user");
+        user=user.replace("\"","");
+        user=user.replace(" ","");
+        user=user.replace("{","");
+        user=user.replace("}","");
+        String licence= testJson.getString("licence");
+        licence=licence.replace("\"","");
+        licence=licence.replace(" ","");
+        licence=licence.replace("{","");
+        licence=licence.replace("}","");
+        String[] tabUser = user.split(",");
+        String[] tabLicence= licence.split(",");
+        for(int i=0; i<tabUser.length;i++){
+            String[] val=tabUser[i].split(":");
+            if ("firstName".equals(val[0])) {
+                fistName = val[1];
+            } else if ("lastName".equals(val[0])) {
+                lastName = val[1];
+            } else if ("birthDate".equals(val[0])) {
+                birthDate = val[1];
+            } else if ("email".equals(val[0])) {
+                email = val[1];
+            } else if ("type".equals(val[0])) {
+                type = val[1];
+            } else if ("gsm".equals(val[0])) {
+                gsm = val[1];
+            } else if ("password".equals(val[0])) {
+                password = val[1];
+            }
+        }
+        for(int i=0; i<tabLicence.length;i++){
+            String[] val=tabLicence[i].split(":");
+            if(val[0].equals("validityDate")) validityDate=val[1];
+
+        }
+        User newUser = new User(fistName,lastName,email,DigestUtils.md5Hex(password),birthDate,gsm,type);
+        if(newUser.typeUser.equals("passenger")) return buDAO.createUser(newUser,null);
+        else{
+            Licence licence1= new Licence(null,null,validityDate,0,0);
+            return buDAO.createUser(newUser,licence1);
+        }
     }
 
     @POST

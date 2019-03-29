@@ -128,19 +128,24 @@ function addPassenger(){
     var lastName=$("#lastName").val();
     var bithDate=$("#birthDate").val();
     var email=$("#email").val();
+    var gsm=$("#gsm").val();
     var password=$("#password").val();
     var type="passenger";
     var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
-    "\""+bithDate+"\" , \"email\":\""+email+"\", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
+    "\""+bithDate+"\" , \"email\":\""+email+"\", \"gsm\":\""+gsm+", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
     var licence='{ "licenceId": "null"}';
     sendMethodPost(user,licence);
 }
 
 function sendMethodPost(user,licence) {
+    var combinedObj = {};
+    combinedObj["user"] = user;
+    combinedObj["licence"] = licence;
+
     $.ajax({
         url: "http://localhost:8080/ws/user/create",
         type: "POST",
-        data: '{ "user": "'+user+'", "licence": "'+licence+'" }',
+        data: JSON.stringify(combinedObj),
         contentType: "application/json",
         cache: false,
         dataType: "json"
@@ -172,11 +177,12 @@ function addPilot(){
     var lastName=$("#lastName").val();
     var bithDate=$("#birthDate").val();
     var email=$("#email").val();
+    var gsm=$("gsm").val();
     var password=$("#password").val();
     var type="pilot";
     var validityDate= $("#validityDate").val();
     var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
-        "\""+bithDate+"\" , \"email\":\""+email+"\", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
+        "\""+bithDate+"\" , \"email\":\""+email+"\", \"gsm\":\""+gsm+", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
     var licence='{ "validityDate": "'+validityDate+'"}';
     sendMethodPost(user,licence);
 }

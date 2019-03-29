@@ -40,10 +40,39 @@
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script src="js/modernizr-2.6.2.min.js"></script>
 
 	</head>
 	<body onload="getFlightList2()">
-
+	<style type="text/css">
+		body {
+			background-image:url(images/slide_2.jpeg);
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: 100% 100%;
+			margin:0;
+		}
+	</style>
+	<div id="fh5co-page">
+		<header id="fh5co-header" role="banner">
+			<div class="container">
+				<div class="header-inner">
+					<h1><img src="../images/planev.png" style="img-responsive" width="40" height="30" /><a href="../home.html"> ChuChuFly</a></h1>
+					<nav role="navigation">
+						<ul>
+							<li><a href="../PilotForm.html">Become Pilot</a></li>
+							<li><a href="../SignIn.html">Sign in</a></li>
+							<li><a href="../SignUp.html">Sign up</a></li>
+							<li><a href="../about.html">About</a></li>
+							<li class="cta"><a href="../AddFlight.html">Add a flight</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+	</div>
 	<div id="fh5co-pricing-section">
 		<div class="container">
 			<div class="row">
@@ -74,6 +103,8 @@
 	
 	<!-- MAIN JS -->
 	<script src="js/main.js"></script>
+	<script type="text/javascript" src="js/BusinessObjects/flight.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	</body>
 </html>
