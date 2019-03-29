@@ -86,10 +86,9 @@ public class ClientDB {
         client.close();
     }
 
-    public boolean canConnect(String email, String mdp) throws IOException, ParseException{
+    public boolean canConnect(String email, String mdp) throws IOException {
         ArrayList<User> l = allUser();
-        for(int i = 0; i<l.size(); i++) {
-            User u = l.get(i);
+        for(User u : l) {
             if (email.equals(u.getEmail()) && mdp.equals(u.getPassword())) return true;
         }
         return false;
@@ -108,15 +107,13 @@ public class ClientDB {
     public Date StringToDate(Map<String,Object> map, String key) throws ParseException{
         String d = map.get(key).toString();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = df.parse(d);
-        return date;
+        return df.parse(d);
     }
 
     /*Convert into a Date and return it*/
     public Date StringToDate(String d) throws ParseException{
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = df.parse(d);
-        return date;
+        return df.parse(d);
     }
 
     /*Create a random user id*/
@@ -237,7 +234,8 @@ public class ClientDB {
     }
 
     /*INDEX function*/
-    public void indexDB(Object o) throws Exception{
+    /*The licence argument is for if the object is a user and if he is a pilot, else it's null*/
+    public void indexDB(Object o, Licence licence) throws Exception{
         String table = getTable(o);
         if(table.equals("unknown")){
             System.out.println("Not an existing database");
@@ -270,7 +268,7 @@ public class ClientDB {
             jsonString ="{"+
                     "\"licenceId\":\""+l.getLicenceId() +"\"," +
                     "\"userId\":\""+l.getUserId()+"\"," +
-                    "\"validityDate\":\""+df.format(l.getValidityDate())+"\"" +
+                    "\"validityDate\":\""+l.getValidityDate()+"\"" +
                     "}";
         } else if(table.equals("message")){
             Message m = (Message)o;
@@ -279,7 +277,7 @@ public class ClientDB {
                     "\"content\":\""+m.getContent()+"\"," +
                     "\"senderId\":\""+m.getSenderId() +"\"," +
                     "\"receiverId\":\""+m.getReceiverId()+"\"," +
-                    "\"sendingDate\":\""+df.format(m.getSendingDate())+"\"" +
+                    "\"sendingDate\":\""+m.getSendingDate()+"\"" +
                     "}";
         } else if(table.equals("plane")){
             Plane p = (Plane)o;
@@ -294,25 +292,25 @@ public class ClientDB {
                     "\"userId\":\""+r.getFlightId()+"\"," +
                     "\"flightId\":\""+r.getUserId() +"\"," +
                     "\"nbPlaces\":\""+r.getNbPlaces() +"\"," +
-                    "\"date\":\""+df.format(r.getDate())+"\"," +
+                    "\"date\":\""+r.getDate()+"\"," +
                      "\"price\":\""+r.getPrice()+"\"," +
                     "\"status\":\""+r.getStatus()+"\"" +
                     "}";
         } else {
             User u = (User)o;
-            jsonString ="{"+
+            jsonString = "{"+
                     "\"userId\":\""+createId(6)+"\"," +
                     "\"lastName\":\""+u.getLastName()+"\"," +
                     "\"firstName\":\""+u.getFirstName() +"\"," +
                     "\"email\":\""+u.getEmail()+"\"," +
                     "\"gsm\":\""+u.getGsm()+"\"," +
                     "\"birthDate\":\""+u.getBirthDate()+"\"," +
-                    "\"password\":\""+u.getPassword()+"\"" +
+                    "\"password\":\""+u.getPassword()+"\"," +
+                    "\"typeUser\":\""+u.getTypeUser()+"\""+
                     "}";
         }
         indReq.source(jsonString, XContentType.JSON);
         IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
-        String ident = indexResponse.getId();
         if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
             System.out.println("The document has been created");
         } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
@@ -321,6 +319,28 @@ public class ClientDB {
             System.out.println("Nothing has been changed");
         }
         updateId(table,id);
+        if(table.equals("user")){
+            User u = (User)o;
+            if(u.getTypeUser().equals("pilot") && licence != null) {
+                id = getIdMax1("licence")+1;
+                licence.setUserId(u.getUserId());
+                indReq = new IndexRequest(
+                        table,
+                        "info",
+                        ""+id);
+                jsonString = "{" +
+                        "\"licenceId\":\"" + licence.getLicenceId() + "\"," +
+                        "\"userId\":\"" + licence.getUserId() + "\"," +
+                        "\"validityDate\":\"" + licence.getValidityDate() + "\"" +
+                        "}";
+
+                indReq.source(jsonString, XContentType.JSON);
+                indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+                if (indexResponse.getResult() == DocWriteResponse.Result.CREATED)
+                    System.out.println("The licence has been added");
+                updateId(table, id);
+            }
+        }
     }
 
     /*Function of creation of instances*/
@@ -330,88 +350,79 @@ public class ClientDB {
         return f;
     }
 
-    public Licence createLicence(Map<String,Object> map) throws ParseException{
-        Date date = StringToDate(map,"validityDate");
-        return new Licence(map.get("licenceId").toString(),map.get("userId").toString(),date);
+    public Licence createLicence(Map<String,Object> map) {
+        return new Licence(map.get("licenceId").toString(),map.get("userId").toString(),map.get("validityDate").toString());
     }
 
-    public Message createMessage(Map<String,Object> map) throws ParseException{
-        Date date = StringToDate(map,"sendingDate");
-        return new Message(map.get("messageId").toString(),map.get("content").toString(),map.get("senderId").toString(),map.get("receiverId").toString(),date);
+    public Message createMessage(Map<String,Object> map) {
+        return new Message(map.get("messageId").toString(),map.get("content").toString(),map.get("senderId").toString(),map.get("receiverId").toString(),map.get("sendingDate").toString());
     }
 
     public Plane createPlane(Map<String,Object> map){
         return new Plane(map.get("atcNumber").toString(),Integer.parseInt(map.get("numberSeats").toString()));
     }
 
-    public Reservation createReservation(Map<String,Object> map) throws ParseException{
-        Date date = StringToDate(map,"date");
+    public Reservation createReservation(Map<String,Object> map){
         Reservation r = new Reservation(map.get("reservationId").toString(),map.get("userId").toString(),map.get("flightId").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Double.parseDouble(map.get("price").toString()),map.get("status").toString());
-        r.setDate(date);
+        r.setDate(map.get("date").toString());
         return r;
     }
 
     public User createUser(Map<String,Object> map){
-        return new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString());
+        return new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString(),map.get("userType").toString());
     }
     /*GET functions*/
     /*Return list of a specific table by transforming the list of map of the this table*/
-    public ArrayList<Flight> allFlight() throws IOException, ParseException {
+    public ArrayList<Flight> allFlight() throws IOException{
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Map<String,Object>> mapList = listMap("flight");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
+        for(Map<String,Object> map : mapList) {
             Flight f = createFlight(map);
             list.add(f);
         }
         return list;
     }
 
-    public ArrayList<Licence> allLicence() throws IOException, ParseException {
+    public ArrayList<Licence> allLicence() throws IOException {
         ArrayList<Licence> list = new ArrayList<Licence>();
         ArrayList<Map<String,Object>> mapList = listMap("licence");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
+        for(Map<String,Object> map : mapList) {
             list.add(createLicence(map));
         }
         return list;
     }
 
-    public ArrayList<Message> allMessage() throws IOException, ParseException {
+    public ArrayList<Message> allMessage() throws IOException {
         ArrayList<Message> list = new ArrayList<Message>();
         ArrayList<Map<String,Object>> mapList = listMap("message");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
+        for(Map<String,Object> map : mapList) {
             list.add(createMessage(map));
         }
         return list;
     }
 
-    public ArrayList<Plane> allPlane() throws IOException, ParseException {
+    public ArrayList<Plane> allPlane() throws IOException {
         ArrayList<Plane> list = new ArrayList<Plane>();
         ArrayList<Map<String,Object>> mapList = listMap("plane");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
+        for(Map<String,Object> map : mapList) {
             list.add(createPlane(map));
         }
         return list;
     }
 
-    public ArrayList<Reservation> allReservation() throws IOException, ParseException {
+    public ArrayList<Reservation> allReservation() throws IOException {
         ArrayList<Reservation> list = new ArrayList<Reservation>();
         ArrayList<Map<String,Object>> mapList = listMap("reservation");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
+        for(Map<String,Object> map : mapList) {
             list.add(createReservation(map));
         }
         return list;
     }
 
-    public ArrayList<User> allUser() throws IOException, ParseException {
+    public ArrayList<User> allUser() throws IOException {
         ArrayList<User> list = new ArrayList<User>();
         ArrayList<Map<String,Object>> mapList = listMap("user");
-        for(int i = 0; i<mapList.size(); i++) {
-            Map<String,Object> map = mapList.get(i);
+        for(Map<String,Object> map : mapList) {
             list.add(createUser(map));
         }
         return list;
@@ -570,8 +581,7 @@ public class ClientDB {
     /*Get a specific value of a table by using an id(user,flight, etc)*/
     public Map<String,Object> getLineTable(String table, String id) throws IOException {
         ArrayList<Map<String,Object>> list = listMap(table);
-        for(int i = 0; i<list.size(); i++){
-            Map<String,Object> map = list.get(i);
+        for(Map<String,Object> map : list){
             if(map.containsValue(id))
                 return map;
         }
@@ -664,9 +674,9 @@ public class ClientDB {
 
     public void delete(String id, String table) throws IOException {
         SearchHit[] sh = arrayTable(table);
-        for (int i = 0; i < sh.length; i++) {
-            String _id = sh[i].getId();
-            Map<String, Object> map = sh[i].getSourceAsMap();
+        for (SearchHit s : sh) {
+            String _id = s.getId();
+            Map<String, Object> map = s.getSourceAsMap();
             Object o;
             if (table.equals("flight")) o = map.get("flightId");
             else if (table.equals("licence")) o = map.get("licenceId");
