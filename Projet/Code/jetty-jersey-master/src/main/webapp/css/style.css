@@ -356,6 +356,7 @@ h1, h2, h3, h4, h5, h6, figure {
   -ms-border-radius: 50%;
   border-radius: 50%;
 }
+
 #fh5co-header h1, #fh5co-header nav {
   margin: 38px 0 0 0;
 }
@@ -433,7 +434,6 @@ h1, h2, h3, h4, h5, h6, figure {
   outline: none;
   text-decoration: none;
 }
-
 #fh5co-header nav ul li.cta {
   margin-left: 20px;
 }
@@ -1229,13 +1229,13 @@ h1, h2, h3, h4, h5, h6, figure {
 
 
 .crumbs ol {
-    list-style-type: none;
-    padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .crumb {
-    display: inline-block;
-    background-color: rgba(255,255,255,0.5);
+  display: inline-block;
+  background-color: rgba(255,255,255,0.5);
 }
 
 
@@ -1250,15 +1250,15 @@ form.form {
   font: Georgia, sans-serif;
   top:300%;
   left:40%;
-  width:700px; 
-  height:850px; 
-  margin-left:-150px; 
+  width:700px;
+  height:850px;
+  margin-left:-150px;
   margin-top:-170px;
-  background-color: rgba(64,75,78,0.7);
+  background-color: rgba(0,0,0,0.5);
 }
 
 
-div.SignUpForm{
+form.SignUpForm{
   position:absolute;
   font-size: 18px;
   padding-left: 100px;
@@ -1269,14 +1269,14 @@ div.SignUpForm{
   font: Georgia, sans-serif;
   top:400%;
   left:40%;
-  width:700px; 
-  height:680px;
-  margin-left:-150px; 
+  width:700px;
+  height:620px;
+  margin-left:-150px;
   margin-top:-170px;
   background-color: rgba(64,75,78,0.7);
 }
 
-div.SignInForm{
+form.SignInForm{
   position:absolute;
   font-size: 18px;
   padding-left: 100px;
@@ -1287,9 +1287,9 @@ div.SignInForm{
   font: Georgia, sans-serif;
   top:500%;
   left:40%;
-  width:700px; 
-  height:400px; 
-  margin-left:-150px; 
+  width:700px;
+  height:400px;
+  margin-left:-150px;
   margin-top:-170px;
   background-color: rgba(64,75,78,0.7);
 }
@@ -1316,32 +1316,54 @@ nav.crumb{
   color: white;
 }
 
-.about{
-  background-color: rgba(0,0,0,0.6);
-  height: 400px;
-  padding: 20px;
-  text-align: center;
-  justify-content: center;
+
+.profile-img{
+  overflow:hidden;
+  -webkit-border-radius:50px;
+  -moz-border-radius:50px;
+  border-radius:50px;
+  max-height: 200px;
+  max-width: 200px;
 }
 
-.about h2{
-  color: #27E1CE;
+.row {
+  display: flex;
 }
 
-
-.about p{
-  font-size: 24px;
-  color: rgba(255,255,255,0.8);
-
+.column-left{
+  flex: 40%;
 }
 
-.dropdown-menu {
-  background-color: rgba(0,0,0,0.8);
+.column-right{
+  flex:60%;
 }
 
-.dropdown ul li ::hover {
-  background-color: rgba(0,0,0,0.6);
+.Profile-div{
+  background-color: rgba(64,75,78,0);
+  padding: 40px;
 }
 
+.column-right h3.test {
+  margin-left: 20px;
+}
+.column-right h3.test a {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border: 2px solid #404B4E;
+  color: #404B4E;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  border-radius: 30px;
+}
+.column-right h3.test a:hover {
+  color: #fff;
+  background: #404B4E;
+}
+.column-right h3.test a:hover:after {
+  display: none;
+}
 
 /*# sourceMappingURL=style.css.map */

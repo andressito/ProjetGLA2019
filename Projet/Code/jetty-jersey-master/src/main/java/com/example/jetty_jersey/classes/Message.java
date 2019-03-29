@@ -7,9 +7,9 @@ public class Message {
     public String content;
     public String senderId;
     public String receiverId;
-    public Date sendingDate;
+    public String sendingDate;
 
-    public Message(String messageId,String content, String senderId, String receiverId, Date sendingDate){
+    public Message(String messageId,String content, String senderId, String receiverId, String sendingDate){
         this.messageId= messageId;
         this.content=content;
         this.senderId=senderId;
@@ -49,11 +49,11 @@ public class Message {
         this.receiverId = receiverId;
     }
 
-    public Date getSendingDate() {
+    public String getSendingDate() {
         return sendingDate;
     }
 
-    public void setSendingDate(Date sendingDate) {
+    public void setSendingDate(String sendingDate) {
         this.sendingDate = sendingDate;
     }
 }

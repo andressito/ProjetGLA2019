@@ -10,12 +10,13 @@ public class User {
     public String gsm;
     public String birthDate;
     public String password;
+    public String typeUser;
 
     public User(){
 
     }
 
-    public User(String firstName, String lastName, String email, String password, String birthDate, String gsm ){
+    public User(String firstName, String lastName, String email, String password, String birthDate, String gsm,String typeUser){
         this.userId=null;
         this.lastName=lastName;
         this.firstName=firstName;
@@ -23,6 +24,7 @@ public class User {
         this.gsm=gsm;
         this.birthDate=birthDate;
         this.password=password;
+        this.typeUser=typeUser;
     }
 
     public String getUserId() {
@@ -63,5 +65,12 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTypeUser() {
+        return typeUser;
+    }
+    public void setTypeUser(String typeUser) {
+        this.typeUser = typeUser;
     }
 }

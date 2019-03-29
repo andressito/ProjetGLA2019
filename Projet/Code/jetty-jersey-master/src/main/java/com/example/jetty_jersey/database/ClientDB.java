@@ -332,6 +332,8 @@ public class ClientDB {
                         "\"licenceId\":\"" + licence.getLicenceId() + "\"," +
                         "\"userId\":\"" + licence.getUserId() + "\"," +
                         "\"validityDate\":\"" + licence.getValidityDate() + "\"" +
+                        "\"mark\":\"" + licence.getMark() + "\"" +
+                        "\"numberHoursFlight\":\"" + licence.getNumberHoursFlight() + "\"" +
                         "}";
 
                 indReq.source(jsonString, XContentType.JSON);
@@ -351,7 +353,7 @@ public class ClientDB {
     }
 
     public Licence createLicence(Map<String,Object> map) {
-        return new Licence(map.get("licenceId").toString(),map.get("userId").toString(),map.get("validityDate").toString());
+        return new Licence(map.get("licenceId").toString(),map.get("userId").toString(),map.get("validityDate").toString(),Integer.parseInt(map.get("mark").toString()),Integer.parseInt(map.get("numberHoursFlight").toString()));
     }
 
     public Message createMessage(Map<String,Object> map) {
@@ -364,7 +366,7 @@ public class ClientDB {
 
     public Reservation createReservation(Map<String,Object> map){
         Reservation r = new Reservation(map.get("reservationId").toString(),map.get("userId").toString(),map.get("flightId").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Double.parseDouble(map.get("price").toString()),map.get("status").toString());
-        r.setDate(map.get("date").toString());
+        //r.setDate(map.get("date").toString());
         return r;
     }
 
