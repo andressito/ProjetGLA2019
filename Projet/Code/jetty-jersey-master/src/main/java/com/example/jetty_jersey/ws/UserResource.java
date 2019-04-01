@@ -81,6 +81,7 @@ public class UserResource {
             Licence licence1= new Licence(null,null,validityDate,0,0);
             return buDAO.createUser(newUser,licence1);
         }
+        //return false;
     }
 
     @POST
@@ -96,6 +97,13 @@ public class UserResource {
     @Path("/users/{idUser}")
     public User getUser(@PathParam("idUser") String id) {
         return null;
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/users/email/{emailUser}")
+    public User getUserByEmail(@PathParam("emailUser") String emailUser){
+        return buDAO.getUserByEmail(emailUser);
     }
 
 

@@ -20,9 +20,7 @@ public class BouchonUserDAO implements UserDAO {
     public boolean createUser(User user, Licence licence) {
         try {
             List<User> liste=JettyMain.c.allUser();
-
             for(int i=0; i<liste.size(); i++){
-                System.out.println(liste.get(i).getEmail());
                 if(liste.get(i).getEmail().equals(user.getEmail())) return false;
             }
             JettyMain.c.indexDB(user,licence);
@@ -49,6 +47,15 @@ public class BouchonUserDAO implements UserDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public User getUserByEmail(String email) {
+        try {
+            return JettyMain.c.getUserByEmail(email);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public boolean updateUser(String userId) {

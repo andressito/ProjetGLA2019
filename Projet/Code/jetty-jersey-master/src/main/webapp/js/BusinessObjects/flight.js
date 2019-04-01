@@ -1,3 +1,17 @@
+$(document).ready(function() {
+    if(localStorage.getItem("userId")){
+        window.location.href="http://localhost:8080/";
+    }else{
+        if(document.getElementById('passenger'))
+            if(document.getElementById('passenger').checked){
+                document.getElementById('Licence').style.display='none';
+            }
+            else{
+                document.getElementById('Licence').style.display='inline';
+            }
+    }
+});
+
 function detecter(){
     if(document.getElementById('visit').checked){
         document.getElementById('ArrivalA2').style.display='none';

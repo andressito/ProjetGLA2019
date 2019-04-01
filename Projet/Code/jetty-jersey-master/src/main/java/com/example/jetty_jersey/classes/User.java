@@ -74,4 +74,15 @@ public class User {
     public void setTypeUser(String typeUser) {
         this.typeUser = typeUser;
     }
+
+    public void toStringUser(){
+        System.out.println("id: "+this.userId+
+                " firstName: "+this.firstName+
+                " lastName: "+this.lastName+
+                " email: "+this.email+
+                " password: "+this.password+
+                " birthdate: "+this.birthDate+
+                " gsm: "+this.gsm+
+                " typeUser: "+this.typeUser);
+    }
 }

@@ -1,8 +1,6 @@
 $(document).ready(function() {
-
-    if(localStorage.getItem("save")){
+    if(localStorage.getItem("firstName") || localStorage.getItem("userId")){
         window.location.href="http://localhost:8080/";
-
     }else{
         if(document.getElementById('passenger'))
             if(document.getElementById('passenger').checked){
@@ -109,8 +107,7 @@ function fenvoi() {
     }
     if(document.getElementById('passenger').checked){
         addPassenger();
-    }
-    else{
+    }else{
         var date= $("#validityDate").val();
         var today = new Date();
         var valDate = new Date(date);
@@ -134,14 +131,9 @@ function addPassenger(){
     var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
     "\""+bithDate+"\" , \"email\":\""+email+"\", \"gsm\":\""+gsm+", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
     var licence='{ "licenceId": "null"}';
-    sendMethodPost(user,licence);
-}
-
-function sendMethodPost(user,licence) {
     var combinedObj = {};
     combinedObj["user"] = user;
     combinedObj["licence"] = licence;
-
     $.ajax({
         url: "http://localhost:8080/ws/user/create",
         type: "POST",
@@ -152,22 +144,32 @@ function sendMethodPost(user,licence) {
     }).done(function (result) {
 
     }).success(function (result) {
-        if(result){
-            localStorage.setItem("save",email);
-            localStorage.setItem("FirstName",fistName);
-            sessionStorage.setItem("email",email);
-            window.location.href="http://localhost:8080/";
-            swal({
-                title: "ChuChuFly!",
-                text: "Success Sign Up",
-                icon: "success"
-            });
-        }else{
-            swal({
-                title: "ChuChuFly!",
-                text: "Email used",
-                icon: "error"
-            });
+        if(result) {
+            if (result) {
+                $.ajax({
+                    url: "http://localhost:8080/ws/user/users/email/"+email,
+                    type: "GET",
+                    contentType: "application/json",
+                    cache: false,
+                    dataType: "json"
+                }).done(function (result) {
+                    var test = result;
+                    console.log(result['firstName']);
+                    localStorage.setItem("firstName", result['firstName']);
+                    sessionStorage.setItem("firstName", result['firstName']);
+                    localStorage.setItem("userId", result['userId']);
+                    sessionStorage.setItem("userId", result['userId']);
+                    localStorage.setItem("typeUser", result['typeUser']);
+                    sessionStorage.setItem("typeUser", result['typeUser']);
+                    window.location.href = "http://localhost:8080/";
+                });
+            } else {
+                swal({
+                    title: "ChuChuFly!",
+                    text: "Email used",
+                    icon: "error"
+                });
+            }
         }
     });
 }
@@ -177,14 +179,55 @@ function addPilot(){
     var lastName=$("#lastName").val();
     var bithDate=$("#birthDate").val();
     var email=$("#email").val();
-    var gsm=$("gsm").val();
+    var gsm=$("#gsm").val();
     var password=$("#password").val();
     var type="pilot";
     var validityDate= $("#validityDate").val();
+    console.log("ok");
     var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
         "\""+bithDate+"\" , \"email\":\""+email+"\", \"gsm\":\""+gsm+", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
     var licence='{ "validityDate": "'+validityDate+'"}';
-    sendMethodPost(user,licence);
+    var combinedObj = {};
+    combinedObj["user"] = user;
+    combinedObj["licence"] = licence;
+    $.ajax({
+        url: "http://localhost:8080/ws/user/create",
+        type: "POST",
+        data: JSON.stringify(combinedObj),
+        contentType: "application/json",
+        cache: false,
+        dataType: "json"
+    }).done(function (result) {
+
+    }).success(function (result) {
+        if(result) {
+            if (result) {
+                $.ajax({
+                    url: "http://localhost:8080/ws/user/users/email/" + email,
+                    type: "GET",
+                    contentType: "application/json",
+                    cache: false,
+                    dataType: "json"
+                }).done(function (result) {
+                    var test = result;
+                    console.log(result['firstName']);
+                    localStorage.setItem("firstName", result['firstName']);
+                    sessionStorage.setItem("firstName", result['firstName']);
+                    localStorage.setItem("userId", result['userId']);
+                    sessionStorage.setItem("userId", result['userId']);
+                    localStorage.setItem("typeUser", result['typeUser']);
+                    sessionStorage.setItem("typeUser", result['typeUser']);
+                    window.location.href = "http://localhost:8080/";
+                });
+            } else {
+                swal({
+                    title: "ChuChuFly!",
+                    text: "Email used",
+                    icon: "error"
+                });
+            }
+        }
+    });
 }
 
 $(function(){
@@ -195,12 +238,10 @@ $(function(){
             $('#email').focus();
             return false;
         }
-
         if(password.length<5){
             $('#password').focus();
             return false;
         }
-
         $.ajax({
             url:"http://localhost:8080/ws/user/signin",
             type:"POST",
@@ -209,15 +250,23 @@ $(function(){
             cache: false,
             dataType: "json"
         }).success( function (result) {
-
             if(result){
-                localStorage.setItem("save",email);
-                sessionStorage.setItem("email",email);
-                window.location.href="http://localhost:8080/";
-                swal({
-                    title: "ChuChuFly!",
-                    text: "Success Sign In",
-                    icon: "success"
+                $.ajax({
+                    url:"http://localhost:8080/ws/user/users/email/"+email ,
+                    type:"GET",
+                    contentType: "application/json",
+                    cache: false,
+                    dataType: "json"
+                }).done(function (result) {
+                    var test = result;
+                    console.log(result['firstName']);
+                    localStorage.setItem("firstName",result['firstName']);
+                    sessionStorage.setItem("firstName",result['firstName']);
+                    localStorage.setItem("userId",result['userId']);
+                    sessionStorage.setItem("userId",result['userId']);
+                    localStorage.setItem("typeUser", result['typeUser']);
+                    sessionStorage.setItem("typeUser", result['typeUser']);
+                    window.location.href="http://localhost:8080/";
                 });
             }else{
                 swal({

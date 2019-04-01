@@ -1276,7 +1276,7 @@ form.SignUpForm{
   background-color: rgba(64,75,78,0.7);
 }
 
-form.SignInForm{
+.SignInForm{
   position:absolute;
   font-size: 18px;
   padding-left: 100px;
@@ -1366,4 +1366,11 @@ nav.crumb{
   display: none;
 }
 
+.dropdown-menu {
+  background-color: rgba(0,0,0,0.8);
+}
+
+.dropdown-menu li a:hover{
+  background-color: rgba(0,0,0,0.2);
+}
 /*# sourceMappingURL=style.css.map */

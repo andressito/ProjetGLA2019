@@ -233,6 +233,15 @@ public class ClientDB {
         return list;
     }
 
+    /*Return true if the user id already exists, false if not*/
+    public boolean ifUserIdExist(String id) throws IOException {
+        ArrayList<User> l = allUser();
+        for(User u : l){
+            if(u.getUserId().equals(id)) return true;
+        }
+        return false;
+    }
+
     /*INDEX function*/
     /*The licence argument is for if the object is a user and if he is a pilot, else it's null*/
     public void indexDB(Object o, Licence licence) throws Exception{
@@ -298,8 +307,12 @@ public class ClientDB {
                     "}";
         } else {
             User u = (User)o;
+            String tmpId = createId(6);
+            while(ifUserIdExist(tmpId))
+                tmpId = createId(6);
+            u.setUserId(tmpId);
             jsonString = "{"+
-                    "\"userId\":\""+createId(6)+"\"," +
+                    "\"userId\":\""+tmpId+"\"," +
                     "\"lastName\":\""+u.getLastName()+"\"," +
                     "\"firstName\":\""+u.getFirstName() +"\"," +
                     "\"email\":\""+u.getEmail()+"\"," +
@@ -312,9 +325,9 @@ public class ClientDB {
         indReq.source(jsonString, XContentType.JSON);
         IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
         if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
-            System.out.println("The document has been created");
+            System.out.println(table+" has been created");
         } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-            System.out.println("The document has been uploaded");
+            System.out.println(table +" has been uploaded");
         } else {
             System.out.println("Nothing has been changed");
         }
@@ -324,22 +337,28 @@ public class ClientDB {
             if(u.getTypeUser().equals("pilot") && licence != null) {
                 id = getIdMax1("licence")+1;
                 licence.setUserId(u.getUserId());
-                indReq = new IndexRequest(
+                table = getTable(licence);
+                IndexRequest indReq1 = new IndexRequest(
                         table,
                         "info",
                         ""+id);
                 jsonString = "{" +
                         "\"licenceId\":\"" + createId(5) + "\"," +
                         "\"userId\":\"" + licence.getUserId() + "\"," +
-                        "\"validityDate\":\"" + licence.getValidityDate() + "\"" +
-                        "\"mark\":\"" + licence.getMark() + "\"" +
+                        "\"validityDate\":\"" + licence.getValidityDate() + "\"," +
+                        "\"mark\":\"" + licence.getMark() + "\"," +
                         "\"numberHoursFlight\":\"" + licence.getNumberHoursFlight() + "\"" +
                         "}";
 
-                indReq.source(jsonString, XContentType.JSON);
-                indexResponse = client.index(indReq, RequestOptions.DEFAULT);
-                if (indexResponse.getResult() == DocWriteResponse.Result.CREATED)
-                    System.out.println("The licence has been added");
+                indReq1.source(jsonString, XContentType.JSON);
+                IndexResponse indexResponse1 = client.index(indReq1, RequestOptions.DEFAULT);
+                if (indexResponse1.getResult() == DocWriteResponse.Result.CREATED) {
+                    System.out.println("licence has been created");
+                } else if (indexResponse1.getResult() == DocWriteResponse.Result.UPDATED) {
+                    System.out.println("licence has been uploaded");
+                } else {
+                    System.out.println("Nothing has been changed");
+                }
                 updateId(table, id);
             }
         }
@@ -371,9 +390,21 @@ public class ClientDB {
     }
 
     public User createUser(Map<String,Object> map){
-        return new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString(),map.get("userType").toString());
+        User newUser= new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString(),map.get("typeUser").toString());
+        newUser.setUserId(map.get("userId").toString());
+        return newUser;
     }
     /*GET functions*/
+
+    /*Return the user using a specific email address*/
+    public User getUserByEmail(String email) throws IOException{
+        ArrayList<User> l = allUser();
+        for (User u : l) {
+            if(u.getEmail().equals(email)) return u;
+        }
+        return null;
+    }
+
     /*Return list of a specific table by transforming the list of map of the this table*/
     public ArrayList<Flight> allFlight() throws IOException{
         ArrayList<Flight> list = new ArrayList<Flight>();

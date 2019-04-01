@@ -4,21 +4,19 @@
             <div class="header-inner">
                 <h1><img src="../images/planev.png" style="img-responsive" width="40" height="30" /><a href="../home.html"> ChuChuFly</a></h1>
                 <nav role="navigation">
-                    <ul>
-                        <li><a href="">Become Pilot</a></li>
+                    <ul><li class="cta"><a href="../AddFlight.html">Add a flight</a></li>
                         <li><a href="#" id="Flight">My flights</a></li>
                         <li><a href="#" id="Msg">Messages</a></li>
                         <li>
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="Profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    Profile
-                                    <span class="caret"></span>
+                                <button class="btn cta dropdown-toggle"  type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                      <div id="Profile">Profil </div>
                                 </button>
                                 <ul class="dropdown-menu cta">
                                     <li><a href="#" id="dashboard">Dashboard</a></li>
                                     <li><a href="#"id="edit">Edit profile</a></li>
                                     <li><a href="#" id="setting">Settings</a></li>
-                                    <li><a href="" style="text-script:'../js/home.js'" id="signOut"  >Sign out</a></li>
+                                    <li><a href="" id="signOut"  >Sign out</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -28,17 +26,4 @@
         </div>
     </header>
 </div>
-<script>
-    $(function () {
-        $("#signOut").click(function () {
-            sessionStorage.clear();
-            localStorage.clear();
-            window.location.href="http://localhost:8080/";
-            swal({
-                title: "ChuChuFly!",
-                text: "Success Sign Out",
-                icon: "success"
-            });
-        });
-    });
-</script>
+<script src="../js/test.js"></script>
