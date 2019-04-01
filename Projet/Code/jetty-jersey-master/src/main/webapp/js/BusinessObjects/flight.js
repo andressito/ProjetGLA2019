@@ -1,46 +1,97 @@
 $(document).ready(function() {
-    if(localStorage.getItem("userId")){
+    if(!localStorage.getItem("userId")){
         window.location.href="http://localhost:8080/";
     }else{
-        if(document.getElementById('passenger'))
-            if(document.getElementById('passenger').checked){
-                document.getElementById('Licence').style.display='none';
+        if(document.getElementById('ArrivalA2')){
+            if(document.getElementById('visit').checked){
+                document.getElementById('ArrivalA2').style.display='none';
             }
             else{
-                document.getElementById('Licence').style.display='inline';
+                document.getElementById('ArrivalA2').style.display='inline';
             }
+        }
+        $("#menu").load('../Menu/MenuPilot.html');
     }
 });
-
-function detecter(){
+function visitDetect() {
     if(document.getElementById('visit').checked){
         document.getElementById('ArrivalA2').style.display='none';
-        document.getElementById('ArrivalT2').style.display='none';
-    }
-    else{
+    }else{
         document.getElementById('ArrivalA2').style.display='inline';
-        document.getElementById('ArrivalT2').style.display='inline';
     }
 }
 //ajouter un vol prevu
 function ajouter(){
-    var plane=$("#Plane").val();
-    var departureAerodrome=$("#DepartureA").val();
-    var date=$("#Date").val();
-    var departureTime=$("#DepartureT").val();
-    var seats=$("#Seats").val();
-    var arrivalAerodrome=$("#ArrivalA").val();
-    var arrivalTime=$("#ArrivalT").val();
-    var price=$("#Price").val();
+    if($("#plane").val()=="" || $("#plane").val().length <2){
+        $('#plane').focus();
+        return false;
+    }
+    if($("#departureAirfield").val()=="" || $("#departureAirfield").val().length <2){
+        $('#departureAirfield').focus();
+        return false;
+    }
+    if(!document.getElementById('visit').checked){
+        if($("#arrivalAirfield").val()=="" || $("#arrivalAirfield").val().length <2){
+            $('#arrivalAirfield').focus();
+            return false;
+        }
+    }
+
+    if($("#departureDate").val()==""){
+        $('#departureDate').focus();
+        return false;
+    }
+    if($("#departureTime").val()==""){
+        $('#departureAirfield').focus();
+        return false;
+    }
+    if($("#arrivalTime").val()==""){
+        $('#arrivalTime').focus();
+        return false;
+    }
+    if($("#numberSeats").val()==""){
+        $('#numberSeats').focus();
+        return false;
+    }
+    if($("#price").val()==""){
+        $('#price').focus();
+        return false;
+    }
+    var plane=$("#plane").val();
+    var departureAirfield=$("#departureAirfield").val();
+    var departureDate=$("#departureDate").val();
+    var today = new Date();
+    var todayM= new Date();
+    todayM.setHours(28);
+    var valDate = new Date(departureDate);
+    today.setMonth(6);
+    console.log(today);
+    console.log(todayM);
+    //valdate sup todM et valdate inf today
+    if(!(today>valDate && valDate>todayM)){
+        swal({
+            title: "ChuChuFly!",
+            text: "Your flight back is too soon far or away  ",
+            icon: "error"
+        });
+        return false;
+    }
+    var departureTime=$("#departureTime").val();
+    var arrivalTime=$("#arrivalTime").val();
+    var numberSeats=$("#numberSeats").val();
+    var price=$("#price").val();
     var type;
-    //condition ^pourverifier si c'estune balade ou pas
+    var arrivalAirfield;
+    var userId=localStorage.getItem("userId");
     if(document.getElementById('visit').checked){
         type="visit";
-        arrivalAerodrome=departureAerodrome;
-    }else{type="oneway";}
-    var data= '{"atcNumber":"'+plane+'", "departureAerodrom":"'+departureAerodrome+'", "date":"'+date+'","departureTime":"'+departureTime+'","seats":"'+seats+'","type":"'+type+'","arrivalAerodrom":"'+arrivalAerodrome+'","arrivalTime":"'+arrivalTime+'","price":"'+price+'","userId":"1"}';
+        arrivalAirfield=departureAirfield;
+    }else{
+        type="oneway";
+        arrivalAirfield=$("#arrivalAirfield").val();
+    }
+    var data= '{"atcNumber":"'+plane+'", "departureAerodrom":"'+departureAirfield+'", "date":"'+departureDate+'","departureTime":"'+departureTime+'","seats":"'+numberSeats+'","type":"'+type+'","arrivalAerodrom":"'+arrivalAirfield+'","arrivalTime":"'+arrivalTime+'","price":"'+price+'","userId":"'+userId+'"}';
     var dataUrl = "http://localhost:8080/ws/flight/create";
-    //console.log(donner);
     $.ajax({
         url: dataUrl,
         type: "POST",
@@ -57,7 +108,7 @@ function ajouter(){
             swal({
                 title: "ChuChuFly!",
                 text: "Flight recorded successfully!",
-                icon: "success",
+                icon: "success"
             });
             //effacement du contenu des inputs
             $("#Plane").val("");
@@ -73,7 +124,7 @@ function ajouter(){
             swal({
                 title: "ChuChuFly!",
                 text: "Registration error!",
-                icon: "error",
+                icon: "error"
             });
         }
     });
