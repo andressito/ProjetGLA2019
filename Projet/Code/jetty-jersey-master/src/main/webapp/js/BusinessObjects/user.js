@@ -183,7 +183,6 @@ function addPilot(){
     var password=$("#password").val();
     var type="pilot";
     var validityDate= $("#validityDate").val();
-    console.log("ok");
     var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
         "\""+bithDate+"\" , \"email\":\""+email+"\", \"gsm\":\""+gsm+", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
     var licence='{ "validityDate": "'+validityDate+'"}';

@@ -242,6 +242,14 @@ public class ClientDB {
         return false;
     }
 
+    public boolean ifFlightIdExist(String id) throws IOException {
+        ArrayList<Flight> l = allFlight();
+        for(Flight f : l){
+            if(f.getFlightId().equals(id)) return true;
+        }
+        return false;
+    }
+
     /*INDEX function*/
     /*The licence argument is for if the object is a user and if he is a pilot, else it's null*/
     public void indexDB(Object o, Licence licence) throws Exception{
@@ -256,11 +264,14 @@ public class ClientDB {
                 "info",
                 ""+id);
         String jsonString = "";
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         if(table.equals("flight")){
             Flight f = (Flight)o;
+            String tmpId = createId(7);
+            while(ifFlightIdExist(tmpId))
+                tmpId = createId(7);
+            f.setFlightId(tmpId);
             jsonString ="{"+
-                    "\"flightId\":\""+createId(7)+"\"," +
+                    "\"flightId\":\""+tmpId+"\"," +
                     "\"atcNumber\":\""+f.getAtcNumber()+"\"," +
                     "\"departureAerodrom\":\""+f.getDepartureAerodrom()+"\"," +
                     "\"date\":\""+f.getDate()+"\"," +
@@ -401,6 +412,15 @@ public class ClientDB {
         ArrayList<User> l = allUser();
         for (User u : l) {
             if(u.getEmail().equals(email)) return u;
+        }
+        return null;
+    }
+
+    /*Return the user using a specific id*/
+    public User getUserById(String id) throws IOException{
+        ArrayList<User> l = allUser();
+        for (User u : l) {
+            if(u.getUserId().equals(id)) return u;
         }
         return null;
     }

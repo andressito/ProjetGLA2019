@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -23,12 +22,12 @@
 	<link rel="stylesheet" href="css/owl.theme.default.min.css">
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
-
-	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
-
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<!--main js-->
+		<link rel="stylesheet" href="css/style.css">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script src="js/modernizr-2.6.2.min.js"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
 	<script type="text/javascript" src="js/BusinessObjects/flight.js"></script>
 </head>
 <body>
@@ -50,66 +49,69 @@
 				<div class="form-check">
 					<label class="white_label">Type:</label>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<input class="form-check-input" type="checkbox" onclick="detecter()" value="visit" id="visit"/>
+					<input class="form-check-input" type="radio"  value="visit" id="visit" checked="true" name="typeFlight" onclick="visitDetect()"/>
 					<label class="form-check-label" for="visit" style="color: white;"/>
 					Visit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<input class="form-check-input" type="checkbox" value="oneway" id="oneway"/>
-					<label class="form-check-label" for="oneway" style="color: white;"//>
+					<input class="form-check-input" type="radio" value="oneway" id="oneway" name="typeFlight" onclick="visitDetect()" />
+					<label class="form-check-label" for="oneway" style="color: white;"/>
 					One way flight
 					</label>
 				</div>
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<input list="planes" type="search" id="Plane" class="form-control mr-sm-2 home_input" value="" placeholder="Add Plane">
-					<datalist id="planes">
-						<option>plane 1</option>
-						<option>pl335d2</option>
-						<option>kdfj45l</option>
-					</datalist>
-				</div>
-			</div>
-
-			<div class="col-md-12">
-				<div class="form-group">
-					<input type="search" id="DepartureA"  class="form-control mr-sm-2 home_input"  placeholder="Departure aerodrome"/>
+					<label class="white_label" for="plane">Plane:</label>
+					<input type="text" id="plane" class="form-control mr-sm-2 home_input" placeholder="Add Plane">
 				</div>
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<input  type="date" id="Date" class="form-control mr-sm-2 home_input" placeholder="Departure date"/>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group">
-					<input type="time" id="DepartureT" class="form-control mr-sm-2 home_input" placeholder="Departure time"/>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group">
-					<input type="number" min="0" max="15" id="Seats" class="form-control mr-sm-2 home_input"  placeholder="nb of seats"/>
+					<label class="white_label" for="departureAirfield">Departure Airfield:</label>
+					<input type="text" id="departureAirfield"  class="form-control mr-sm-2 home_input"  placeholder="Departure Airfield"/>
 				</div>
 			</div>
 			<div class="col-md-12" id="ArrivalA2">
 				<div class="form-group" >
-					<input type="search" id="ArrivalA" class="form-control mr-sm-2 home_input"  placeholder="Arrival aerodrome"/>
-				</div>
-			</div>
-			<div class="col-md-12" id="ArrivalT2">
-				<div class="form-group" >
-					<input type="time" id="ArrivalT" class="form-control mr-sm-2 home_input"  placeholder="Arrival time"/>
+					<label class="white_label" for="arrivalAirfield">Arrival Airfield:</label>
+					<input type="search" id="arrivalAirfield" class="form-control mr-sm-2 home_input"  placeholder="Arrival Airfield"/>
 				</div>
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<input type="number" min="0" max="15" id="Price" class="form-control mr-sm-2 home_input"  placeholder="Price"/>
+					<label class="white_label" for="departureDate">Date:</label>
+					<input  type="date" id="departureDate" class="form-control mr-sm-2 home_input" placeholder="Departure date"/>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="white_label" for="departureTime">Departure Time:</label>
+					<input type="time" id="departureTime" class="form-control mr-sm-2 home_input" placeholder="Departure time"/>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group" >
+					<label class="white_label" for="arrivalTime">Arrival Time:</label>
+					<input type="time" id="arrivalTime" class="form-control mr-sm-2 home_input"  placeholder="Arrival time"/>
+				</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="white_label" for="numberSeats">Number Of Seats:</label>
+					<input type="number" min="0" max="15" id="numberSeats" class="form-control mr-sm-2 home_input"  placeholder="nb of seats"/>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="white_label" for="price">Price:</label>
+					<input type="number" min="0" max="15" id="price" class="form-control mr-sm-2 home_input"  placeholder="Price"/>
 				</div>
 			</div>
 			<br>
 			<div class="col-md-12">
 				<div class="form-group">
-					<a class="btn btn-primary " onclick="ajouter()"> Save </a>
-					<a class="btn btn-warning " id="Cancel"> Cancel </a>
+					<center>
+						<a class="btn btn-primary " onclick="ajouter()"> Save </a>
+						<a class="btn btn-warning " id="Cancel"> Cancel </a>
+					</center>
 				</div>
 			</div>
 		</div>
@@ -119,8 +121,6 @@
 	</div>
 	<br>
 </aside>
-	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
 	<script src="js/jquery.easing.1.3.js"></script>
 	<!-- Bootstrap -->
@@ -134,14 +134,5 @@
 
 	<!-- MAIN JS -->
 	<script src="js/main.js"></script>
-
-<script>
-	$(document).ready(function () {
-		$("div[data-includeHTML]").each(function () {
-			$(this).load($(this).attr("data-includeHTML"));
-		});
-	});
-</script>
-
 	</body>
 </html>

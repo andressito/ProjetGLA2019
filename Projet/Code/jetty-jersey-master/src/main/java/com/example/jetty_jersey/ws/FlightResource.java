@@ -21,9 +21,18 @@ public class FlightResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
     public boolean createFlight(Flight flight) {
-        System.out.println(flight);
         return bfdao.createFLight(flight);
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/search/{departure}/{date}")
+    public ArrayList<Flight> researchFlight(@PathParam("departure") String departure,@PathParam("date") String date ) {
+        if(date.equals("0")) return bfdao.searchFlight(departure,null);
+        return bfdao.searchFlight(departure,date);
+    }
+
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/flights/{flightId}")
