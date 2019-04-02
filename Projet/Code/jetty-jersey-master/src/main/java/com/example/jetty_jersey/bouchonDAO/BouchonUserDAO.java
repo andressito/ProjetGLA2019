@@ -67,6 +67,11 @@ public class BouchonUserDAO implements UserDAO {
     }
 
     public User getUserDetails(String userId) {
+        try {
+            return JettyMain.c.getUserById(userId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

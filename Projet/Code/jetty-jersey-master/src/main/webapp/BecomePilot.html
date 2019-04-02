@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ChuChuFly | Add Flight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="css/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Flexslider  -->
+    <link rel="stylesheet" href="css/flexslider.css">
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Modernizr JS -->
+    <script src="js/modernizr-2.6.2.min.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--main js-->
+    <script type="text/javascript" src="js/BusinessObjects/flight.js"></script>
+</head>
+<body>
+<style type="text/css">
+    body {
+        background-image:url(images/slide_2.jpeg);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+        margin:0;
+    }
+</style>
+
+
+<div id="fh5co-page">
+    <header id="fh5co-header" role="banner">
+        <div class="container">
+            <div class="header-inner">
+                <h1><img src="images/planev.png"  width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
+                <nav role="navigation">
+                    <ul>
+                        <li><a href="#" id="Flight">My flights</a></li>
+                        <li><a href="signIn.html" id="Msg">Messages</a></li>
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="Profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Profile
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu cta">
+                                    <li><a href="#" id="dashboard">Dashboard</a></li>
+                                    <li><a href="#"id="edit">Edit profile</a></li>
+                                    <li><a href="#" id="setting">Settings</a></li>
+                                    <li><a href="#" id="sign">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+    </div>
+
+
+
+    <aside>
+        <div class="animate-box">
+            <br>
+
+            <div class="col-md-4 col-md-offset-4" style="background-color: rgba(0,0,0,.5);">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="white_label" for="DepartureA">First name :</label><br>
+                        <input type="text" id="DepartureA"  class="form-control mr-sm-2 home_input"/>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="white_label" for="Date">Last name : :</label><br>
+                        <input type="text" id="DepartureA"  class="form-control mr-sm-2 home_input"/>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="white_label" for="Date">Birth :</label><br>
+                        <input type="date" id="DepartureA"  class="form-control mr-sm-2 home_input"/>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="white_label" for="Date">Licence expiration date :</label><br>
+                        <input type="text" id="DepartureA"  class="form-control mr-sm-2 home_input"/>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="white_label" for="Date">Qualification :</label><br>
+                        <input type="text" id="DepartureA"  class="form-control mr-sm-2 home_input"/>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <br>
+                        <label class="white_label" for="DepartureA">Flight hours :</label>
+                        <input type="time" id="DepartureA"  class="form-control mr-sm-2 home_input"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="white_label" for="Date">Qualification :</label><br>
+                        <input type="text" id="DepartureA"  class="form-control mr-sm-2 home_input"/>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="white_label" for="DepartureT">Expérience :</label>
+                        <select class="form-group col-md-12"><option>Class A</option>
+                            <option>Class B</option></select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="white_label" for="Seats">Licences :</label>
+                        <center>
+                            <a class="btn btn-primary "> Download </a>
+                        </center>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <center>
+                        <div class="form-group">
+                            <a class="btn btn-primary " onclick="ajouter()"> Save </a>
+                            <a class="btn btn-warning " id="Cancel"> Cancel </a>
+                        </div><br>
+                    </center>
+                </div>
+            </div>
+    </aside>
+
+    <!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="js/jquery.waypoints.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="js/owl.carousel.min.js"></script>
+    <!-- Flexslider -->
+    <script src="js/jquery.flexslider-min.js"></script>
+
+    <!-- MAIN JS -->
+    <script src="js/main.js"></script>
+</div>
+</body>
+</html>

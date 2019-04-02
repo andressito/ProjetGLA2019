@@ -416,6 +416,15 @@ public class ClientDB {
         return null;
     }
 
+    /*Return the user using a specific id*/
+    public User getUserById(String id) throws IOException{
+        ArrayList<User> l = allUser();
+        for (User u : l) {
+            if(u.getUserId().equals(id)) return u;
+        }
+        return null;
+    }
+
     /*Return list of a specific table by transforming the list of map of the this table*/
     public ArrayList<Flight> allFlight() throws IOException{
         ArrayList<Flight> list = new ArrayList<Flight>();

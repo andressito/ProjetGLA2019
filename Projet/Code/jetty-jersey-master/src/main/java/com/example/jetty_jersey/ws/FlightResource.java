@@ -26,6 +26,15 @@ public class FlightResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/search/{departure}/{date}")
+    public ArrayList<Flight> researchFlight(@PathParam("departure") String departure,@PathParam("date") String date ) {
+        if(date.equals("0")) return bfdao.searchFlight(departure,null);
+        return bfdao.searchFlight(departure,date);
+    }
+
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/flights/{flightId}")
     public Flight getFlight(@PathParam("flightId") String flightId) {
         return  bfdao.getFlightDetails(flightId);

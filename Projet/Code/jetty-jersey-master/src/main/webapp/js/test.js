@@ -1,7 +1,6 @@
 $(document).ready(function() {
     var firstName=localStorage.getItem("firstName");
     $("#Profile").html(firstName);
-    //$("#Profile").attr('value', firstName);
 });
 $(function(){
 

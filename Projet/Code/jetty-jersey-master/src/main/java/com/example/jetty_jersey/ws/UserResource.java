@@ -96,7 +96,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/users/{idUser}")
     public User getUser(@PathParam("idUser") String id) {
-        return null;
+        return buDAO.getUserDetails(id);
     }
 
     @GET
