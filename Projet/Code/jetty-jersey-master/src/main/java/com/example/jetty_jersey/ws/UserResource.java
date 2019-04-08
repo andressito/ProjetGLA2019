@@ -114,15 +114,13 @@ public class UserResource {
     //@Path("/users/{idUser}")
     @Path("/update/{idUser}")
     public boolean updateUser(@PathParam("idUser") String id){
-        if(buDAO.updateUser(id)) return true;
-        else return false;
+        return buDAO.updateUser(id);
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/delete/{idUser}")
     public boolean deleteUser(@PathParam("idUser") String id){
-        if (buDAO.deleteUser(id)) return true;
-        else return false;
+        return buDAO.deleteUser(id);
     }
 }
