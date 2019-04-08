@@ -1,4 +1,7 @@
 
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,6 +30,7 @@
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <!-- Theme style  -->
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
     <!--main js-->
@@ -44,36 +48,7 @@
   </style>
 
 
-<div id="fh5co-page">
-    <header id="fh5co-header" role="banner">
-        <div class="container">
-            <div class="header-inner">
-                <h1><img src="images/planev.png"  width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
-                <nav role="navigation">
-                    <ul>
-                        <li><a href="#" id="Fligh">My flights</a></li>
-                        <li><a href="#" id="Ms">Messages</a></li>
-                        <li>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="Profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    Profile
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu cta">
-                                    <li><a href="#" id="dashboar">Dashboard</a></li>
-                                    <li><a href="#"id="edi">Edit profile</a></li>
-                                    <li><a href="#" id="settin">Settings</a></li>
-                                    <li><a href="#" id="sig">Sign out</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
-    <div class="container">
-    </div>
+<div id="menu"></div>
 
 
 
@@ -85,45 +60,29 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="white_label" for="firstnam">First name :</label><br>
-                        <input type="text" id="firstnam" class="form-control mr-sm-2 home_input"/>
+                        <input type="text" id="firstnam" class="form-control mr-sm-2 home_input" disabled="disabled"/>
 
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="white_label" for="lastnam">Last name : :</label><br>
-                        <input type="text" id="lastnam"  class="form-control mr-sm-2 home_input"/>
+                        <input type="text" id="lastnam"  class="form-control mr-sm-2 home_input" disabled="disabled"/>
 
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="white_label" for="birt">Birth :</label><br>
-                        <input type="date" id="birt"  class="form-control mr-sm-2 home_input"/>
+                        <input type="date" id="birt"  class="form-control mr-sm-2 home_input"disabled="disabled"/>
 
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="white_label" for="licenc">Licence expiration date :</label><br>
-                        <input type="text" id="licenc" placeholder="2022"  class="form-control mr-sm-2 home_input"/>
+                        <input type="date" id="licenc" placeholder="2022"  class="form-control mr-sm-2 home_input"/>
 
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="white_label" for="qualificatio">Qualification :</label><br>
-                        <input type="text" id="qualificatio"  class="form-control mr-sm-2 home_input"/>
-
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="white_label" id="experience">Expérience :</label>
-                        <select class="form-group col-md-12"><option>Class A</option>
-                            <option>Class B</option></select>
                     </div>
                 </div>
 
@@ -158,4 +117,6 @@
 </div>
 </body>
 </html>
+
+
 

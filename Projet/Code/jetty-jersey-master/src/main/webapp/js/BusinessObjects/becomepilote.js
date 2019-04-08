@@ -1,8 +1,9 @@
+
 $(document).ready(function() {
 if(localStorage.getItem("userId")){
-    $("#menu").load('../Menu/MenuPassenger.html');
+$("#menu").load('../Menu/MenuPilot.html');
     $.ajax({
-               url: "http://localhost:8080/ws/user/users/"+localStorage.getItem("userId"),
+                url: "http://localhost:8080/ws/user/users/"+localStorage.getItem("userId"),
                 type: "GET",
                 contentType: "application/json",
                 cache: false,
@@ -22,14 +23,13 @@ if(localStorage.getItem("userId")){
 
     }
 
+
 });
 function becomepilot(){
     var firstName=$("#firstnam").val();
     var lastName=$("#lastnam").val();
     var birthDate=$("#birt").val();
     var licence=$("#licenc").val();
-    var qualification=$("#qualificatio").val();
-    var experience=$("#experience").val();
 
     var d = new Date();
     var month = d.getMonth()+1;
@@ -37,6 +37,7 @@ function becomepilot(){
     var output = d.getFullYear() + '/' +(month<10 ? '0' : '') + month + '/' +(day<10 ? '0' : '') + day;
     var d1=Date.parse(output);
     var d2=Date.parse(licence);
+    console.log(d2);
     if (d1 > d2) {
      swal({
              title: "ChuChuFly!",
@@ -49,7 +50,7 @@ function becomepilot(){
 
 
 
-    var data= '{"firstName":"'+firstName+'","lastName":"'+lastName+'","birthDate":"'+birthDate+'","licence":"'+licence+'", "qualification":"'+qualification+'","experience":"'+experience+'"}';
+    var data= '{"firstName":"'+firstName+'","lastName":"'+lastName+'","birthDate":"'+birthDate+'","licence":"'+licence+'"}';
     var urlData = "http://localhost:8080/ws/user/users";
     $.ajax({
         url: urlData,
@@ -78,5 +79,8 @@ function becomepilot(){
         }
     });
 }
+
+
+
 
 
