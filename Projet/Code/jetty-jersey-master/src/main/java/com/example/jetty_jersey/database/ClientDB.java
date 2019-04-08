@@ -249,6 +249,15 @@ public class ClientDB {
         }
         return -1;
     }
+public int getIdForUserBecomePilot(String userId) throws IOException {
+    SearchHit[] tab = arrayTable("user");
+    for (SearchHit sh : tab) {
+        int i = Integer.parseInt(sh.getId());
+        Map<String, Object> map = sh.getSourceAsMap();
+        if (userId.equals(map.get("userId"))) return i;
+    }
+    return -1;
+}
     /*Set idMax depending on the table*/
     public void setIdMax(String table, int val){
         if(table.equals("flight")) idMaxFlight = val;
@@ -1096,6 +1105,18 @@ public class ClientDB {
                 "\"typeUser\":\""+u.getTypeUser()+"\""+
                 "}";
         updateCheck(request, jsonString);
+    }
+    
+    public void updateUserBecomePilot(String userId,String typeUser) throws Exception{
+    int id = getIdForUserBecomePilot(userId);
+    UpdateRequest request = new UpdateRequest(
+            "user",
+            "info",
+            ""+id);
+    String jsonString = "{" +
+            "\"typeUser\":\""+typeUser+"\"" +
+            "}";
+    updateCheck(request, jsonString);
     }
 
     /*DELETE function*/
