@@ -111,16 +111,18 @@ public class UserResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/users/{idUser}")
-    public String updateUser(@PathParam("idUser") String id){
-        return "SUCCESS";
+    //@Path("/users/{idUser}")
+    @Path("/update/{idUser}")
+    public boolean updateUser(@PathParam("idUser") String id){
+        if(buDAO.updateUser(id)) return true;
+        else return false;
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/users/{idUser}")
-    public List<User> deleteUser(@PathParam("idUser") String id){
-
-        return  null;
+    @Path("/delete/{idUser}")
+    public boolean deleteUser(@PathParam("idUser") String id){
+        if (buDAO.deleteUser(id)) return true;
+        else return false;
     }
 }
