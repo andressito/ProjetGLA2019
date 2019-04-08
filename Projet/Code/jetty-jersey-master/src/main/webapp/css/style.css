@@ -1319,9 +1319,9 @@ nav.crumb{
 
 .profile-img{
   overflow:hidden;
-  -webkit-border-radius:50px;
-  -moz-border-radius:50px;
-  border-radius:50px;
+  -webkit-border-radius:100px;
+  -moz-border-radius:100px;
+  border-radius:100px;
   max-height: 200px;
   max-width: 200px;
 }
@@ -1373,6 +1373,7 @@ nav.crumb{
 .dropdown-menu li a:hover{
   background-color: rgba(0,0,0,0.2);
 }
+
 #fh5co-pricing-section .price-box-form {
   margin-left: 50px;
   height: 650px;
