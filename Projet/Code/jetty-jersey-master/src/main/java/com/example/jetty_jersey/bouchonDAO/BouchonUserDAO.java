@@ -58,20 +58,11 @@ public class BouchonUserDAO implements UserDAO {
         return null;
     }
 
-    public boolean updateUser(String userId) {
+    public boolean updateUser(User user) {
         try{
-            //User u = new User("Boulet", "Reno", "popol@popol.com", "sgofhgoofhdg", "1994-08-01", "0606060606", "passenger");
-            //JettyMain.c.updateUserInIndex(JettyMain.c.getUserById(userId));
-            User u = JettyMain.c.getUserById(userId);
-            u.setFirstName("Boulet");
-            u.setLastName("Rama");
-            u.setEmail("papalis@popol.com");
-            u.setPassword("grrggff55");
-            u.setBirthDate("1994-08-01");
-            u.setGsm("065156023");
-            u.setTypeUser("passenger");
-            JettyMain.c.updateUserInIndex(u);
-            //En dur, modifier pour modifier l'user avec les bonnes informations.
+            
+            JettyMain.c.updateUserInIndex(user);
+            
             return true;
         } catch (Exception e) {
             e.printStackTrace();
