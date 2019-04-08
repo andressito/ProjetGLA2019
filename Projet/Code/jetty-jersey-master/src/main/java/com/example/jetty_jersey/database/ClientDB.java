@@ -245,7 +245,7 @@ public class ClientDB {
         for (SearchHit sh : tab) {
             int i = Integer.parseInt(sh.getId());
             Map<String, Object> map = sh.getSourceAsMap();
-            if (u.getEmail().equals(map.get("email"))) return i;
+            if (u.getUserId().equals(map.get("userId"))) return i;
         }
         return -1;
     }
