@@ -81,11 +81,13 @@ public class ClientDB {
         return client;
     }
 
+
     /*Close the client*/
     public void closeClient() throws Exception{
         client.close();
     }
 
+    /*Return true or false if the user can connect*/
     public boolean canConnect(String email, String mdp) throws IOException {
         ArrayList<User> l = allUser();
         for(User u : l) {
@@ -94,6 +96,7 @@ public class ClientDB {
         return false;
     }
 
+    /*Verify if the table exists*/
     public boolean ifTableExist(String table) throws IOException{
         GetIndexRequest request = new GetIndexRequest();
         request.indices(table);
@@ -186,6 +189,66 @@ public class ClientDB {
         return max;
     }
 
+    /*Get the id of the table using a instance of the table*/
+    public int getIdForFlight(Flight f) throws IOException{
+        SearchHit[] tab = arrayTable("flight");
+        for(SearchHit sh : tab){
+            int i = Integer.parseInt(sh.getId());
+            Map<String, Object> map = sh.getSourceAsMap();
+            if(f.getFlightId().equals(map.get("flightId"))) return i;
+        }
+        return -1;
+    }
+
+    public int getIdForLicence(Licence l) throws IOException{
+        SearchHit[] tab = arrayTable("licence");
+        for(SearchHit sh : tab){
+            int i = Integer.parseInt(sh.getId());
+            Map<String, Object> map = sh.getSourceAsMap();
+            if(l.getLicenceId().equals(map.get("licenceId"))) return i;
+        }
+        return -1;
+    }
+
+    public int getIdForMessage(Message m) throws IOException{
+        SearchHit[] tab = arrayTable("message");
+        for(SearchHit sh : tab){
+            int i = Integer.parseInt(sh.getId());
+            Map<String, Object> map = sh.getSourceAsMap();
+            if(m.getMessageId().equals(map.get("messageId"))) return i;
+        }
+        return -1;
+    }
+
+    public int getIdForPlane(Plane p) throws IOException {
+        SearchHit[] tab = arrayTable("plane");
+        for (SearchHit sh : tab) {
+            int i = Integer.parseInt(sh.getId());
+            Map<String, Object> map = sh.getSourceAsMap();
+            if (p.getAtcNumber().equals(map.get("atcNumber"))) return i;
+        }
+        return -1;
+    }
+
+    public int getIdForReservation(Reservation r) throws IOException {
+        SearchHit[] tab = arrayTable("reservation");
+        for (SearchHit sh : tab) {
+            int i = Integer.parseInt(sh.getId());
+            Map<String, Object> map = sh.getSourceAsMap();
+            if (r.getReservationId().equals(map.get("reservationId"))) return i;
+        }
+        return -1;
+    }
+
+    public int getIdForUser(User u) throws IOException {
+        SearchHit[] tab = arrayTable("user");
+        for (SearchHit sh : tab) {
+            int i = Integer.parseInt(sh.getId());
+            Map<String, Object> map = sh.getSourceAsMap();
+            if (u.getEmail().equals(map.get("email"))) return i;
+        }
+        return -1;
+    }
     /*Set idMax depending on the table*/
     public void setIdMax(String table, int val){
         if(table.equals("flight")) idMaxFlight = val;
@@ -289,7 +352,9 @@ public class ClientDB {
             jsonString ="{"+
                     "\"licenceId\":\""+l.getLicenceId() +"\"," +
                     "\"userId\":\""+l.getUserId()+"\"," +
-                    "\"validityDate\":\""+l.getValidityDate()+"\"" +
+                    "\"validityDate\":\""+l.getValidityDate()+"\"," +
+                    "\"mark\":\""+l.getMark()+"\"," +
+                    "\"numberHoursFlight\":\""+l.getNumberHoursFlight()+"\"" +
                     "}";
         } else if(table.equals("message")){
             Message m = (Message)o;
@@ -923,35 +988,59 @@ public class ClientDB {
         }
     }
 
-    public void updateLicenceInIndex(Object o) throws Exception{
+    public void updateFlightInIndex(Object o) throws Exception{
         String table = getTable(o);
-        Licence l = (Licence) o;
-        String licenceId = l.getLicenceId();
+        Flight f = (Flight) o;
+        int id = getIdForFlight(f);
         UpdateRequest request = new UpdateRequest(
                 table,
                 "info",
-                licenceId);
-        String jsonString = "{" +
-                "\"validityDate\":\""+l.getValidityDate()+"\"," +
+                ""+id);
+        String jsonString = "{"+
+                "\"atcNumber\":\""+f.getAtcNumber()+"\"," +
+                "\"departureAerodrom\":\""+f.getDepartureAerodrom()+"\"," +
+                "\"date\":\""+f.getDate()+"\"," +
+                "\"departureTime\":\""+f.getDepartureTime()+"\"," +
+                "\"allSeats\":\""+f.getAllSeats()+"\"," +
+                "\"remainingSeats\":\""+f.getRemainingSeats()+"\"," +
+                "\"type\":\""+f.getType()+"\"," +
+                "\"arrivalAerodrom\":\""+f.getArrivalAerodrom() +"\"," +
+                "\"arrivalTime\":\""+f.getArrivalTime() +"\"," +
+                "\"price\":\""+f.getPrice()+"\"," +
+                "\"userId\":\""+f.getUserId()+"\""+
                 "}";
         updateCheck(request, jsonString);
     }
 
-    public void updateUserInIndex(Object o) throws Exception{
+    public void updateLicenceInIndex(Object o) throws Exception{
         String table = getTable(o);
-        User u = (User)o;
-        String userId = u.getUserId();
+        Licence l = (Licence) o;
+        int id = getIdForLicence(l);
         UpdateRequest request = new UpdateRequest(
                 table,
                 "info",
-                userId);
-        String jsonString = "{" +
-                "\"lastName\":\""+u.getLastName()+"\"," +
-                "\"firstName\":\""+u.getFirstName() +"\"," +
-                "\"email\":\""+u.getEmail()+"\"," +
-                "\"gsm\":\""+u.getGsm()+"\"," +
-                "\"birthDate\":\""+u.getBirthDate()+"\"," +
-                "\"password\":\""+u.getPassword()+"\"" +
+                ""+id);
+        String jsonString = "{"+
+                "\"validityDate\":\""+l.getValidityDate()+"\"," +
+                "\"mark\":\""+l.getMark()+"\"," +
+                "\"numberHoursFlight\":\""+l.getNumberHoursFlight()+"\"" +
+                "}";
+        updateCheck(request, jsonString);
+    }
+
+    public void updateMessageInIndex(Object o) throws Exception{
+        String table = getTable(o);
+        Message m = (Message)o;
+        int id = getIdForMessage(m);
+        UpdateRequest request = new UpdateRequest(
+                table,
+                "info",
+                ""+id);
+        String jsonString = "{"+
+                "\"content\":\""+m.getContent()+"\"," +
+                "\"senderId\":\""+m.getSenderId() +"\"," +
+                "\"receiverId\":\""+m.getReceiverId()+"\"," +
+                "\"sendingDate\":\""+m.getSendingDate()+"\"" +
                 "}";
         updateCheck(request, jsonString);
     }
@@ -959,30 +1048,52 @@ public class ClientDB {
     public void updatePlaneInIndex(Object o) throws Exception {
         String table = getTable(o);
         Plane p = (Plane) o;
-        String atcNumber = p.getAtcNumber();
+        int id = getIdForPlane(p);
         UpdateRequest request = new UpdateRequest(
                 table,
                 "info",
-                atcNumber);
+                ""+id);
         String jsonString = "{" +
-                "\"numberSeats\":\""+p.getNumberSeats()+"\"," +
+                "\"numberSeats\":\""+p.getNumberSeats()+"\"" +
                 "}";
         updateCheck(request, jsonString);
     }
 
-    public void updateFlightInIndex(Object o) throws Exception{
+    public void updateReservationInIndex(Object o) throws Exception{
         String table = getTable(o);
-        Flight f = (Flight) o;
-        String flightId = f.getFlightId();
+        Reservation r = (Reservation)o;
+        int id = getIdForReservation(r);
         UpdateRequest request = new UpdateRequest(
                 table,
                 "info",
-                flightId);
-        String jsonString = "{" +
-                "\"departureAerodrom\":\""+f.getDepartureAerodrom()+"\"," +
-                "\"arrivalAerodrom\":\""+f.getArrivalAerodrom() +"\"," +
-                "\"date\":\""+f.getDate()+"\"," +
-                "\"atcNumber\":\""+f.getAtcNumber()+"\"," +
+                ""+id);
+        String jsonString = "{"+
+                "\"userId\":\""+r.getFlightId()+"\"," +
+                "\"flightId\":\""+r.getUserId() +"\"," +
+                "\"nbPlaces\":\""+r.getNbPlaces() +"\"," +
+                "\"date\":\""+r.getDate()+"\"," +
+                "\"price\":\""+r.getPrice()+"\"," +
+                "\"status\":\""+r.getStatus()+"\"" +
+                "}";
+        updateCheck(request, jsonString);
+    }
+
+    public void updateUserInIndex(Object o) throws Exception{
+        String table = getTable(o);
+        User u = (User)o;
+        int id = getIdForUser(u);
+        UpdateRequest request = new UpdateRequest(
+                table,
+                "info",
+                ""+id);
+        String jsonString = "{"+
+                "\"lastName\":\""+u.getLastName()+"\"," +
+                "\"firstName\":\""+u.getFirstName() +"\"," +
+                "\"email\":\""+u.getEmail()+"\"," +
+                "\"gsm\":\""+u.getGsm()+"\"," +
+                "\"birthDate\":\""+u.getBirthDate()+"\"," +
+                "\"password\":\""+u.getPassword()+"\"," +
+                "\"typeUser\":\""+u.getTypeUser()+"\""+
                 "}";
         updateCheck(request, jsonString);
     }
