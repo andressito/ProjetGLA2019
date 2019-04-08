@@ -112,8 +112,8 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/users/{idUser}")
-    public String updateUser(@PathParam("idUser") String id){
-        return "SUCCESS";
+    public boolean updateUserType(@PathParam("idUser") String id){
+        return buDAO.updateUser(id);
     }
 
     @DELETE

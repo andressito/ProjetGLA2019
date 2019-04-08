@@ -6,7 +6,8 @@ public class Flight {
     public String departureAerodrom;
     public String date;
     public String departureTime;
-    public String seats;
+    public int allSeats; // nombre de place initial
+    public int remainingSeats; // nombre de place qui reste
     public String type;
     public String arrivalAerodrom;
     public String arrivalTime;
@@ -17,14 +18,15 @@ public class Flight {
     }
     //
     public Flight(String atcNumber,String departureAerodrom,
-                  String date,String departureTime,String seats,String type,
+                  String date,String departureTime,int allSeats, int remainingSeats,String type,
                   String arrivalAerodrom,String arrivalTime,String price,String userId) {
         this.flightId = null;
         this.atcNumber = atcNumber;
         this.departureAerodrom = departureAerodrom;
         this.date = date;
         this.departureTime = departureTime;
-        this.seats = seats;
+        this.allSeats = allSeats;
+        this.remainingSeats=remainingSeats;
         this.type = type;
         this.arrivalAerodrom = arrivalAerodrom;
         this.arrivalTime = arrivalTime;
@@ -72,13 +74,6 @@ public class Flight {
         this.departureTime = departureTime;
     }
 
-    public String getSeats() {
-        return seats;
-    }
-
-    public void setSeats(String seats) {
-        this.seats = seats;
-    }
 
     public String getType() {
         return type;
@@ -118,5 +113,21 @@ public class Flight {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public int getAllSeats() {
+        return allSeats;
+    }
+
+    public void setAllSeats(int allSeats) {
+        this.allSeats = allSeats;
+    }
+
+    public int getRemainingSeats() {
+        return remainingSeats;
+    }
+
+    public void setRemainingSeats(int remainingSeats) {
+        this.remainingSeats = remainingSeats;
     }
 }

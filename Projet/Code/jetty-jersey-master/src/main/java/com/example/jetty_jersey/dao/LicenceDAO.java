@@ -6,9 +6,10 @@ import java.util.List;
 
 public interface LicenceDAO {
     boolean addLicence(Licence licence);
-    boolean updateLicence( String licenceId);
+    boolean updateLicence(String licenceId);
     boolean deleteLicence(String licenceId);
-    Licence getLicence(String userId);
+    Licence getLicenceByUserId(String userId);
+    Licence getLicenceById(String licenceId);
     List<Licence> getAllLicence();
 
 }

@@ -59,6 +59,12 @@ public class BouchonUserDAO implements UserDAO {
     }
 
     public boolean updateUser(String userId) {
+        try {
+            JettyMain.c.updateUserBecomePilot(userId,"pilot");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
