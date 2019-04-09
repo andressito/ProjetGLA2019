@@ -249,17 +249,19 @@ public class ClientDB {
         }
         return -1;
     }
-public int getIdForUserBecomePilot(String userId) throws IOException {
-    SearchHit[] tab = arrayTable("user");
-    for (SearchHit sh : tab) {
-        int i = Integer.parseInt(sh.getId());
-        Map<String, Object> map = sh.getSourceAsMap();
-        if (userId.equals(map.get("userId"))) return i;
+
+    public int getIdForUserBecomePilot(String userId) throws IOException {
+        SearchHit[] tab = arrayTable("user");
+        for (SearchHit sh : tab) {
+            int i = Integer.parseInt(sh.getId());
+            Map<String, Object> map = sh.getSourceAsMap();
+            if (userId.equals(map.get("userId"))) return i;
+        }
+        return -1;
     }
-    return -1;
-}
+
     /*Set idMax depending on the table*/
-    public void setIdMax(String table, int val){
+    private void setIdMax(String table, int val){
         if(table.equals("flight")) idMaxFlight = val;
         else if(table.equals("licence")) idMaxLicence = val;
         else if(table.equals("message")) idMaxMessage = val;
@@ -267,7 +269,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
         else if(table.equals("reservation")) idMaxReservation = val;
         else idMaxUser = val;
     }
-    public boolean updateId(String table, int max) throws IOException{
+    private boolean updateId(String table, int max) throws IOException{
         UpdateRequest request = new UpdateRequest(
                     "idmax",
                     "info",
@@ -282,7 +284,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
     }
 
     /*List map data of a database*/
-    public ArrayList<Integer> listIdMap(String table) throws IOException{
+    /*public ArrayList<Integer> listIdMap(String table) throws IOException{
         ArrayList<Integer> list = new ArrayList<Integer>();
         SearchHit[] sh = arrayTable(table);
         if(sh == null || sh.length == 0)
@@ -292,7 +294,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
             list.add(id);
         }
         return list;
-    }
+    }*/
 
     /*List the index's values in an list of map*/
     public ArrayList<Map<String,Object>> listMap(String table) throws IOException {
@@ -324,6 +326,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
 
     /*INDEX function*/
     /*The licence argument is for if the object is a user and if he is a pilot, else it's null*/
+    /*----------------------------------------------------------------------------------------------------*/
     public void indexDB(Object o, Licence licence) throws Exception{
         String table = getTable(o);
         if(table.equals("unknown")){
@@ -359,7 +362,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
         } else if(table.equals("licence")){
             Licence l = (Licence)o;
             jsonString ="{"+
-                    "\"licenceId\":\""+createId(5) +"\"," +
+                    "\"licenceId\":\""+l.getLicenceId() +"\"," +
                     "\"userId\":\""+l.getUserId()+"\"," +
                     "\"validityDate\":\""+l.getValidityDate()+"\"," +
                     "\"mark\":\""+l.getMark()+"\"," +
@@ -481,9 +484,11 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
         newUser.setUserId(map.get("userId").toString());
         return newUser;
     }
-    /*GET functions*/
+    /*----------------------------------------------------------------------------------------------------*/
 
+    /*GET functions*/
     /*Return the user using a specific email address*/
+    /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
     public User getUserByEmail(String email) throws IOException{
         ArrayList<User> l = allUser();
         for (User u : l) {
@@ -566,9 +571,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
         if(typeSearched == null) cNull++;
         if(priceSearched == null) cNull++;
         if(seatsSearched == null) cNull++;
-        if(cNull == 6){
-            return allFlight();
-        }
+        if(cNull == 6) return allFlight();
         else if(cNull == 5) return auxFlights1(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
         else if(cNull == 4) return auxFlights2(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
         else if(cNull == 3) return auxFlights3(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
@@ -578,7 +581,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
     }
 
     //Search function for one argument
-    public ArrayList<Flight> auxFlights1(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception{
+    private ArrayList<Flight> auxFlights1(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception{
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
         ArrayList<Map<String,Object>> mapList = listMap("flight");
@@ -620,7 +623,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
     }
 
     //Search function for two arguments
-    public ArrayList<Flight> auxFlights2(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
+    private ArrayList<Flight> auxFlights2(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
         ArrayList<Map<String, Object>> mapList = listMap("flight");
@@ -700,7 +703,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
     }
 
     /*Search function for three arguments*/
-    public ArrayList<Flight> auxFlights3(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
+    private ArrayList<Flight> auxFlights3(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
         ArrayList<Map<String,Object>> mapList = listMap("flight");
@@ -818,7 +821,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
     }
 
     /*Search function for four arguments*/
-    public ArrayList<Flight> auxFlights4(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
+    private ArrayList<Flight> auxFlights4(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
         ArrayList<Map<String,Object>> mapList = listMap("flight");
@@ -913,7 +916,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
     }
 
     /*Search function for five arguments*/
-    public ArrayList<Flight> auxFlights5(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
+    private ArrayList<Flight> auxFlights5(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
         ArrayList<Map<String,Object>> mapList = listMap("flight");
@@ -958,7 +961,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
     }
 
         /*Search function for all arguments*/
-    public ArrayList<Flight> auxFlights6(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
+    private ArrayList<Flight> auxFlights6(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
         ArrayList<Map<String,Object>> mapList = listMap("flight");
@@ -986,18 +989,26 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
         return null;
     }
 
-    /*UPDATE functions*/
-    private void updateCheck(UpdateRequest request, String jsonString) throws IOException {
-        request.doc(jsonString, XContentType.JSON);
-        UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
-        if (updateResponse.getResult() == DocWriteResponse.Result.CREATED) {
-            System.out.println("The document has been created");
-        } else if (updateResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-            System.out.println("The document has been updated");
+    /*Return a list of reservation which match with the userId*/
+    public ArrayList<Reservation> getReservationByUserId(String userId) throws IOException{
+        ArrayList<Reservation> l = allReservation();
+        for(Reservation r : l){
+            if(!r.getUserId().equals(userId)) l.remove(r);
         }
+        return l;
     }
 
-    public void updateFlightInIndex(Object o) throws Exception{
+    /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+
+    /*UPDATE functions*/
+    /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+    private boolean updateCheck(UpdateRequest request, String jsonString) throws IOException {
+        request.doc(jsonString, XContentType.JSON);
+        UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
+        return updateResponse.getResult() == DocWriteResponse.Result.UPDATED;
+    }
+
+    public boolean updateFlightInIndex(Object o) throws Exception{
         String table = getTable(o);
         Flight f = (Flight) o;
         int id = getIdForFlight(f);
@@ -1018,10 +1029,10 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
                 "\"price\":\""+f.getPrice()+"\"," +
                 "\"userId\":\""+f.getUserId()+"\""+
                 "}";
-        updateCheck(request, jsonString);
+        return updateCheck(request, jsonString);
     }
 
-    public void updateLicenceInIndex(Object o) throws Exception{
+    public boolean updateLicenceInIndex(Object o) throws Exception{
         String table = getTable(o);
         Licence l = (Licence) o;
         int id = getIdForLicence(l);
@@ -1034,10 +1045,10 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
                 "\"mark\":\""+l.getMark()+"\"," +
                 "\"numberHoursFlight\":\""+l.getNumberHoursFlight()+"\"" +
                 "}";
-        updateCheck(request, jsonString);
+        return updateCheck(request, jsonString);
     }
 
-    public void updateMessageInIndex(Object o) throws Exception{
+    public boolean updateMessageInIndex(Object o) throws Exception{
         String table = getTable(o);
         Message m = (Message)o;
         int id = getIdForMessage(m);
@@ -1051,10 +1062,10 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
                 "\"receiverId\":\""+m.getReceiverId()+"\"," +
                 "\"sendingDate\":\""+m.getSendingDate()+"\"" +
                 "}";
-        updateCheck(request, jsonString);
+        return updateCheck(request, jsonString);
     }
 
-    public void updatePlaneInIndex(Object o) throws Exception {
+    public boolean updatePlaneInIndex(Object o) throws Exception {
         String table = getTable(o);
         Plane p = (Plane) o;
         int id = getIdForPlane(p);
@@ -1065,10 +1076,10 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
         String jsonString = "{" +
                 "\"numberSeats\":\""+p.getNumberSeats()+"\"" +
                 "}";
-        updateCheck(request, jsonString);
+        return updateCheck(request, jsonString);
     }
 
-    public void updateReservationInIndex(Object o) throws Exception{
+    public boolean updateReservationInIndex(Object o) throws Exception{
         String table = getTable(o);
         Reservation r = (Reservation)o;
         int id = getIdForReservation(r);
@@ -1084,10 +1095,10 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
                 "\"price\":\""+r.getPrice()+"\"," +
                 "\"status\":\""+r.getStatus()+"\"" +
                 "}";
-        updateCheck(request, jsonString);
+        return updateCheck(request, jsonString);
     }
 
-    public void updateUserInIndex(Object o) throws Exception{
+    public boolean updateUserInIndex(Object o) throws Exception{
         String table = getTable(o);
         User u = (User)o;
         int id = getIdForUser(u);
@@ -1104,20 +1115,22 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
                 "\"password\":\""+u.getPassword()+"\"," +
                 "\"typeUser\":\""+u.getTypeUser()+"\""+
                 "}";
-        updateCheck(request, jsonString);
+        return updateCheck(request, jsonString);
     }
-    
-    public void updateUserBecomePilot(String userId,String typeUser) throws Exception{
-    int id = getIdForUserBecomePilot(userId);
-    UpdateRequest request = new UpdateRequest(
-            "user",
-            "info",
-            ""+id);
-    String jsonString = "{" +
-            "\"typeUser\":\""+typeUser+"\"" +
-            "}";
-    updateCheck(request, jsonString);
+
+    public boolean updateUserBecomePilot(String userId,String typeUser) throws Exception{
+        int id = getIdForUserBecomePilot(userId);
+        UpdateRequest request = new UpdateRequest(
+                "user",
+                "info",
+                ""+id);
+        String jsonString = "{" +
+                "\"typeUser\":\""+typeUser+"\"" +
+                "}";
+        return updateCheck(request, jsonString);
     }
+
+    /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
     /*DELETE function*/
     private void deleteCheck(DeleteRequest request) throws IOException {
@@ -1128,7 +1141,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
     }
 
 
-    public void delete(String id, String table) throws IOException {
+    public boolean delete(String id, String table) throws IOException {
         SearchHit[] sh = arrayTable(table);
         for (SearchHit s : sh) {
             String _id = s.getId();
@@ -1146,7 +1159,9 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
                         "info",
                         _id);
                 deleteCheck(request);
+                return true;
             }
         }
+        return false;
     }
 }
