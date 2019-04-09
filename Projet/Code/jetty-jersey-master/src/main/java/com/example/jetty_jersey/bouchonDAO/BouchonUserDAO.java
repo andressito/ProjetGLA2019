@@ -58,11 +58,27 @@ public class BouchonUserDAO implements UserDAO {
         return null;
     }
 
-    public boolean updateUser(String userId) {
+    public boolean updateUser(User user) {
+        try{
+            if(user.getUserId()!= null && user.getTypeUser()!=null && user.getFirstName()==null){
+                JettyMain.c.updateUserBecomePilot(user.getUserId(),"pilot");
+            }
+            JettyMain.c.updateUserInIndex(user);
+            
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     public boolean deleteUser(String userId) {
+        try{
+            JettyMain.c.delete(userId, "user");
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -76,6 +92,13 @@ public class BouchonUserDAO implements UserDAO {
     }
 
     public List<User> getAllUser() {
+        try{
+            return JettyMain.c.allUser();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
+
+
 }

@@ -78,7 +78,7 @@ function ajouter(){
     }
     var departureTime=$("#departureTime").val();
     var arrivalTime=$("#arrivalTime").val();
-    var numberSeats=$("#numberSeats").val();
+    var allSeats=$("#allSeats").val();
     var price=$("#price").val();
     var type;
     var arrivalAirfield;
@@ -90,7 +90,7 @@ function ajouter(){
         type="oneway";
         arrivalAirfield=$("#arrivalAirfield").val();
     }
-    var data= '{"atcNumber":"'+plane+'", "departureAerodrom":"'+departureAirfield+'", "date":"'+departureDate+'","departureTime":"'+departureTime+'","seats":"'+numberSeats+'","type":"'+type+'","arrivalAerodrom":"'+arrivalAirfield+'","arrivalTime":"'+arrivalTime+'","price":"'+price+'","userId":"'+userId+'"}';
+    var data= '{"atcNumber":"'+plane+'", "departureAerodrom":"'+departureAirfield+'", "date":"'+departureDate+'","departureTime":"'+departureTime+'","allSeats":"'+allSeats+'", "remainingSeats":"'+allSeats+'", "type":"'+type+'","arrivalAerodrom":"'+arrivalAirfield+'","arrivalTime":"'+arrivalTime+'","price":"'+price+'","userId":"'+userId+'"}';
     var dataUrl = "http://localhost:8080/ws/flight/create";
     $.ajax({
         url: dataUrl,
@@ -111,14 +111,14 @@ function ajouter(){
                 icon: "success"
             });
             //effacement du contenu des inputs
-            $("#Plane").val("");
-            $("#DepartureA").val("");
+            $("#plane").val("");
+            $("#departureAirfield").val("");
             $("#Date").val("");
             $("#DepartureT").val("");
-            $("#Seats").val("");
+            $("#allSeats").val("");
             $("#ArrivalA").val("");
             $("#ArrivalT").val("");
-            $("#Price").val("");
+            $("#price").val("");
             //fin de l'effacement
         }else{
             swal({

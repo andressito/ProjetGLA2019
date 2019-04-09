@@ -195,6 +195,30 @@
 		} , { offset: '85%' } );
 	};
 
+	    $(document).ready(function () {
+        $('#resetbutton').click(function () {
+
+            $('#blockform').find(':input').each(function () {
+                switch (this.type) {
+                    case 'search':
+                    case 'text':
+                    case 'submit':
+                    case 'password':
+                    case 'time':
+                    case 'email':
+                    case 'date':
+                    case 'number':
+                        $(this).val('');
+                        break;
+                    case 'checkbox':
+                    case 'radio':
+                        this.checked = false;
+                        break;
+                }
+            });
+        });
+    });
+
 	var testimonialCarousel = function(){
 		var owl = $('.owl-carousel-fullwidth');
 		owl.owlCarousel({

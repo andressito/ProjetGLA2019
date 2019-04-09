@@ -6,10 +6,11 @@ public class Licence {
     public String licenceId;
     public String userId;
     public String validityDate;
-    int mark;
-    int numberHoursFlight;
+    public int mark;
+    public int numberHoursFlight;
+    public Licence(){
 
-
+    }
     public Licence(String licenceId, String userId, String validityDate,int mark, int numberHoursFlight){
         this.licenceId=licenceId;
         this.userId=userId;
