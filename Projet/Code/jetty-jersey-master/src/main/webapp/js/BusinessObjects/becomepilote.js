@@ -69,10 +69,10 @@ function becomepilot(){
             cache: false,
             dataType: "json",
         }).done(function (result) {
-            console.log(result);
             if(result){
+                var dataPut= '{"userId":"'+userId+'", "numberHoursFlight":"'+numberHoursFlight+'", "mark":"'+mark+'","userId":"'+userId+'"}';
                 $.ajax({
-                    url: "http://localhost:8080/ws/user/users/"+userId,
+                    url: "http://localhost:8080/ws/user/users/",
                     type: "PUT",
                     data: data,
                     contentType: "application/json",

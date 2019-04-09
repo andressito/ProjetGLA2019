@@ -16,6 +16,7 @@ $(document).ready(function() {
             sessionStorage.setItem("userId",userId);
         }
         if(typeUser=="passenger"){
+            console.log("passenger");
             $("#menu").load('../Menu/MenuPassenger.html');
             document.getElementById('search').style.display='inline';
             document.getElementById('flight').style.display='none';
@@ -23,12 +24,17 @@ $(document).ready(function() {
             $("#menu").load('../Menu/MenuPilot.html');
             document.getElementById('search').style.display='none';
             document.getElementById('flight').style.display='inline';
+            $.ajax({
+                url: "http://localhost:8080/ws/flight/flightByUserId/"+userId,
+                type: "GET",
+                contentType: "application/json",
+                cache: false,
+                dataType: "json"
+            }).done(function (result) {
+                console.log(result);
+
+            });
         }
-
-        if(document.getElementById('flight')){
-
-        }
-
     }else{
         $("#menu").load('../Menu/Menu.html');
         document.getElementById('search').style.display='inline';
