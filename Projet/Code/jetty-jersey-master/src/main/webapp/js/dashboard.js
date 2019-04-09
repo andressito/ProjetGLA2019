@@ -1,3 +1,8 @@
+var fname;
+var lname;
+var email;
+var gsm;
+
 $(document).ready(function() {
     var id = localStorage.getItem("userId");
     if(id!=null){
@@ -17,6 +22,10 @@ $(document).ready(function() {
                 $("#dash-date").append(result["birthDate"]);
 
                 $("#edit-fname").val(result["firstName"]);
+                fname=result["firstName"];
+                lname= result["lastName"];
+                email=result["email"];
+                gsm=result["gsm"];
                 $("#edit-lname").val(result["lastName"]);
                 $("#edit-email").val(result["email"]);
                 $("#edit-gsm").val(result["gsm"]);
@@ -70,9 +79,11 @@ function Delete(){
     document.getElementById('view-profile').style.display='none';   
 }
 
-
-function cancel(){
-
+function cancelEdit(){
+    $('#edit-fname').val(fname);
+    $('#edit-lname').val(lname);
+    $('#edit-email').val(email);
+    $('#edit-gsm').val(gsm);
 }
 
 function update(){
