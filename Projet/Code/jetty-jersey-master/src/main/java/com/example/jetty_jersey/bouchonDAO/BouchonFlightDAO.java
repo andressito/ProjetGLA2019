@@ -39,7 +39,7 @@ public class BouchonFlightDAO implements FlightDAO {
     }
     public ArrayList<Flight> searchFlight(String departure_aerodrome, String date) {
         try {
-            return JettyMain.c.getFlights(departure_aerodrome,null,date,null);
+            return JettyMain.c.getFlights(departure_aerodrome,null,date,null,null,null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,5 +58,21 @@ public class BouchonFlightDAO implements FlightDAO {
             if(liste.get(i).getFlightId().equals(idFlight))return liste.get(i);
         }
         return null;
+    }
+
+    public Flight getFLightByUserId(String userId){
+        ArrayList<Flight> liste = getListeFlight();
+        ArrayList<Flight> listeDeMesVols =null;
+        for(int i=0; i<liste.size();i++){
+            if(liste.get(i).getUserId().equals(userId))
+                listeDeMesVols.add(liste.get(i));
+        }
+        if(listeDeMesVols==null)
+            return null;
+        else{
+            Flight res = null;
+
+
+        }
     }
 }

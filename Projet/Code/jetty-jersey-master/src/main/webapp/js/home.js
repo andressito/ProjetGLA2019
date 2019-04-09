@@ -17,13 +17,22 @@ $(document).ready(function() {
         }
         if(typeUser=="passenger"){
             $("#menu").load('../Menu/MenuPassenger.html');
+            document.getElementById('search').style.display='inline';
+            document.getElementById('flight').style.display='none';
         }else{
             $("#menu").load('../Menu/MenuPilot.html');
+            document.getElementById('search').style.display='none';
+            document.getElementById('flight').style.display='inline';
         }
 
+        if(document.getElementById('flight')){
+
+        }
 
     }else{
         $("#menu").load('../Menu/Menu.html');
+        document.getElementById('search').style.display='inline';
+        document.getElementById('flight').style.display='none';
     }
 });
 

@@ -77,7 +77,6 @@ public class JettyMain {
 
 		// Start server
 		server.start();
-
 		c = new ClientDB();
 
     }

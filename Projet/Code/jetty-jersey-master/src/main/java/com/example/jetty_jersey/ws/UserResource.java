@@ -111,9 +111,9 @@ public class UserResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/update/{idUser}")
-    public boolean updateUser(@PathParam("idUser") String id){
-        return buDAO.updateUser(id);
+    @Path("/update/")
+    public boolean updateUser(User user){
+        return buDAO.updateUser(user);
     }
 
     @DELETE

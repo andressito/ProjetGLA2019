@@ -32,6 +32,12 @@ public class FlightResource {
         return bfdao.searchFlight(departure,date);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/flights/flightByUserId/{userId}")
+    public Flight getFlightByUserId(@PathParam("userId") String userId){
+        return bfdao.getFLightByUserId(userId);
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
