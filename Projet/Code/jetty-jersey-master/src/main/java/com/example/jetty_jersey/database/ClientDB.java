@@ -565,6 +565,24 @@ public class ClientDB {
     /*Return a list a flight by specific Aerodrom(departure or arrival)*/
     public ArrayList<Flight> getFlights(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception{
         int cNull = 0;
+        String dep = null;
+        String arr = null;
+        String date = null;
+        String type = null;
+        String price = null;
+        String seats = null;
+        if(departureAerodromSearched != null)
+            dep = departureAerodromSearched.toLowerCase();
+        if(arrivalAerodromSearched != null)
+            arr = arrivalAerodromSearched.toLowerCase();
+        if(dateSearched != null)
+            date = dateSearched.toLowerCase();
+        if(typeSearched != null)
+            type = typeSearched.toLowerCase();
+        if(priceSearched != null)
+            price = priceSearched.toLowerCase();
+        if(seatsSearched != null)
+            seats = seatsSearched.toLowerCase();
         if(departureAerodromSearched == null) cNull++;
         if(arrivalAerodromSearched == null) cNull++;
         if(dateSearched == null) cNull++;
@@ -572,12 +590,12 @@ public class ClientDB {
         if(priceSearched == null) cNull++;
         if(seatsSearched == null) cNull++;
         if(cNull == 6) return allFlight();
-        else if(cNull == 5) return auxFlights1(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
-        else if(cNull == 4) return auxFlights2(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
-        else if(cNull == 3) return auxFlights3(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
-        else if(cNull == 2) return auxFlights4(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
-        else if(cNull == 1) return auxFlights5(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
-        else return auxFlights6(departureAerodromSearched, arrivalAerodromSearched, dateSearched, typeSearched, priceSearched, seatsSearched);
+        else if(cNull == 5) return auxFlights1(dep,arr,date,type,price,seats);
+        else if(cNull == 4) return auxFlights2(dep,arr,date,type,price,seats);
+        else if(cNull == 3) return auxFlights3(dep,arr,date,type,price,seats);
+        else if(cNull == 2) return auxFlights4(dep,arr,date,type,price,seats);
+        else if(cNull == 1) return auxFlights5(dep,arr,date,type,price,seats);
+        else return auxFlights6(dep,arr,date,type,price,seats);
     }
 
     //Search function for one argument
