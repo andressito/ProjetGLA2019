@@ -94,36 +94,37 @@
 				    	</div>
 				    	<br>
 				    	<div class="daschboardContent" id="view-profile" style="display: none;">
-				    		<h1>View your profile </h1>
-				    		<h2>Full name : André Kény </h2>
-				    		<h3>Role : Pilot /Passenger</h3>
-				    		<h3>Status : Verified / not verified</h3>
-				    		<h3>Anonymous : On/Off</h3>
-				    		<h3>Joined ChuChuFly in : December 2019</h3>
+				    		<h1>Your profile data </h1>
+				    		<h3 id="dash-fname">Firstname : </h3>
+				    		<h3 id="dash-lname">Lastname : </h3>
+							<h3 id="dash-role">Role : </h3>
+				    		<h3 id="dash-status">Status : not verified</h3>
+				    		<h3 id="dash-anonymous">Anonymous : On/Off</h3>
+							<h3 id="dash-email">email : </h3>
+							<h3 id="dash-gsm">GSM : </h3>
+				    		<h3 id="dash-date">Birth date : </h3>
 
 				    	</div>
-				    	<div class="daschboardContent" id="edit-profile" style="display: none;">	
+				    	<div class="daschboardContent" id="edit-profile" style="display: none;">
 				    		<h1>Edit your profile </h1>
-				    		<label for="dashboard-title">Title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				    		<input class="dashboardInput" id="dashboard-title" type="text" name="title" value="Mr">
+				    		<label for="edit-fname">Firstname</label>
+				    		<input class="dashboardInput" id="edit-fname" type="text" name="FirstName">
 				    		<br>
-				    		<label for="dashboard-fname">FirstName</label>
-				    		<input class="dashboardInput" type="text" name="FirstName" id="dashboard-fname" Value="André">
+				    		<label for="edit-lname">LastName</label>
+				    		<input class="dashboardInput" type="text" name="LastName" id="edit-lname" >
 				    		<br>
-				    		<label for="dashboard-lname">LastName</label>
-				    		<input class="dashboardInput" id="dashboard-lname" type="text" name="LastName" value="Kény">
+				    		<label for="edit-email">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				    		<input class="dashboardInput" id="edit-email" type="text" name="email" >
 				    		<br>
-				    		<label for="dashboard-location">Location&nbsp;&nbsp;</label>
-				    		<input class="dashboardInput" type="text" name="Location" id="dashboard-location" value="Paris">
-				    		<br>
-				    		<label for="dashboard-bdate">Birthdate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				    		<input class="dashboardInput" type="date" name="BirthDate" id="dashboard-bdate" value="12/08/1998">
+				    		<label for="edit-gsm">gsm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				    		<input class="dashboardInput" type="text" name="gsm" id="edit-gsm">
 				    		<br>
 				    		<br>
-							<a class="btn-save"> Save </a>
-							<a class="btn-cancel"> Cancel </a>
+				    		<br>
+							<a class="btn-save" onclick="update()"> Save </a>
+							<a class="btn-cancel" onClick="cancel()"> Cancel </a>
 				    	</div>
-				    	<div class="daschboardContent" id="profile-settings" style="display: none;"> 
+				    	<div class="daschboardContent" id="profile-settings" style="display: none;">
 				    		<h1>Profile settings</h1>
 				    		<h2>Update your password</h2>
 				    		<label for="old-password">Old password</label>
@@ -138,8 +139,8 @@
 				    		<h2>Make your profile private</h2>
 				    		<br>
 				    		<br>
-				    		<a class="btn-save"> Save </a>
-							<a class="btn-cancel"> Cancel </a>
+				    		<a class="btn-save" onclick="update()"> Save </a>
+							<a class="btn-cancel" onclick="cancel()"> Cancel </a>
 				    	</div>
 				    	<div class="daschboardContent" id="verify-profile" style="display: none;">
 				    		<h3>Verify your identity
@@ -155,16 +156,16 @@
 				    		<input class="dashboardInput" type="file" name="report" id="report" value="Medical report" class="inputFileu">
 				    		</h3>
 				    		<br>
-				    		<a class="btn-save"> Save </a>
-							<a class="btn-cancel"> Cancel </a>
+				    		<a class="btn-save" onclick="save_files()"> Save </a>
+							<a class="btn-cancel" onclick="cancel()"> Cancel </a>
 				    	</div>
 				    	<div class="daschboardContent" id="delete-profile" style="display: none;">
 				    		<br>
 				    		<h2>Do you really wanna quit ChuChuFly community?</h2>
 				    		<h2>Delete your profile</h2>
 				    		<br><br>
-				    		<a class="btn-save"> Delete </a>
-							<a class="btn-cancel"> Cancel </a>
+				    		<a class="btn-save" onclick="delete_account()"> Delete </a>
+							<a class="btn-cancel" onclick="cancel()"> Cancel </a>
 				    	</div>
 				    	</center>
 				    </div>
