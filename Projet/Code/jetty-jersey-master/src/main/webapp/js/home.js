@@ -31,7 +31,36 @@ $(document).ready(function() {
                 cache: false,
                 dataType: "json"
             }).done(function (result) {
-                console.log(result);
+                if(result){
+                    var table=
+                        "<h2> Comming Flight</h2>"+
+                        "<table class=\"table\">"+
+                        "<thead>"+
+                        "<tr>" +
+                        "<td>Departure</td>"+
+                        "<td>Arrival</td>"+
+                        "<td>Date departure</td>"+
+                        "<td>Initial Seats</td>"+
+                        "<td>Remaining Seats</td>"+
+                        "<td>Details</td>"+
+                        "</tr>"+
+                        "</thead>"+
+                        "<tbody>"+
+                        "<tr class=\"success\">" +
+                        "<td>"+result['departureAerodrom']+"</td>"+
+                        "<td>"+result['arrivalAerodrom']+"</td>"+
+                        "<td>"+result['date']+"</td>"+
+                        "<td>"+result['remainingSeats']+"</td>"+
+                        "<td>"+result['remainingSeats']+"</td>"+
+                        "<td> <button value='"+result['flightId']+"' onclick='DetailsFLightHome'> Details</button></td>"+
+                        "</tr>"+
+                        "</tbody>"+
+                        "</table>";
+                    $("#flight").append(table);
+                }else{
+                    var table ="<h3> Pas de vol à venir</h3>";
+                    $("#flight").append(table);
+                }
 
             });
         }
