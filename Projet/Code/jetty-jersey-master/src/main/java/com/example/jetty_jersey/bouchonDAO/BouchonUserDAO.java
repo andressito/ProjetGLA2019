@@ -60,7 +60,9 @@ public class BouchonUserDAO implements UserDAO {
 
     public boolean updateUser(User user) {
         try{
-            
+            if(user.getUserId()!= null && user.getTypeUser()!=null && user.getFirstName()==null){
+                JettyMain.c.updateUserBecomePilot(user.getUserId(),"pilot");
+            }
             JettyMain.c.updateUserInIndex(user);
             
             return true;
@@ -97,4 +99,6 @@ public class BouchonUserDAO implements UserDAO {
         }
         return null;
     }
+
+
 }

@@ -359,7 +359,7 @@ public int getIdForUserBecomePilot(String userId) throws IOException {
         } else if(table.equals("licence")){
             Licence l = (Licence)o;
             jsonString ="{"+
-                    "\"licenceId\":\""+l.getLicenceId() +"\"," +
+                    "\"licenceId\":\""+createId(5) +"\"," +
                     "\"userId\":\""+l.getUserId()+"\"," +
                     "\"validityDate\":\""+l.getValidityDate()+"\"," +
                     "\"mark\":\""+l.getMark()+"\"," +
