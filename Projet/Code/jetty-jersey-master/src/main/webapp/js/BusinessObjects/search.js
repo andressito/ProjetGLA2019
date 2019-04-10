@@ -14,6 +14,11 @@ $(document).ready(function() {
     }
 });
 
+function detailsFlight(flightId) {
+    console.log(flightId);
+    $("#flightList").remove();
+}
+
 function getFlightList2(){
     //recupération reussie
     var dpAero = sessionStorage.getItem("departureAerodrome");
@@ -31,17 +36,13 @@ function getFlightList2(){
     }).done(function (result) {
         var len = result.length;
         for(var i=0; i<len; i++){
-            var flightId = result[i].flightId;
-            var atcNumber = result[i].atcNumber;
-            var departureAerodrom = result[i].departureAerodrom;
-            var date = result[i].date;
-            var departureTime = result[i].departureTime;
-            var type = result[i].type;
-            var arrivalAerodrom = result[i].arrivalAerodrom;
-            var arrivalTime = result[i].arrivalTime;
-            var price = result[i].price;
-            var userId = result[i].userId;
-            var nameUser;
+            const flightId = result[i].flightId;
+            const departureAerodrom = result[i].departureAerodrom;
+            const type = result[i].type;
+            const arrivalAerodrom = result[i].arrivalAerodrom;
+            const remainingSeats= result[i].remainingSeats;
+            const price = result[i].price;
+            const userId = result[i].userId;
             $.ajax({
                 url: "http://localhost:8080/ws/user/users/"+userId,
                 type: "GET",
@@ -49,22 +50,21 @@ function getFlightList2(){
                 cache: false,
                 dataType: "json"
             }).done(function (result) {
-                sessionStorage.setItem("nameUserSearch",result['firstName']);
+                var tr_str =
+                    '<div class="col-md-3" ><div class="price-box">'+
+                    '<h2 class="pricing-plan">' + type + '</h2>' +
+                    '<div class="price"><sup class="currency">€</sup>' + price + '<small>/seat</small></div>' +
+                    '<p> From :' + departureAerodrom + '</p>' +
+                    '<p> To :' + arrivalAerodrom+ '</p>' +
+                    '<p> Remaining Seats :' + remainingSeats+ '</p>' +
+                    '<p> Pilot :' + result["firstName"] + '</p>' +
+                    '<h6 id="idFlight1"> &#x2605; &#x2605; &#x2606; &#x2606; &#x2606; </h6>' +
+                    '<a class="btn btn-select-plan btn-sm"   onclick="detailsFlight(\'' + flightId + '\');" >Details</a>' +
+                    '</div></div>';
+                $("#flightList").append(tr_str);
             });
-            console.log(sessionStorage.getItem("nameUserSearch"));
-            var tr_str =
-                "<div class='col-md-3' ><div class='price-box'>"+
-                "<h2 class='pricing-plan'>" + type + "</h2>" +
-                "<div class='price'><sup class='currency'>€</sup>" + price + "<small>/seat</small></div>" +
-                "<p> From :" + departureAerodrom + "</p>" +
-                "<p> To :" + arrivalAerodrom+ "</p>" +
-                "<p> Pilot :" + sessionStorage.getItem("nameUserSearch") + "</p>" +
-                "<h6 id='idFlight1'> &#x2605; &#x2605; &#x2606; &#x2606; &#x2606; </h6>" +
-                "<a class='btn btn-select-plan btn-sm' onclick='detailsFlight("+ flightId +")' >Details</a>" +
-                "</div></div>";
-            $("#flightList").append(tr_str);
 
         }
-        sessionStorage.removeItem("nameUserSearch");
+
     });
 }
