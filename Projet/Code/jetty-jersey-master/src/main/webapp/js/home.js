@@ -7,6 +7,8 @@ $(document).ready(function() {
             firstName = sessionStorage.getItem("firstName");
             typeUser =sessionStorage.getItem("typeUser");
             userId = sessionStorage.getItem("userId");
+            sessionStorage.removeItem("departureAerodrome");
+            sessionStorage.removeItem("departureDate");
         }else{
             firstName = localStorage.getItem("firstName");
             typeUser =localStorage.getItem("typeUser");
