@@ -3,6 +3,7 @@ package com.example.jetty_jersey.database;
 
 import com.example.jetty_jersey.classes.*;
 
+import com.sun.corba.se.spi.ior.ObjectKey;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.DocWriteResponse;
@@ -10,6 +11,7 @@ import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -191,71 +193,118 @@ public class ClientDB {
 
     /*Get the id of the table using a instance of the table*/
     public int getIdForFlight(Flight f) throws IOException{
+        /*
         SearchHit[] tab = arrayTable("flight");
         for(SearchHit sh : tab){
             int i = Integer.parseInt(sh.getId());
             Map<String, Object> map = sh.getSourceAsMap();
             if(f.getFlightId().equals(map.get("flightId"))) return i;
+        }*/
+        for(int i = 0; i <= idMaxFlight; i++){
+            Map<String, Object> map = getById("flight",""+i);
+            if(map != null) {
+                if(f.getFlightId().equals(map.get("flightId"))) return i;
+            }
         }
         return -1;
     }
 
     public int getIdForLicence(Licence l) throws IOException{
-        SearchHit[] tab = arrayTable("licence");
+        /*SearchHit[] tab = arrayTable("licence");
         for(SearchHit sh : tab){
             int i = Integer.parseInt(sh.getId());
             Map<String, Object> map = sh.getSourceAsMap();
             if(l.getLicenceId().equals(map.get("licenceId"))) return i;
+        }*/
+        for(int i = 0; i <= idMaxLicence; i++){
+            Map<String, Object> map = getById("licence",""+i);
+            if(map != null) {
+                if(l.getLicenceId().equals(map.get("licenceId"))) return i;
+            }
         }
         return -1;
     }
 
     public int getIdForMessage(Message m) throws IOException{
-        SearchHit[] tab = arrayTable("message");
+        /*SearchHit[] tab = arrayTable("message");
         for(SearchHit sh : tab){
             int i = Integer.parseInt(sh.getId());
             Map<String, Object> map = sh.getSourceAsMap();
             if(m.getMessageId().equals(map.get("messageId"))) return i;
+        }*/
+        for(int i = 0; i <= idMaxMessage; i++){
+            Map<String, Object> map = getById("message",""+i);
+            if(map != null) {
+                if(m.getMessageId().equals(map.get("messageId"))) return i;
+            }
         }
         return -1;
     }
 
     public int getIdForPlane(Plane p) throws IOException {
+        /*
         SearchHit[] tab = arrayTable("plane");
         for (SearchHit sh : tab) {
             int i = Integer.parseInt(sh.getId());
             Map<String, Object> map = sh.getSourceAsMap();
             if (p.getAtcNumber().equals(map.get("atcNumber"))) return i;
+        }*/
+        for(int i = 0; i <= idMaxPlane; i++){
+            Map<String, Object> map = getById("plane",""+i);
+            if(map != null) {
+                if (p.getAtcNumber().equals(map.get("atcNumber"))) return i;
+            }
         }
         return -1;
     }
 
     public int getIdForReservation(Reservation r) throws IOException {
+        /*
         SearchHit[] tab = arrayTable("reservation");
         for (SearchHit sh : tab) {
             int i = Integer.parseInt(sh.getId());
             Map<String, Object> map = sh.getSourceAsMap();
             if (r.getReservationId().equals(map.get("reservationId"))) return i;
+        }*/
+        for(int i = 0; i <= idMaxReservation; i++){
+            Map<String, Object> map = getById("reservation",""+i);
+            if(map != null) {
+                if (r.getReservationId().equals(map.get("reservationId"))) return i;
+            }
         }
         return -1;
     }
 
     public int getIdForUser(User u) throws IOException {
+        /*
         SearchHit[] tab = arrayTable("user");
         for (SearchHit sh : tab) {
             int i = Integer.parseInt(sh.getId());
             Map<String, Object> map = sh.getSourceAsMap();
             if (u.getUserId().equals(map.get("userId"))) return i;
+        }*/
+        for(int i = 0; i <= idMaxUser; i++){
+            Map<String, Object> map = getById("user",""+i);
+            if(map != null) {
+                if (u.getUserId().equals(map.get("userId"))) return i;
+            }
         }
         return -1;
     }
 
     public int getIdForUserBecomePilot(String userId) throws IOException {
+        /*
         SearchHit[] tab = arrayTable("user");
         for (SearchHit sh : tab) {
             int i = Integer.parseInt(sh.getId());
             Map<String, Object> map = sh.getSourceAsMap();
             if (userId.equals(map.get("userId"))) return i;
+        }*/
+        for(int i = 0; i <= idMaxUser; i++){
+            Map<String, Object> map = getById("user",""+i);
+            if(map != null) {
+                if (userId.equals(map.get("userId"))) return i;
+            }
         }
         return -1;
     }
@@ -307,23 +356,45 @@ public class ClientDB {
         return list;
     }
 
+    /*Return true if the flight id already exists, false if not*/
+    public boolean ifFlightIdExist(String id) throws IOException {
+        for(int i = 0; i <= idMaxFlight; i++){
+            Map<String, Object> map = getById("flight",""+i);
+            if(map != null){
+                Flight f = createFlight(map);
+                if(f.getFlightId().equals(id)) return true;
+            }
+        }
+        return false;
+    }
+
     /*Return true if the user id already exists, false if not*/
     public boolean ifUserIdExist(String id) throws IOException {
+        for(int i = 0; i <= idMaxUser; i++){
+            Map<String, Object> map = getById("user",""+i);
+            if(map != null){
+                User u = createUser(map);
+                if(u.getUserId().equals(id)) return true;
+            }
+        }/*
         ArrayList<User> l = allUser();
         for(User u : l){
             if(u.getUserId().equals(id)) return true;
-        }
+        }*/
         return false;
     }
 
-    public boolean ifFlightIdExist(String id) throws IOException {
-        ArrayList<Flight> l = allFlight();
-        for(Flight f : l){
-            if(f.getFlightId().equals(id)) return true;
-        }
-        return false;
+    public Map<String, Object> getById(String table, String id) throws IOException {
+        GetRequest getRequest = new GetRequest(
+                table,
+                "info",
+                id);
+        GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
+        if (getResponse.isExists())
+            return getResponse.getSourceAsMap();
+        else
+            return null;
     }
-
     /*INDEX function*/
     /*The licence argument is for if the object is a user and if he is a pilot, else it's null*/
     /*----------------------------------------------------------------------------------------------------*/
@@ -490,18 +561,32 @@ public class ClientDB {
     /*Return the user using a specific email address*/
     /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
     public User getUserByEmail(String email) throws IOException{
-        ArrayList<User> l = allUser();
+        /*ArrayList<User> l = allUser();
         for (User u : l) {
             if(u.getEmail().equals(email)) return u;
+        }*/
+        for(int i = 0; i <= idMaxUser; i++){
+            Map<String, Object> map = getById("user",""+i);
+            if(map != null) {
+                User u = createUser(map);
+                if(u.getEmail().equals(email)) return u;
+            }
         }
         return null;
     }
 
     /*Return the user using a specific id*/
     public User getUserById(String id) throws IOException{
-        ArrayList<User> l = allUser();
+        /*ArrayList<User> l = allUser();
         for (User u : l) {
             if(u.getUserId().equals(id)) return u;
+        }*/
+        for(int i = 0; i <= idMaxUser; i++){
+            Map<String, Object> map = getById("user",""+i);
+            if(map != null) {
+                User u = createUser(map);
+                if(u.getUserId().equals(id)) return u;
+            }
         }
         return null;
     }
@@ -998,11 +1083,18 @@ public class ClientDB {
     }
 
     /*Get a specific value of a table by using an id(user,flight, etc)*/
-    public Map<String,Object> getLineTable(String table, String id) throws IOException {
-        ArrayList<Map<String,Object>> list = listMap(table);
+    public Map<String,Object> getLineTable(String table, String tableid) throws IOException {
+        /*ArrayList<Map<String,Object>> list = listMap(table);
         for(Map<String,Object> map : list){
-            if(map.containsValue(id))
+            if(map.containsValue(tableid))
                 return map;
+        }*/
+        int idmax = getIdMax1(table);
+        for(int i = 0; i <= idmax; i++){
+            Map<String, Object> map = getById(table,""+i);
+            if(map != null) {
+                if(map.containsValue(tableid)) return map;
+            }
         }
         return null;
     }
