@@ -32,6 +32,15 @@ public class BouchonFlightDAO implements FlightDAO {
         }
         return false;
     }
+    public boolean updateFlightReservation(String flightId, String remainingPlaces) {
+        try{
+            JettyMain.c.updateFlightRemainingPlaces(flightId,remainingPlaces);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public boolean deleteFlight(String planeId) {
         for(int i=0; i<liste.size(); i++){
             if(liste.get(i).getFlightId().equals(planeId)){

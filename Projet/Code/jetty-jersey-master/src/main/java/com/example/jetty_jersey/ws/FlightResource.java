@@ -54,10 +54,19 @@ public class FlightResource {
         return bfdao.updateFLight(flightId);
     }
 
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/flights/{remainingSeats}/{flightId}")
+    public boolean updateFlightReservation(@PathParam("flightId") String flightId,@PathParam("remainingSeats") String remainingSeats ){
+
+        return bfdao.updateFlightReservation(flightId,remainingSeats);
+    }
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/flights/{flightId}")
-    public boolean deleteFlight(@PathParam("flightId") String flightId){
+    public boolean deleteFlight(@PathParam("flightId") String flightId)
+    {
         return  bfdao.deleteFlight(flightId);
     }
 }

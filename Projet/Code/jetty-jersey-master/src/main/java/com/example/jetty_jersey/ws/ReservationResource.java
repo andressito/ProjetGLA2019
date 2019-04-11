@@ -1,27 +1,27 @@
 package com.example.jetty_jersey.ws;
 
+import com.example.jetty_jersey.bouchonDAO.BouchonReservationDAO;
 import com.example.jetty_jersey.classes.Reservation;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("reservation")
 public class ReservationResource {
-
+    public BouchonReservationDAO brDAO = new BouchonReservationDAO();
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/reservations")
     public List<Reservation> getAllReservation() {
-        return null;
+        return brDAO.getAllReservation();
     }
 
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public String createReservation() {
-        return "SUCCESS";
+    public boolean createReservation(Reservation reservation) {
+        return brDAO.createReservation(reservation);
     }
 
     @GET
