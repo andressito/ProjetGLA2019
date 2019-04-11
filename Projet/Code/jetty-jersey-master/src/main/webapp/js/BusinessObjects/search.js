@@ -15,8 +15,8 @@ $(document).ready(function() {
 });
 
 function detailsFlight(flightId) {
-    console.log(flightId);
-    $("#flightList").remove();
+    //window.location.href="http://localhost:8080/DetailsFlight.html/"+flightId;
+    //$("#flightList").remove();
     $.ajax({
         url: "http://localhost:8080/ws/flight/flights/"+flightId,
         type: "GET",
@@ -24,7 +24,9 @@ function detailsFlight(flightId) {
         cache: false,
         dataType: "json"
     }).done(function (result) {
-        const flightId = result['flightId'];
+        console.log(result);
+        $("#fh5co-hero").load("http://localhost:8080/DetailsFlight.html");
+        /*const flightId = result['flightId'];
         const departureAerodrom = result['departureAerodrom'];
         const type = result['type'];
         const arrivalAerodrom = result['arrivalAerodrom'];
@@ -34,8 +36,8 @@ function detailsFlight(flightId) {
         const dateFlight = result['date'];
         const departureTime= result['departureTime'];
         const arrivalTime= result['arrivalTime'];
-        console.log(departureAerodrom);
-        var tr_str =
+        console.log(departureAerodrom);*/
+        /*var tr_str =
             '<div class="col-md-3" ><div class="price-box">'+
             '<h2 class="pricing-plan">' + type + '</h2>' +
             '<div class="price"><sup class="currency">€</sup>' + price + '<small>/seat</small></div>' +
@@ -46,8 +48,8 @@ function detailsFlight(flightId) {
             '<h6 id="idFlight1"> &#x2605; &#x2605; &#x2606; &#x2606; &#x2606; </h6>' +
             '<a class="btn btn-select-plan btn-sm"   onclick="detailsFlight(\'' + flightId + '\');" >Details</a>' +
             '</div></div>';
-        $("#flightList").append(tr_str);
-        var ress =
+        $("#flightList").append(tr_str);*/
+        /*var ress =
             '<div class="col-md-5" ><div class="price-box">'+
             '<h2 class="pricing-plan">' + type + '</h2>' +
             '<div class="price"><sup class="currency">€</sup>' + price + '<small>/seat</small></div>' +
@@ -60,7 +62,7 @@ function detailsFlight(flightId) {
             '<p> Pilot :' +  + '</p>' +
             '<h6 id="idFlight1"> &#x2605; &#x2605; &#x2606; &#x2606; &#x2606; </h6>' +
             '<a class="btn btn-select-plan btn-sm"   onclick="detailsFlight(\'' + flightId + '\');" >Details</a>' +
-            '</div></div>';
+            '</div></div>';*/
     });
 
 }
