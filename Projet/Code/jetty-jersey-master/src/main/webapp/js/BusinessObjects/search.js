@@ -2,6 +2,11 @@ $(document).ready(function() {
     if(!localStorage.getItem("userId")){
         $("#menu").load('../Menu/Menu.html');
     }else{
+        if (localStorage.getItem("typeUser") == "passenger") {
+            $("#menu").load('../Menu/MenuPassenger.html');
+        } else {
+            $("#menu").load('../Menu/MenuPilot.html');
+        }
         if(document.getElementById('ArrivalA2')){
             if(document.getElementById('visit').checked){
                 document.getElementById('ArrivalA2').style.display='none';
@@ -10,14 +15,15 @@ $(document).ready(function() {
                 document.getElementById('ArrivalA2').style.display='inline';
             }
         }
-        $("#menu").load('../Menu/MenuPilot.html');
+        //sessionStorage.removeItem("saveIdFlight");
     }
 });
 
 function detailsFlight(flightId) {
-    //window.location.href="http://localhost:8080/DetailsFlight.html/"+flightId;
+    sessionStorage.setItem("saveIdFlight",flightId);
+    window.location.href="http://localhost:8080/DetailsFlight.html";
     //$("#flightList").remove();
-    $.ajax({
+    /*$.ajax({
         url: "http://localhost:8080/ws/flight/flights/"+flightId,
         type: "GET",
         contentType: "application/json",
@@ -62,8 +68,8 @@ function detailsFlight(flightId) {
             '<p> Pilot :' +  + '</p>' +
             '<h6 id="idFlight1"> &#x2605; &#x2605; &#x2606; &#x2606; &#x2606; </h6>' +
             '<a class="btn btn-select-plan btn-sm"   onclick="detailsFlight(\'' + flightId + '\');" >Details</a>' +
-            '</div></div>';*/
-    });
+            '</div></div>';
+    });*/
 
 }
 

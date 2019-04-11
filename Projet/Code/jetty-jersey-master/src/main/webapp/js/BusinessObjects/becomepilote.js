@@ -1,28 +1,27 @@
 $(document).ready(function() {
-if(localStorage.getItem("userId")){
-$("#menu").load('../Menu/MenuPilot.html');
-    $.ajax({
-                url: "http://localhost:8080/ws/user/users/"+localStorage.getItem("userId"),
-                type: "GET",
-                contentType: "application/json",
-                cache: false,
-                dataType: "json"
-                }).done(function (result) {
-                    var test = result;
-
-
-
-                var firstName = result['firstName'];
-                 $("#firstnam").val(""+firstName);
-                 var lastName = result['lastName'];
-                  $("#lastnam").val(""+lastName);
-                  var birthDate = result['birthDate'];
-                  $("#birt").val(""+birthDate);
-                });
+    if(localStorage.getItem("userId")){
+        if (localStorage.getItem("typeUser") === "passenger") {
+            $("#menu").load('../Menu/MenuPassenger.html');
+            console.log("passenger");
+        } else {
+            $("#menu").load('../Menu/MenuPilot.html');
+        }
+        $.ajax({
+            url: "http://localhost:8080/ws/user/users/"+localStorage.getItem("userId"),
+            type: "GET",
+            contentType: "application/json",
+            cache: false,
+            dataType: "json"
+        }).done(function (result) {
+            var firstName = result['firstName'];
+            $("#firstnam").val(""+firstName);
+            var lastName = result['lastName'];
+            $("#lastnam").val(""+lastName);
+            var birthDate = result['birthDate'];
+            $("#birt").val(""+birthDate);
+        });
 
     }
-
-
 });
 function becomepilot(){
     var firstName=$("#firstnam").val();
@@ -86,26 +85,3 @@ function becomepilot(){
         });
     }
 }
-$(document).ready(function() {
-if(localStorage.getItem("userId")){
-$("#menu").load('../Menu/MenuPilot.html');
-    $.ajax({
-                url: "http://localhost:8080/ws/user/users/"+localStorage.getItem("userId"),
-                type: "GET",
-                contentType: "application/json",
-                cache: false,
-                dataType: "json"
-                }).done(function (result) {
-                    var test = result;
-                var firstName = result['firstName'];
-                 $("#firstnam").val(""+firstName);
-                 var lastName = result['lastName'];
-                  $("#lastnam").val(""+lastName);
-                  var birthDate = result['birthDate'];
-                  $("#birt").val(""+birthDate);
-                });
-
-    }
-
-
-});
