@@ -4,16 +4,11 @@ import com.example.jetty_jersey.JettyMain;
 import com.example.jetty_jersey.classes.Licence;
 import com.example.jetty_jersey.classes.User;
 import com.example.jetty_jersey.dao.UserDAO;
-import com.example.jetty_jersey.database.ClientDB;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.elasticsearch.client.RestHighLevelClient;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class BouchonUserDAO implements UserDAO {
 

@@ -34,7 +34,7 @@ public class BouchonFlightDAO implements FlightDAO {
     }
     public boolean updateFlightReservation(String flightId, String remainingPlaces) {
         try{
-            JettyMain.c.updateFlightRemainingPlaces(flightId,remainingPlaces);
+            //JettyMain.c.updateFlightRemainingPlaces(flightId,remainingPlaces);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,8 +67,13 @@ public class BouchonFlightDAO implements FlightDAO {
         return liste;
     }
     public Flight getFlightDetails(String idFlight) {
-        for(int i=0; i<liste.size(); i++){
-            if(liste.get(i).getFlightId().equals(idFlight))return liste.get(i);
+        try {
+            ArrayList<Flight> listeFlight = JettyMain.c.allFlight();
+            for(int i=0; i<listeFlight.size(); i++){
+                if(listeFlight.get(i).getFlightId().equals(idFlight))return listeFlight.get(i);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }

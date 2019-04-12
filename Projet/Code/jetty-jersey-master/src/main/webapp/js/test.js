@@ -2,8 +2,6 @@ $(document).ready(function() {
     var firstName=localStorage.getItem("firstName");
     $("#Profile").html(firstName);
 });
-$(function(){
-
     $(function () {
         $("#signOut").click(function () {
             sessionStorage.clear();
@@ -16,4 +14,3 @@ $(function(){
             });
         });
     });
-});

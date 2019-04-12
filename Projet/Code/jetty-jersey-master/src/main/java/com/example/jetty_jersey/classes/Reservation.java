@@ -9,14 +9,13 @@ public class Reservation {
     public int price;
     public String status;
 
-
     public Reservation(){}
 
-    public Reservation(String reservationId,
+    public Reservation(
                        String userId,
                        String flightId,
                        String date, int nbPlaces ,int price, String status){
-        this.reservationId= reservationId;
+        this.reservationId= null;
         this.userId=userId;
         this.flightId = flightId;
         this.nbPlaces= nbPlaces;
