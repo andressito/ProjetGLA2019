@@ -23,6 +23,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -155,7 +156,7 @@ public class ClientDB {
 
 
     /*Return a table with all the table's lines values*/
-    public SearchHit[] arrayTable(String table) throws IOException{
+    private  SearchHit[] arrayTable(String table) throws IOException{
         if(ifTableExist(table)) {
             SearchRequest searchRequest = new SearchRequest(table);
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -169,6 +170,31 @@ public class ClientDB {
         return null;
     }
 
+    private SearchHit[] getByFieldValue(String table, String field, String value) throws IOException{
+        if(ifTableExist(table)) {
+            SearchRequest searchRequest = new SearchRequest(table);
+            SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+            MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder(field, value);
+            searchRequest.source(searchSourceBuilder.query(matchQueryBuilder));
+            SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+            SearchHits hits = searchResponse.getHits();
+            SearchHit[] searchHits = hits.getHits();
+            return searchHits;
+        }
+        return null;
+    }
+
+    private Map<String, Object> getById(String table, String id) throws IOException {
+        GetRequest getRequest = new GetRequest(
+                table,
+                "info",
+                id);
+        GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
+        if (getResponse.isExists())
+            return getResponse.getSourceAsMap();
+        else
+            return null;
+    }
 
     /*Take idMax of the specific table using the variables*/
     public int getIdMax1(String table){
@@ -191,7 +217,7 @@ public class ClientDB {
         return max;
     }
 
-    /*Get the id of the table using a instance of the table*/
+    /*Get the id of the line table using a instance of the table*/
     public int getIdForFlight(Flight f) throws IOException{
         /*
         SearchHit[] tab = arrayTable("flight");
@@ -200,12 +226,9 @@ public class ClientDB {
             Map<String, Object> map = sh.getSourceAsMap();
             if(f.getFlightId().equals(map.get("flightId"))) return i;
         }*/
-        for(int i = 0; i <= idMaxFlight; i++){
-            Map<String, Object> map = getById("flight",""+i);
-            if(map != null) {
-                if(f.getFlightId().equals(map.get("flightId"))) return i;
-            }
-        }
+        SearchHit[] sh = getByFieldValue("flight","flightId",f.getFlightId());
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
@@ -292,20 +315,46 @@ public class ClientDB {
         return -1;
     }
 
-    public int getIdForUserBecomePilot(String userId) throws IOException {
-        /*
-        SearchHit[] tab = arrayTable("user");
-        for (SearchHit sh : tab) {
-            int i = Integer.parseInt(sh.getId());
-            Map<String, Object> map = sh.getSourceAsMap();
-            if (userId.equals(map.get("userId"))) return i;
-        }*/
-        for(int i = 0; i <= idMaxUser; i++){
-            Map<String, Object> map = getById("user",""+i);
-            if(map != null) {
-                if (userId.equals(map.get("userId"))) return i;
-            }
-        }
+    /*Gets the table's line's id by matching with the id in argument*/
+    public int getIdForFlight(String flightId) throws IOException{
+        SearchHit[] sh = getByFieldValue("flight","flightId",flightId);
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
+        return -1;
+    }
+
+    public int getIdForLicence(String licenceId) throws IOException{
+        SearchHit[] sh = getByFieldValue("licence","licenceId",licenceId);
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
+        return -1;
+    }
+
+    public int getIdForMessage(String messageId) throws IOException {
+        SearchHit[] sh = getByFieldValue("message", "messageId", messageId);
+        if (sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
+        return -1;
+    }
+
+    public int getIdForPlane(String atcnumber) throws IOException {
+            SearchHit[] sh = getByFieldValue("plane","atcNumber",atcnumber);
+            if(sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+            return -1;
+    }
+
+    public int getIdForReservation(String reservationId) throws IOException {
+        SearchHit[] sh = getByFieldValue("reservation","reservationId",reservationId);
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
+        return -1;
+    }
+
+    private int getIdForUser(String userId) throws IOException {
+        SearchHit[] sh = getByFieldValue("user","userId",userId);
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
@@ -384,17 +433,7 @@ public class ClientDB {
         return false;
     }
 
-    public Map<String, Object> getById(String table, String id) throws IOException {
-        GetRequest getRequest = new GetRequest(
-                table,
-                "info",
-                id);
-        GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
-        if (getResponse.isExists())
-            return getResponse.getSourceAsMap();
-        else
-            return null;
-    }
+
     /*INDEX function*/
     /*The licence argument is for if the object is a user and if he is a pilot, else it's null*/
     /*----------------------------------------------------------------------------------------------------*/
@@ -1229,7 +1268,7 @@ public class ClientDB {
     }
 
     public boolean updateUserBecomePilot(String userId,String typeUser) throws Exception{
-        int id = getIdForUserBecomePilot(userId);
+        int id = getIdForUser(userId);
         UpdateRequest request = new UpdateRequest(
                 "user",
                 "info",
