@@ -255,8 +255,10 @@ public class ClientDB {
 
     public int getIdForUser(User u) throws IOException {
         SearchHit[] sh = getByFieldValue("user","userId",u.getUserId());
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
@@ -353,8 +355,10 @@ public class ClientDB {
     /*Return true if the flight id already exists, false if not*/
     public boolean ifFlightIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("flight","flightId",id);
-        if(sh.length != 0)
-            return true;
+        if(sh != null) {
+            if (sh.length != 0)
+                return true;
+        }
         return false;
     }
 
@@ -377,24 +381,30 @@ public class ClientDB {
     /*Return true if the flight id already exists, false if not*/
     public boolean ifPlaneIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("plane","planeId",id);
-        if(sh.length != 0)
-            return true;
+        if(sh != null) {
+            if (sh.length != 0)
+                return true;
+        }
         return false;
     }
 
     /*Return true if the flight id already exists, false if not*/
     public boolean ifReservationIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("reservation","reservationId",id);
-        if(sh.length != 0)
-            return true;
+        if(sh != null) {
+            if (sh.length != 0)
+                return true;
+        }
         return false;
     }
 
     /*Return true if the user id already exists, false if not*/
     public boolean ifUserIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("user","userId",id);
-        if(sh.length != 0)
-            return true;
+        if(sh != null) {
+            if (sh.length != 0)
+                return true;
+        }
         return false;
     }
 
@@ -466,8 +476,8 @@ public class ClientDB {
             r.setReservationId(tmpId);
             jsonString ="{"+
                     "\"reservationId\":\""+r.getReservationId()+"\"," +
-                    "\"userId\":\""+r.getFlightId()+"\"," +
-                    "\"flightId\":\""+r.getUserId() +"\"," +
+                    "\"userId\":\""+r.getUserId()+"\"," +
+                    "\"flightId\":\""+r.getFlightId()+"\"," +
                     "\"nbPlaces\":\""+r.getNbPlaces() +"\"," +
                     "\"date\":\""+r.getDate()+"\"," +
                      "\"price\":\""+r.getPrice()+"\"," +
@@ -602,6 +612,9 @@ public class ClientDB {
                 if(u.getUserId().equals(id)) return u;
             }
         }*/
+        SearchHit[] sh = getByFieldValue("user","userId",id);
+        if(sh.length != 0)
+            return createUser(sh[0].getSourceAsMap());
         return null;
     }
 
@@ -701,7 +714,7 @@ public class ClientDB {
     private ArrayList<Flight> auxFlights1(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception{
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
-        ArrayList<Map<String,Object>> mapList = listMap("flight");
+        /*ArrayList<Map<String,Object>> mapList = listMap("flight");
         for (Map<String, Object> map : mapList) {
             if (departureAerodromSearched != null) {
                 if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
@@ -734,7 +747,7 @@ public class ClientDB {
                     list.add(createFlight(map));
                 //Search with seats
             }
-        }
+        }*/
         if(list.size() == 0) return listAfterDate;
         return list;
     }
@@ -1120,6 +1133,28 @@ public class ClientDB {
             if(!r.getUserId().equals(userId)) l.remove(r);
         }
         return l;
+    }
+
+    public int getIdForFlightRemainingPlaces(String flightId) throws IOException {
+        SearchHit[] tab = arrayTable("flight");
+        for (SearchHit sh : tab) {
+            int i = Integer.parseInt(sh.getId());
+            Map<String, Object> map = sh.getSourceAsMap();
+            if (flightId.equals(map.get("flightId"))) return i;
+        }
+        return -1;
+    }
+    public boolean updateFlightRemainingPlaces(String flightId,String remainingPlaces) throws Exception{
+        int id = getIdForFlightRemainingPlaces(flightId);
+        System.out.println(id+"ddddddddd"+remainingPlaces);
+        UpdateRequest request = new UpdateRequest(
+                "flight",
+                "info",
+                ""+id);
+        String jsonString = "{" +
+                "\"remainingSeats\":\""+Integer.parseInt(remainingPlaces)+"\"" +
+                "}";
+        return updateCheck(request, jsonString);
     }
 
     /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
