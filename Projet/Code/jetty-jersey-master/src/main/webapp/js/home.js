@@ -17,7 +17,7 @@ $(document).ready(function() {
             sessionStorage.setItem("firstName",firstName);
             sessionStorage.setItem("userId",userId);
         }
-        if(typeUser=="passenger"){
+        if(typeUser==="passenger"){
             console.log("passenger");
             $("#menu").load('../Menu/MenuPassenger.html');
             document.getElementById('search').style.display='inline';

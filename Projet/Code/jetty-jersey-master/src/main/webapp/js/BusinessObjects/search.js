@@ -2,21 +2,13 @@ $(document).ready(function() {
     if(!localStorage.getItem("userId")){
         $("#menu").load('../Menu/Menu.html');
     }else{
-        if (localStorage.getItem("typeUser") == "passenger") {
+        if (localStorage.getItem("typeUser") === "passenger") {
             $("#menu").load('../Menu/MenuPassenger.html');
         } else {
             $("#menu").load('../Menu/MenuPilot.html');
         }
-        if(document.getElementById('ArrivalA2')){
-            if(document.getElementById('visit').checked){
-                document.getElementById('ArrivalA2').style.display='none';
-            }
-            else{
-                document.getElementById('ArrivalA2').style.display='inline';
-            }
-        }
-        //sessionStorage.removeItem("saveIdFlight");
     }
+    getFlightList2();
 });
 
 function detailsFlight(flightId) {
