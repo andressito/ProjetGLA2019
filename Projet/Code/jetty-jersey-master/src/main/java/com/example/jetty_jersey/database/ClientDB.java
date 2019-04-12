@@ -585,9 +585,10 @@ public class ClientDB {
             if(u.getEmail().equals(email)) return u;
         }*/
         SearchHit[] sh = getByFieldValue("user","email",email);
-        if(sh.length != 0)
-            return createUser(sh[0].getSourceAsMap());
-        /*
+        if(sh != null) {
+            if (sh.length != 0)
+                return createUser(sh[0].getSourceAsMap());
+        }/*
         for(int i = 0; i <= idMaxUser; i++){
             Map<String, Object> map = getById("user",""+i);
             if(map != null) {
@@ -613,8 +614,10 @@ public class ClientDB {
             }
         }*/
         SearchHit[] sh = getByFieldValue("user","userId",id);
-        if(sh.length != 0)
-            return createUser(sh[0].getSourceAsMap());
+        if(sh != null) {
+            if (sh.length != 0)
+                return createUser(sh[0].getSourceAsMap());
+        }
         return null;
     }
 
