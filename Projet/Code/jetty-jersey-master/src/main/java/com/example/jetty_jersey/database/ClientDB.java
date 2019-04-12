@@ -219,13 +219,6 @@ public class ClientDB {
 
     /*Get the id of the line table using a instance of the table*/
     public int getIdForFlight(Flight f) throws IOException{
-        /*
-        SearchHit[] tab = arrayTable("flight");
-        for(SearchHit sh : tab){
-            int i = Integer.parseInt(sh.getId());
-            Map<String, Object> map = sh.getSourceAsMap();
-            if(f.getFlightId().equals(map.get("flightId"))) return i;
-        }*/
         SearchHit[] sh = getByFieldValue("flight","flightId",f.getFlightId());
         if(sh.length != 0)
             return Integer.parseInt(sh[0].getId());
@@ -233,85 +226,37 @@ public class ClientDB {
     }
 
     public int getIdForLicence(Licence l) throws IOException{
-        /*SearchHit[] tab = arrayTable("licence");
-        for(SearchHit sh : tab){
-            int i = Integer.parseInt(sh.getId());
-            Map<String, Object> map = sh.getSourceAsMap();
-            if(l.getLicenceId().equals(map.get("licenceId"))) return i;
-        }*/
-        for(int i = 0; i <= idMaxLicence; i++){
-            Map<String, Object> map = getById("licence",""+i);
-            if(map != null) {
-                if(l.getLicenceId().equals(map.get("licenceId"))) return i;
-            }
-        }
+        SearchHit[] sh = getByFieldValue("licence","licenceId",l.getLicenceId());
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
     public int getIdForMessage(Message m) throws IOException{
-        /*SearchHit[] tab = arrayTable("message");
-        for(SearchHit sh : tab){
-            int i = Integer.parseInt(sh.getId());
-            Map<String, Object> map = sh.getSourceAsMap();
-            if(m.getMessageId().equals(map.get("messageId"))) return i;
-        }*/
-        for(int i = 0; i <= idMaxMessage; i++){
-            Map<String, Object> map = getById("message",""+i);
-            if(map != null) {
-                if(m.getMessageId().equals(map.get("messageId"))) return i;
-            }
-        }
+        SearchHit[] sh = getByFieldValue("message","messageId",m.getMessageId());
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
     public int getIdForPlane(Plane p) throws IOException {
-        /*
-        SearchHit[] tab = arrayTable("plane");
-        for (SearchHit sh : tab) {
-            int i = Integer.parseInt(sh.getId());
-            Map<String, Object> map = sh.getSourceAsMap();
-            if (p.getAtcNumber().equals(map.get("atcNumber"))) return i;
-        }*/
-        for(int i = 0; i <= idMaxPlane; i++){
-            Map<String, Object> map = getById("plane",""+i);
-            if(map != null) {
-                if (p.getAtcNumber().equals(map.get("atcNumber"))) return i;
-            }
-        }
+        SearchHit[] sh = getByFieldValue("plane","atcNumber",p.getAtcNumber());
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
     public int getIdForReservation(Reservation r) throws IOException {
-        /*
-        SearchHit[] tab = arrayTable("reservation");
-        for (SearchHit sh : tab) {
-            int i = Integer.parseInt(sh.getId());
-            Map<String, Object> map = sh.getSourceAsMap();
-            if (r.getReservationId().equals(map.get("reservationId"))) return i;
-        }*/
-        for(int i = 0; i <= idMaxReservation; i++){
-            Map<String, Object> map = getById("reservation",""+i);
-            if(map != null) {
-                if (r.getReservationId().equals(map.get("reservationId"))) return i;
-            }
-        }
+        SearchHit[] sh = getByFieldValue("reservation","reservationId",r.getReservationId());
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
     public int getIdForUser(User u) throws IOException {
-        /*
-        SearchHit[] tab = arrayTable("user");
-        for (SearchHit sh : tab) {
-            int i = Integer.parseInt(sh.getId());
-            Map<String, Object> map = sh.getSourceAsMap();
-            if (u.getUserId().equals(map.get("userId"))) return i;
-        }*/
-        for(int i = 0; i <= idMaxUser; i++){
-            Map<String, Object> map = getById("user",""+i);
-            if(map != null) {
-                if (u.getUserId().equals(map.get("userId"))) return i;
-            }
-        }
+        SearchHit[] sh = getByFieldValue("user","userId",u.getUserId());
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
@@ -407,29 +352,49 @@ public class ClientDB {
 
     /*Return true if the flight id already exists, false if not*/
     public boolean ifFlightIdExist(String id) throws IOException {
-        for(int i = 0; i <= idMaxFlight; i++){
-            Map<String, Object> map = getById("flight",""+i);
-            if(map != null){
-                Flight f = createFlight(map);
-                if(f.getFlightId().equals(id)) return true;
-            }
-        }
+        SearchHit[] sh = getByFieldValue("flight","flightId",id);
+        if(sh.length != 0)
+            return true;
+        return false;
+    }
+
+    /*Return true if the licence id already exists, false if not*/
+    public boolean ifLicenceIdExist(String id) throws IOException {
+        SearchHit[] sh = getByFieldValue("licence","licenceid",id);
+        if(sh.length != 0)
+            return true;
+        return false;
+    }
+
+    /*Return true if the flight id already exists, false if not*/
+    public boolean ifMessageIdExist(String id) throws IOException {
+        SearchHit[] sh = getByFieldValue("message","messageId",id);
+        if(sh.length != 0)
+            return true;
+        return false;
+    }
+
+    /*Return true if the flight id already exists, false if not*/
+    public boolean ifPlaneIdExist(String id) throws IOException {
+        SearchHit[] sh = getByFieldValue("plane","planeId",id);
+        if(sh.length != 0)
+            return true;
+        return false;
+    }
+
+    /*Return true if the flight id already exists, false if not*/
+    public boolean ifReservationIdExist(String id) throws IOException {
+        SearchHit[] sh = getByFieldValue("reservation","reservationId",id);
+        if(sh.length != 0)
+            return true;
         return false;
     }
 
     /*Return true if the user id already exists, false if not*/
     public boolean ifUserIdExist(String id) throws IOException {
-        for(int i = 0; i <= idMaxUser; i++){
-            Map<String, Object> map = getById("user",""+i);
-            if(map != null){
-                User u = createUser(map);
-                if(u.getUserId().equals(id)) return true;
-            }
-        }/*
-        ArrayList<User> l = allUser();
-        for(User u : l){
-            if(u.getUserId().equals(id)) return true;
-        }*/
+        SearchHit[] sh = getByFieldValue("user","userId",id);
+        if(sh.length != 0)
+            return true;
         return false;
     }
 
@@ -495,6 +460,10 @@ public class ClientDB {
                     "}";
         } else if(table.equals("reservation")){
             Reservation r = (Reservation)o;
+            String tmpId = createId(6);
+            while(ifReservationIdExist(tmpId))
+                tmpId = createId(6);
+            r.setReservationId(tmpId);
             jsonString ="{"+
                     "\"reservationId\":\""+r.getReservationId()+"\"," +
                     "\"userId\":\""+r.getFlightId()+"\"," +
@@ -584,9 +553,10 @@ public class ClientDB {
     }
 
     public Reservation createReservation(Map<String,Object> map){
-        Reservation r = new Reservation(map.get("reservationId").toString(),map.get("userId").toString(),map.get("flightId").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Double.parseDouble(map.get("price").toString()),map.get("status").toString());
-        //r.setDate(map.get("date").toString());
+        Reservation r = new Reservation(map.get("userId").toString(),map.get("flightId").toString(),map.get("date").toString(),Integer.parseInt(map.get("nbPlaces").toString()),Integer.parseInt(map.get("price").toString()),map.get("status").toString());
+        r.setReservationId(map.get("reservationId").toString());
         return r;
+
     }
 
     public User createUser(Map<String,Object> map){
@@ -604,13 +574,17 @@ public class ClientDB {
         for (User u : l) {
             if(u.getEmail().equals(email)) return u;
         }*/
+        SearchHit[] sh = getByFieldValue("user","email",email);
+        if(sh.length != 0)
+            return createUser(sh[0].getSourceAsMap());
+        /*
         for(int i = 0; i <= idMaxUser; i++){
             Map<String, Object> map = getById("user",""+i);
             if(map != null) {
                 User u = createUser(map);
                 if(u.getEmail().equals(email)) return u;
             }
-        }
+        }*/
         return null;
     }
 
@@ -620,13 +594,14 @@ public class ClientDB {
         for (User u : l) {
             if(u.getUserId().equals(id)) return u;
         }*/
+        /*
         for(int i = 0; i <= idMaxUser; i++){
             Map<String, Object> map = getById("user",""+i);
             if(map != null) {
                 User u = createUser(map);
                 if(u.getUserId().equals(id)) return u;
             }
-        }
+        }*/
         return null;
     }
 
