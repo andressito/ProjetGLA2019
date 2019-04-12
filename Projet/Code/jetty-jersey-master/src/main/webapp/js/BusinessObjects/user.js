@@ -69,18 +69,18 @@ function fenvoi() {
         return false;
     }
 
-    var birth= $("#birthDate").val();
-    var d = new Date();
-    var month = d.getMonth()+1;
-    var day = d.getDate();
-    var output = d.getFullYear() + '/' +(month<10 ? '0' : '') + month + '/' +(day<10 ? '0' : '') + day;
-    var passe1= $("#password").val();
-    var passe2= $("#passwordConfirm").val();
-    var longueurp1 = passe1.length;
-    var d1=Date.parse(birth);
-    var d2=Date.parse(output);
-    var tmp=d2-d1;
-    var days = Math.floor(tmp / 31536000000);
+    const birth= $("#birthDate").val();
+    const d = new Date();
+    const month = d.getMonth()+1;
+    const day = d.getDate();
+    const output = d.getFullYear() + '/' +(month<10 ? '0' : '') + month + '/' +(day<10 ? '0' : '') + day;
+    const passe1= $("#password").val();
+    const passe2= $("#passwordConfirm").val();
+    const longueurp1 = passe1.length;
+    const d1=Date.parse(birth);
+    const d2=Date.parse(output);
+    const tmp=d2-d1;
+    const days = Math.floor(tmp / 31536000000);
     if(passe1 != passe2) {
         swal({
             title: "ChuChuFly!",
@@ -121,17 +121,17 @@ function fenvoi() {
 }
 
 function addPassenger(){
-    var fistName=$("#firstName").val();
-    var lastName=$("#lastName").val();
-    var bithDate=$("#birthDate").val();
-    var email=$("#email").val();
-    var gsm=$("#gsm").val();
-    var password=$("#password").val();
-    var type="passenger";
-    var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
+    const fistName=$("#firstName").val();
+    const lastName=$("#lastName").val();
+    const bithDate=$("#birthDate").val();
+    const email=$("#email").val();
+    const gsm=$("#gsm").val();
+    const password=$("#password").val();
+    const type="passenger";
+    const user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
     "\""+bithDate+"\" , \"email\":\""+email+"\", \"gsm\":\""+gsm+", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
-    var licence='{ "licenceId": "null"}';
-    var combinedObj = {};
+    const licence='{ "licenceId": "null"}';
+    const combinedObj = {};
     combinedObj["user"] = user;
     combinedObj["licence"] = licence;
     $.ajax({
@@ -142,9 +142,6 @@ function addPassenger(){
         cache: false,
         dataType: "json"
     }).done(function (result) {
-
-    }).success(function (result) {
-        if(result) {
             if (result) {
                 $.ajax({
                     url: "http://localhost:8080/ws/user/users/email/"+email,
@@ -153,8 +150,6 @@ function addPassenger(){
                     cache: false,
                     dataType: "json"
                 }).done(function (result) {
-                    var test = result;
-                    console.log(result['firstName']);
                     localStorage.setItem("firstName", result['firstName']);
                     sessionStorage.setItem("firstName", result['firstName']);
                     localStorage.setItem("userId", result['userId']);
@@ -170,23 +165,22 @@ function addPassenger(){
                     icon: "error"
                 });
             }
-        }
     });
 }
 
 function addPilot(){
-    var fistName=$("#firstName").val();
-    var lastName=$("#lastName").val();
-    var bithDate=$("#birthDate").val();
-    var email=$("#email").val();
-    var gsm=$("#gsm").val();
-    var password=$("#password").val();
-    var type="pilot";
-    var validityDate= $("#validityDate").val();
-    var user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
+    const fistName=$("#firstName").val();
+    const lastName=$("#lastName").val();
+    const bithDate=$("#birthDate").val();
+    const email=$("#email").val();
+    const gsm=$("#gsm").val();
+    const password=$("#password").val();
+    const type="pilot";
+    const validityDate= $("#validityDate").val();
+    const user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
         "\""+bithDate+"\" , \"email\":\""+email+"\", \"gsm\":\""+gsm+", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
-    var licence='{ "validityDate": "'+validityDate+'"}';
-    var combinedObj = {};
+    const licence='{ "validityDate": "'+validityDate+'"}';
+    const combinedObj = {};
     combinedObj["user"] = user;
     combinedObj["licence"] = licence;
     $.ajax({
@@ -231,8 +225,8 @@ function addPilot(){
 
 $(function(){
     $("#btSignIn").click(function(){
-        var email =$("#email").val();
-        var password=$("#password").val();
+        const email =$("#email").val();
+        const password=$("#password").val();
         if(email.length<5){
             $('#email').focus();
             return false;
@@ -249,6 +243,7 @@ $(function(){
             cache: false,
             dataType: "json"
         }).success( function (result) {
+            console.log(result);
             if(result){
                 $.ajax({
                     url:"http://localhost:8080/ws/user/users/email/"+email ,
