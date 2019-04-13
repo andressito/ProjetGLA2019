@@ -30,6 +30,7 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.text.DateFormat;
@@ -170,12 +171,13 @@ public class ClientDB {
         return null;
     }
 
-    private SearchHit[] getByFieldValue(String table, String field, String value) throws IOException{
+    public SearchHit[] getByFieldValue(String table, String field, String value) throws IOException{
         if(ifTableExist(table)) {
             SearchRequest searchRequest = new SearchRequest(table);
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
             MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder(field, value);
-            searchRequest.source(searchSourceBuilder.query(matchQueryBuilder));
+            searchSourceBuilder.query(matchQueryBuilder);
+            searchRequest.source(searchSourceBuilder);
             SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
             SearchHits hits = searchResponse.getHits();
             SearchHit[] searchHits = hits.getHits();
@@ -586,6 +588,7 @@ public class ClientDB {
         }*/
         SearchHit[] sh = getByFieldValue("user","email",email);
         if(sh != null) {
+            System.out.println(sh.length);
             if (sh.length != 0)
                 return createUser(sh[0].getSourceAsMap());
         }/*
