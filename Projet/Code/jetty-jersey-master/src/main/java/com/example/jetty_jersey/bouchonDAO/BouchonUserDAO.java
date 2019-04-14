@@ -47,7 +47,6 @@ public class BouchonUserDAO implements UserDAO {
     public User getUserByEmail(String email) {
         try {
             User user= JettyMain.c.getUserByEmail(email);
-            user.toStringUser();
             return user;
         } catch (IOException e) {
             e.printStackTrace();

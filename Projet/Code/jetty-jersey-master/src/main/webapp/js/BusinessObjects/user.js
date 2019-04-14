@@ -121,19 +121,19 @@ function fenvoi() {
 }
 
 function addPassenger(){
-    const fistName=$("#firstName").val();
-    const lastName=$("#lastName").val();
-    const bithDate=$("#birthDate").val();
-    const email=$("#email").val();
-    const gsm=$("#gsm").val();
-    const password=$("#password").val();
-    const type="passenger";
-    const user = "{ \"firstName\":\""+fistName+"\" , \"lastName\":\""+lastName+"\" , \"birthDate\": " +
-    "\""+bithDate+"\" , \"email\":\""+email+"\", \"gsm\":\""+gsm+", \"type\":\""+type+"\" ,\"password\": \""+password+"\"}";
-    const licence='{ "licenceId": "null"}';
+    const fistNameP=$("#firstName").val();
+    const lastNameP=$("#lastName").val();
+    const bithDateP=$("#birthDate").val();
+    const emailP=$("#email").val();
+    const gsmP=$("#gsm").val();
+    const passwordP=$("#password").val();
+    const typeP="passenger";
+    const userP = "{ \"firstName\":\""+fistNameP+"\" , \"lastName\":\""+lastNameP+"\" , \"birthDate\": " +
+    "\""+bithDateP+"\" , \"email\":\""+emailP+"\", \"gsm\":\""+gsmP+", \"type\":\""+typeP+"\" ,\"password\": \""+passwordP+"\"}";
+    const licenceP='{ "licenceId": "null"}';
     const combinedObj = {};
-    combinedObj["user"] = user;
-    combinedObj["licence"] = licence;
+    combinedObj["user"] = userP;
+    combinedObj["licence"] = licenceP;
     $.ajax({
         url: "http://localhost:8080/ws/user/create",
         type: "POST",
@@ -144,7 +144,7 @@ function addPassenger(){
     }).done(function (result) {
             if (result) {
                 $.ajax({
-                    url: "http://localhost:8080/ws/user/users/email/"+email,
+                    url: "http://localhost:8080/ws/user/users/email/"+emailP,
                     type: "GET",
                     contentType: "application/json",
                     cache: false,

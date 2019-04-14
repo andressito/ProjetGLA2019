@@ -1,6 +1,5 @@
 package com.example.jetty_jersey;
 
-import com.example.jetty_jersey.database.ClientDB;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
