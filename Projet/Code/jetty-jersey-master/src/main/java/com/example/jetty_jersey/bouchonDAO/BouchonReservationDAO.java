@@ -10,8 +10,8 @@ import java.util.List;
 public class BouchonReservationDAO implements ReservationDAO {
     public boolean createReservation(Reservation reservation) {
         try {
-            JettyMain.c.indexDB(reservation, null);
-            return true;
+            if(JettyMain.c.indexDB(reservation, null))
+                return JettyMain.c.updateFlightRemainingPlaces(reservation);
         } catch (Exception e) {
             e.printStackTrace();
         }

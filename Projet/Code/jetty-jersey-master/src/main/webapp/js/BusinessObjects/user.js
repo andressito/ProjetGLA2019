@@ -2,13 +2,22 @@ $(document).ready(function() {
     if(localStorage.getItem("firstName") || localStorage.getItem("userId")){
         window.location.href="http://localhost:8080/";
     }else{
-        if(document.getElementById('passenger'))
-            if(document.getElementById('passenger').checked){
-                document.getElementById('Licence').style.display='none';
+        if(document.getElementById('passenger')) {
+            if (document.getElementById('passenger').checked) {
+                document.getElementById('Licence').style.display = 'none';
+            } else {
+                document.getElementById('Licence').style.display = 'inline';
             }
-            else{
-                document.getElementById('Licence').style.display='inline';
-            }
+        }
+        if(localStorage.getItem("singUp")){
+            swal({
+                title: "ChuChuFly!",
+                text: "Congrats, you've been registered successfully. \n" +
+                    "Please log in to your account",
+                icon: "success"
+            });
+            localStorage.clear();
+        }
     }
 });
 function passenger_detecter(){
@@ -147,8 +156,9 @@ function addPassenger(){
         dataType: "json"
     }).done(function (result) {
             if (result) {
-                window.setTimeout(nothing(), 1000);
-                $.ajax({
+                localStorage.setItem("singUp","ok");
+                window.location.href="http://localhost:8080/SignIn.html";
+                /*$.ajax({
                     url: "http://localhost:8080/ws/user/users/email/"+email,
                     type: "GET",
                     contentType: "application/json",
@@ -162,7 +172,7 @@ function addPassenger(){
                     localStorage.setItem("typeUser", result['typeUser']);
                     sessionStorage.setItem("typeUser", result['typeUser']);
                     window.location.href = "http://localhost:8080/";
-                });
+                });*/
             } else {
                 swal({
                     title: "ChuChuFly!",
@@ -200,23 +210,8 @@ function addPilot(){
     }).success(function (result) {
         if(result) {
             if (result) {
-                $.ajax({
-                    url: "http://localhost:8080/ws/user/users/email/" + email,
-                    type: "GET",
-                    contentType: "application/json",
-                    cache: false,
-                    dataType: "json"
-                }).done(function (result) {
-                    var test = result;
-                    console.log(result['firstName']);
-                    localStorage.setItem("firstName", result['firstName']);
-                    sessionStorage.setItem("firstName", result['firstName']);
-                    localStorage.setItem("userId", result['userId']);
-                    sessionStorage.setItem("userId", result['userId']);
-                    localStorage.setItem("typeUser", result['typeUser']);
-                    sessionStorage.setItem("typeUser", result['typeUser']);
-                    window.location.href = "http://localhost:8080/";
-                });
+                localStorage.setItem("singUp","ok");
+                window.location.href="http://localhost:8080/SignIn.html";
             } else {
                 swal({
                     title: "ChuChuFly!",
