@@ -120,6 +120,10 @@ function fenvoi() {
     }
 }
 
+function nothing(){
+
+}
+
 function addPassenger(){
     const fistName=$("#firstName").val();
     const lastName=$("#lastName").val();
@@ -143,6 +147,7 @@ function addPassenger(){
         dataType: "json"
     }).done(function (result) {
             if (result) {
+                window.setTimeout(nothing(), 1000);
                 $.ajax({
                     url: "http://localhost:8080/ws/user/users/email/"+email,
                     type: "GET",
