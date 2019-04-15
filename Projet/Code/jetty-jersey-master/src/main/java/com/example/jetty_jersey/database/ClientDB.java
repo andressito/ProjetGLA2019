@@ -29,7 +29,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class ClientDB {
     private RestHighLevelClient client;
@@ -101,7 +99,7 @@ public class ClientDB {
     }
 
     /*Verify if the table exists*/
-    public boolean ifTableExist(String table) throws IOException{
+    private boolean ifTableExist(String table) throws IOException{
         GetIndexRequest request = new GetIndexRequest();
         request.indices(table);
         request.local(false);
@@ -124,7 +122,7 @@ public class ClientDB {
     }
 
     /*Create a random user id*/
-    public String createId(int len){
+    private String createId(int len){
         String list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         String id = "";
         Random rand = new Random();
@@ -135,7 +133,7 @@ public class ClientDB {
     }
 
     /*Create a table of each table*/
-    public void createTable(String table) throws IOException{
+    private void createTable(String table) throws IOException{
         CreateIndexRequest request = new CreateIndexRequest(table);
         if(table.equals("flight")) request.mapping("info", builderFlight());
         else if(table.equals("licence")) request.mapping("info", builderLicence());
@@ -276,7 +274,7 @@ public class ClientDB {
     }
 
     /*Return the name of the instance into a String*/
-    public String getTable(Object o){
+    private String getTable(Object o){
         String res;
         if(o instanceof Flight){
             res = "flight" ;
@@ -339,7 +337,7 @@ public class ClientDB {
     }
 
     /*Take idMax of the specific table using the variables*/
-    public int getIdMax1(String table){
+    private int getIdMax1(String table){
         if(table.equals("flight")) return idMaxFlight;
         else if(table.equals("licence")) return idMaxLicence;
         else if(table.equals("message")) return idMaxMessage;
@@ -349,7 +347,7 @@ public class ClientDB {
     }
 
     /*Take idMax of the specific table using the database*/
-    public int getIdMax2(String table) throws IOException {
+    private int getIdMax2(String table) throws IOException {
         int max = 0;
         SearchHit[] sh = arrayTable("idmax");
         if(sh == null || sh.length == 0)
@@ -360,42 +358,42 @@ public class ClientDB {
     }
 
     /*Get the id of the line table using a instance of the table*/
-    public int getIdForFlight(Flight f) throws IOException{
+    private int getIdForFlight(Flight f) throws IOException{
         SearchHit[] sh = getByFieldValue("flight","flightId",f.getFlightId());
         if(sh.length != 0)
             return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
-    public int getIdForLicence(Licence l) throws IOException{
+    private int getIdForLicence(Licence l) throws IOException{
         SearchHit[] sh = getByFieldValue("licence","licenceId",l.getLicenceId());
         if(sh.length != 0)
             return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
-    public int getIdForMessage(Message m) throws IOException{
+    private int getIdForMessage(Message m) throws IOException{
         SearchHit[] sh = getByFieldValue("message","messageId",m.getMessageId());
         if(sh.length != 0)
             return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
-    public int getIdForPlane(Plane p) throws IOException {
+    private int getIdForPlane(Plane p) throws IOException {
         SearchHit[] sh = getByFieldValue("plane","atcNumber",p.getAtcNumber());
         if(sh.length != 0)
             return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
-    public int getIdForReservation(Reservation r) throws IOException {
+    private int getIdForReservation(Reservation r) throws IOException {
         SearchHit[] sh = getByFieldValue("reservation","reservationId",r.getReservationId());
         if(sh.length != 0)
             return Integer.parseInt(sh[0].getId());
         return -1;
     }
 
-    public int getIdForUser(User u) throws IOException {
+    private int getIdForUser(User u) throws IOException {
         SearchHit[] sh = getByFieldValue("user","userId",u.getUserId());
         if(sh != null) {
             if (sh.length != 0)
@@ -554,11 +552,11 @@ public class ClientDB {
     /*INDEX function*/
     /*The licence argument is for if the object is a user and if he is a pilot, else it's null*/
     /*----------------------------------------------------------------------------------------------------*/
-    public void indexDB(Object o, Licence licence) throws Exception{
+    public boolean indexDB(Object o, Licence licence) throws Exception{
         String table = getTable(o);
         if(table.equals("unknown")){
             System.out.println("Not an existing database");
-            return;
+            return false;
         }
         int id = getIdMax1(table)+1;
         IndexRequest indReq = new IndexRequest(
@@ -642,15 +640,13 @@ public class ClientDB {
                     "\"typeUser\":\""+u.getTypeUser()+"\""+
                     "}";
         }
-
         indReq.source(jsonString, XContentType.JSON);
         IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
         if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
             System.out.println(table+" has been created");
-        } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-            System.out.println(table +" has been uploaded");
         } else {
             System.out.println("Nothing has been changed");
+            return false;
         }
         updateId(table,id);
         if(table.equals("user")){
@@ -679,10 +675,12 @@ public class ClientDB {
                     System.out.println("licence has been uploaded");
                 } else {
                     System.out.println("Nothing has been changed");
+                    return false;
                 }
                 updateId(table, id);
             }
         }
+        return true;
     }
 
     /*Function of creation of instances*/
@@ -719,54 +717,31 @@ public class ClientDB {
     /*----------------------------------------------------------------------------------------------------*/
 
     /*GET functions*/
-    /*Return the user using a specific email address*/
     /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+    public ArrayList<Flight> getFlightByUserId(String userId) throws IOException{
+       ArrayList<Flight> lf = new ArrayList<Flight>();
+       SearchHit[] t = getByFieldValue("flight","userId",userId);
+        for(SearchHit sh : t){
+            Map<String, Object> m = sh.getSourceAsMap();
+            if(m.get("userId").toString().equals(userId)) lf.add(createFlight(m));
+        }
+        return lf;
+    }
+
+    /*Return the user using a specific email address*/
     public User getUserByEmail(String email) throws IOException{
-        /*ArrayList<User> l = allUser();
-        for (User u : l) {
-            if(u.getEmail().equals(email)) return u;
-        }*/
         SearchHit[] sh = getByFieldValue("user","email",email);
         if(sh != null) {
-            if (sh.length != 0)
+            if (sh.length == 1)
                 return createUser(sh[0].getSourceAsMap());
-        }/*
-        if(sh != null) {
-            if (sh.length != 0) {
-                for(SearchHit s : sh){
-                    Map<String, Object> m = s.getSourceAsMap();
-                    if(email.equals(m.get("email").toString()))
-                        return createUser(sh[0].getSourceAsMap());
-                }
-            }
-        }*//*
-        for(int i = 0; i <= idMaxUser; i++){
-            Map<String, Object> map = getById("user",""+i);
-            if(map != null) {
-                User u = createUser(map);
-                if(u.getEmail().equals(email)) return u;
-            }
-        }*/
-        return null;
+        }return null;
     }
 
     /*Return the user using a specific id*/
     public User getUserById(String id) throws IOException{
-        /*ArrayList<User> l = allUser();
-        for (User u : l) {
-            if(u.getUserId().equals(id)) return u;
-        }*/
-        /*
-        for(int i = 0; i <= idMaxUser; i++){
-            Map<String, Object> map = getById("user",""+i);
-            if(map != null) {
-                User u = createUser(map);
-                if(u.getUserId().equals(id)) return u;
-            }
-        }*/
         SearchHit[] sh = getByFieldValue("user","userId",id);
         if(sh != null) {
-            if (sh.length != 0)
+            if (sh.length == 1)
                 return createUser(sh[0].getSourceAsMap());
         }
         return null;
@@ -1299,6 +1274,29 @@ public class ClientDB {
         }
         return -1;
     }
+
+    public boolean updateFlightRemainingPlaces(Reservation r) throws Exception{
+        SearchHit[] sh = getByFieldValue("flight","flightId",r.getFlightId());
+        if(sh != null) {
+            System.out.println(sh.length);
+            if(sh.length == 1) {
+                Map<String, Object> m = sh[0].getSourceAsMap();
+                System.out.println(m.get("remainingSeats").toString());
+                int rp = Integer.parseInt(m.get("remainingSeats").toString()) - r.getNbPlaces();
+                System.out.println(rp);
+                UpdateRequest request = new UpdateRequest(
+                        "flight",
+                        "info",
+                        "" +sh[0].getId());
+                String jsonString = "{" +
+                        "\"remainingSeats\":\""+rp+"\"" +
+                        "}";
+                return updateCheck(request, jsonString);
+            }
+        }
+        return false;
+    }
+
     public boolean updateFlightRemainingPlaces(String flightId,String remainingPlaces) throws Exception{
         int id = getIdForFlightRemainingPlaces(flightId);
         System.out.println(id+"ddddddddd"+remainingPlaces);
