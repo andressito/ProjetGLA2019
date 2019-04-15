@@ -135,7 +135,7 @@ public class ClientDB {
     }
 
     /*Create a table of each table*/
-    private void createTable(String table) throws IOException{
+    private void createTable(String table) throws IOException
         CreateIndexRequest request = new CreateIndexRequest(table);
         if(table.equals("flight")) request.mapping("info", builderFlight());
         else if(table.equals("licence")) request.mapping("info", builderLicence());
