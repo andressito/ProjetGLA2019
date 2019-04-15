@@ -575,13 +575,13 @@ public class ClientDB {
             jsonString ="{"+
                     "\"flightId\":\""+tmpId+"\"," +
                     "\"atcNumber\":\""+f.getAtcNumber()+"\"," +
-                    "\"departureAerodrom\":\""+f.getDepartureAerodrom()+"\"," +
+                    "\"departureAerodrom\":\""+f.getDepartureAerodrom().toLowerCase()+"\"," +
                     "\"date\":\""+f.getDate()+"\"," +
                     "\"departureTime\":\""+f.getDepartureTime()+"\"," +
                     "\"allSeats\":\""+f.getAllSeats()+"\"," +
                     "\"remainingSeats\":\""+f.getRemainingSeats()+"\"," +
                     "\"type\":\""+f.getType()+"\"," +
-                    "\"arrivalAerodrom\":\""+f.getArrivalAerodrom() +"\"," +
+                    "\"arrivalAerodrom\":\""+f.getArrivalAerodrom().toLowerCase()+"\"," +
                     "\"arrivalTime\":\""+f.getArrivalTime() +"\"," +
                     "\"price\":\""+f.getPrice()+"\"," +
                     "\"userId\":\""+f.getUserId()+"\""+
@@ -868,7 +868,7 @@ public class ClientDB {
     private ArrayList<Flight> auxFlights1(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception{
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
-        /*ArrayList<Map<String,Object>> mapList = listMap("flight");
+        ArrayList<Map<String,Object>> mapList = listMap("flight");
         for (Map<String, Object> map : mapList) {
             if (departureAerodromSearched != null) {
                 if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
@@ -901,7 +901,7 @@ public class ClientDB {
                     list.add(createFlight(map));
                 //Search with seats
             }
-        }*/
+        }
         if(list.size() == 0) return listAfterDate;
         return list;
     }
@@ -919,7 +919,7 @@ public class ClientDB {
                 }//Search with departure and arrival aerodrom
                 else if (dateSearched != null) {
                     Date d = StringToDate(map, "date");
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0 && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && (d.compareTo(StringToDate(dateSearched)) > 0)) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0 && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with departure aerodrom and date
                 }
@@ -940,7 +940,7 @@ public class ClientDB {
             else if(arrivalAerodromSearched != null){
                 if (dateSearched != null) {
                     Date d = StringToDate(map, "date");
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && d.compareTo(StringToDate(dateSearched)) > 0 && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with arrival aerodrom and date
                 }
@@ -961,17 +961,17 @@ public class ClientDB {
             else if (dateSearched != null) {
                 Date d = StringToDate(map, "date");
                 if(typeSearched != null) {
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && (d.compareTo(StringToDate(dateSearched)) > 0) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with date and type
                 }
                 else if(priceSearched != null){
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && (d.compareTo(StringToDate(dateSearched)) > 0) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with date and price
                 }
                 else{
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) >= Integer.parseInt(seatsSearched) && (d.compareTo(StringToDate(dateSearched)) > 0)) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) >= Integer.parseInt(seatsSearched)) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with date and seats
                 }
@@ -996,7 +996,7 @@ public class ClientDB {
                 if (arrivalAerodromSearched != null) {
                     if (dateSearched != null) {
                         Date d = StringToDate(map, "date");
-                        if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && d.compareTo(StringToDate(dateSearched)) > 0 && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
+                        if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                             addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                         } //Search with date, departure and arrival aerodrom
                     } else if (typeSearched != null) {
@@ -1257,6 +1257,7 @@ public class ClientDB {
         if(list.size() == 0) return listAfterDate;
         return list;
     }
+
     private void addToFlightSearchList(String dateSearched, ArrayList<Flight> list, ArrayList<Flight> listAfterDate, Map<String, Object> map, Date d) throws ParseException {
         Flight f = createFlight(map);
         if ((f.getRemainingSeats() > 0) && (d.compareTo(StringToDate(dateSearched)) == 0)) list.add(f);
@@ -1331,13 +1332,13 @@ public class ClientDB {
                 ""+id);
         String jsonString = "{"+
                 "\"atcNumber\":\""+f.getAtcNumber()+"\"," +
-                "\"departureAerodrom\":\""+f.getDepartureAerodrom()+"\"," +
+                "\"departureAerodrom\":\""+f.getDepartureAerodrom().toLowerCase()+"\"," +
                 "\"date\":\""+f.getDate()+"\"," +
                 "\"departureTime\":\""+f.getDepartureTime()+"\"," +
                 "\"allSeats\":\""+f.getAllSeats()+"\"," +
                 "\"remainingSeats\":\""+f.getRemainingSeats()+"\"," +
                 "\"type\":\""+f.getType()+"\"," +
-                "\"arrivalAerodrom\":\""+f.getArrivalAerodrom() +"\"," +
+                "\"arrivalAerodrom\":\""+f.getArrivalAerodrom().toLowerCase()+"\"," +
                 "\"arrivalTime\":\""+f.getArrivalTime() +"\"," +
                 "\"price\":\""+f.getPrice()+"\"," +
                 "\"userId\":\""+f.getUserId()+"\""+
