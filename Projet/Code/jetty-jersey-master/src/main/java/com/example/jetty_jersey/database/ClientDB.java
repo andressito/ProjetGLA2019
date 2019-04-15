@@ -29,7 +29,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class ClientDB {
     private RestHighLevelClient client;
@@ -135,7 +133,7 @@ public class ClientDB {
     }
 
     /*Create a table of each table*/
-    private void createTable(String table) throws IOException
+    private void createTable(String table) throws IOException{
         CreateIndexRequest request = new CreateIndexRequest(table);
         if(table.equals("flight")) request.mapping("info", builderFlight());
         else if(table.equals("licence")) request.mapping("info", builderLicence());
@@ -554,11 +552,11 @@ public class ClientDB {
     /*INDEX function*/
     /*The licence argument is for if the object is a user and if he is a pilot, else it's null*/
     /*----------------------------------------------------------------------------------------------------*/
-    public void indexDB(Object o, Licence licence) throws Exception{
+    public boolean indexDB(Object o, Licence licence) throws Exception{
         String table = getTable(o);
         if(table.equals("unknown")){
             System.out.println("Not an existing database");
-            return;
+            return false;
         }
         int id = getIdMax1(table)+1;
         IndexRequest indReq = new IndexRequest(
@@ -642,15 +640,13 @@ public class ClientDB {
                     "\"typeUser\":\""+u.getTypeUser()+"\""+
                     "}";
         }
-
         indReq.source(jsonString, XContentType.JSON);
         IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
         if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
             System.out.println(table+" has been created");
-        } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-            System.out.println(table +" has been uploaded");
         } else {
             System.out.println("Nothing has been changed");
+            return false;
         }
         updateId(table,id);
         if(table.equals("user")){
@@ -679,10 +675,12 @@ public class ClientDB {
                     System.out.println("licence has been uploaded");
                 } else {
                     System.out.println("Nothing has been changed");
+                    return false;
                 }
                 updateId(table, id);
             }
         }
+        return true;
     }
 
     /*Function of creation of instances*/
@@ -722,8 +720,9 @@ public class ClientDB {
     /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
     public ArrayList<Flight> getFlightByUserId(String userId) throws IOException{
        ArrayList<Flight> lf = new ArrayList<Flight>();
-       ArrayList<Map<String, Object>> lm = listMap("flight");
-        for(Map<String, Object> m : lm){
+       SearchHit[] t = getByFieldValue("flight","userId",userId);
+        for(SearchHit sh : t){
+            Map<String, Object> m = sh.getSourceAsMap();
             if(m.get("userId").toString().equals(userId)) lf.add(createFlight(m));
         }
         return lf;
@@ -731,51 +730,18 @@ public class ClientDB {
 
     /*Return the user using a specific email address*/
     public User getUserByEmail(String email) throws IOException{
-        /*ArrayList<User> l = allUser();
-        for (User u : l) {
-            if(u.getEmail().equals(email)) return u;
-        }*/
         SearchHit[] sh = getByFieldValue("user","email",email);
         if(sh != null) {
-            if (sh.length != 0)
+            if (sh.length == 1)
                 return createUser(sh[0].getSourceAsMap());
-        }/*
-        if(sh != null) {
-            if (sh.length != 0) {
-                for(SearchHit s : sh){
-                    Map<String, Object> m = s.getSourceAsMap();
-                    if(email.equals(m.get("email").toString()))
-                        return createUser(sh[0].getSourceAsMap());
-                }
-            }
-        }*//*
-        for(int i = 0; i <= idMaxUser; i++){
-            Map<String, Object> map = getById("user",""+i);
-            if(map != null) {
-                User u = createUser(map);
-                if(u.getEmail().equals(email)) return u;
-            }
-        }*/
-        return null;
+        }return null;
     }
 
     /*Return the user using a specific id*/
     public User getUserById(String id) throws IOException{
-        /*ArrayList<User> l = allUser();
-        for (User u : l) {
-            if(u.getUserId().equals(id)) return u;
-        }*/
-        /*
-        for(int i = 0; i <= idMaxUser; i++){
-            Map<String, Object> map = getById("user",""+i);
-            if(map != null) {
-                User u = createUser(map);
-                if(u.getUserId().equals(id)) return u;
-            }
-        }*/
         SearchHit[] sh = getByFieldValue("user","userId",id);
         if(sh != null) {
-            if (sh.length != 0)
+            if (sh.length == 1)
                 return createUser(sh[0].getSourceAsMap());
         }
         return null;
