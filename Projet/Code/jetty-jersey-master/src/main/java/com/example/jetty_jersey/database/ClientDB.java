@@ -3,10 +3,10 @@ package com.example.jetty_jersey.database;
 
 import com.example.jetty_jersey.classes.*;
 
-import com.sun.corba.se.spi.ior.ObjectKey;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -22,17 +22,16 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class ClientDB {
     private RestHighLevelClient client;
@@ -49,13 +49,7 @@ public class ClientDB {
         client = new RestHighLevelClient(
                 RestClient.builder(
                         new HttpHost("localhost", 9200, "http")));
-        GetRequest getRequest = new GetRequest(
-                "idmax",
-                "info",
-                "1");
-        getRequest.fetchSourceContext(new FetchSourceContext(false));
-        getRequest.storedFields("_none_");
-        if(!client.exists(getRequest, RequestOptions.DEFAULT)){
+        if(!ifTableExist("idmax")){
             IndexRequest indReq = new IndexRequest(
                     "idmax",
                     "info",
@@ -73,6 +67,12 @@ public class ClientDB {
             if (indexResponse.getResult() == DocWriteResponse.Result.CREATED)
                 System.out.println("idmax has been created");
         }
+        if(!ifTableExist("flight")) createTable("flight");
+        if(!ifTableExist("licence")) createTable("licence");
+        if(!ifTableExist("message")) createTable("message");
+        if(!ifTableExist("plane")) createTable("plane");
+        if(!ifTableExist("reservation")) createTable("reservation");
+        if(!ifTableExist("user")) createTable("user");
         idMaxFlight = getIdMax2("flight");
         idMaxLicence = getIdMax2("licence");
         idMaxMessage = getIdMax2("message");
@@ -134,6 +134,147 @@ public class ClientDB {
         return id;
     }
 
+    /*Create a table of each table*/
+    public void createTable(String table) throws IOException{
+        CreateIndexRequest request = new CreateIndexRequest(table);
+        if(table.equals("flight")) request.mapping("info", builderFlight());
+        else if(table.equals("licence")) request.mapping("info", builderLicence());
+        else if(table.equals("message")) request.mapping("info", builderMessage());
+        else if(table.equals("plane")) request.mapping("info", builderPlane());
+        else if(table.equals("reservation")) request.mapping("info", builderReservation());
+        else request.mapping("info", builderUser());
+        CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
+    }
+
+    /*Flight*/
+    private XContentBuilder builderFlight() throws IOException{
+        XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject();{
+            builder.startObject("info");{
+                builder.startObject("properties");{
+                    builder.startObject("flightId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("atcNumber");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("departureAerodrom");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("date");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("departureTime");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("allSeats");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("remainingSeats");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("type");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("arrivalAerodrom");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("arrivalTime");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("price");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("userId");{builder.field("type", "keyword");}builder.endObject();
+                }
+                builder.endObject();
+            }
+            builder.endObject();
+        }
+        builder.endObject();
+        return builder;
+    }
+
+    /*Licence*/
+    private XContentBuilder builderLicence() throws IOException{
+        XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject();{
+            builder.startObject("info");{
+                builder.startObject("properties");{
+                    builder.startObject("licenceId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("userId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("validityDate");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("mark");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("numberHoursFlight");{builder.field("type", "keyword");}builder.endObject();
+                }
+                builder.endObject();
+            }
+            builder.endObject();
+        }
+        builder.endObject();
+        return builder;
+
+    }
+
+    /*Message*/
+    private XContentBuilder builderMessage() throws IOException{
+        XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject();{
+            builder.startObject("info");{
+                builder.startObject("properties");{
+                    builder.startObject("messageId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("content");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("senderId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("receiverId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("sendingDate");{builder.field("type", "keyword");}builder.endObject();
+                }
+                builder.endObject();
+            }
+            builder.endObject();
+        }
+        builder.endObject();
+        return builder;
+    }
+    /*Plane*/
+    private XContentBuilder builderPlane() throws IOException{
+        XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject();{
+            builder.startObject("info");{
+                builder.startObject("properties");{
+                    builder.startObject("atcNumber");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("numberSeats");{builder.field("type", "keyword");}builder.endObject();
+                }
+                builder.endObject();
+            }
+            builder.endObject();
+        }
+        builder.endObject();
+        return builder;
+    }
+
+    /*Reservation*/
+    private XContentBuilder builderReservation() throws IOException{
+        XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject();{
+            builder.startObject("info");{
+                builder.startObject("properties");{
+                    builder.startObject("reservationId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("userId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("flightId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("nbPlaces");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("date");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("price");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("status");{builder.field("type", "keyword");}builder.endObject();
+                }
+                builder.endObject();
+            }
+            builder.endObject();
+        }
+        builder.endObject();
+        return builder;
+    }
+
+    /*User*/
+    private XContentBuilder builderUser() throws IOException{
+        XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject();{
+            builder.startObject("info");{
+                builder.startObject("properties");{
+                    builder.startObject("userId");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("lastName");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("firstName");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("email");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("gsm");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("birthDate");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("password");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("typeUser");{builder.field("type", "keyword");}builder.endObject();
+                }
+                builder.endObject();
+            }
+            builder.endObject();
+        }
+        builder.endObject();
+        return builder;
+    }
+
     /*Return the name of the instance into a String*/
     public String getTable(Object o){
         String res;
@@ -175,8 +316,7 @@ public class ClientDB {
         if(ifTableExist(table)) {
             SearchRequest searchRequest = new SearchRequest(table);
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-            MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder(field, value);
-            searchSourceBuilder.query(matchQueryBuilder);
+            searchSourceBuilder.query(QueryBuilders.termQuery(field,value));
             searchRequest.source(searchSourceBuilder);
             SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
             SearchHits hits = searchResponse.getHits();
@@ -588,10 +728,18 @@ public class ClientDB {
         }*/
         SearchHit[] sh = getByFieldValue("user","email",email);
         if(sh != null) {
-            System.out.println(sh.length);
             if (sh.length != 0)
                 return createUser(sh[0].getSourceAsMap());
         }/*
+        if(sh != null) {
+            if (sh.length != 0) {
+                for(SearchHit s : sh){
+                    Map<String, Object> m = s.getSourceAsMap();
+                    if(email.equals(m.get("email").toString()))
+                        return createUser(sh[0].getSourceAsMap());
+                }
+            }
+        }*//*
         for(int i = 0; i <= idMaxUser; i++){
             Map<String, Object> map = getById("user",""+i);
             if(map != null) {
