@@ -16,8 +16,7 @@ public class BouchonUserDAO implements UserDAO {
         try {
             if(JettyMain.c.getByFieldValue("user","email",user.getEmail()).length!=0)
                 return false;
-            JettyMain.c.indexDB(user,licence);
-            return true;
+            return JettyMain.c.indexDB(user,licence);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
