@@ -4,6 +4,20 @@ var email;
 var gsm;
 
 $(document).ready(function() {
+    if(!localStorage.getItem("userId")){
+        window.location.href="http://localhost:8080/";
+    }else{
+        if(localStorage.getItem("typeUser")==="passenger"){
+            $("#menu").load('../Menu/MenuPassenger.html');
+        }else{
+            $("#menu").load('../Menu/MenuPilot.html');
+        }
+        var flightIdBooking= localStorage.getItem("flightIdBooking");
+        getServerData("http://localhost:8080/ws/flight/flights/" +flightIdBooking,callDoneFlightDetails);
+        getServerData("http://localhost:8080/ws/user/users/" +sessionStorage.getItem("userId"),callDoneUserDetails);
+    }
+
+
     var id = localStorage.getItem("userId");
     if(id!=null){
         $.ajax({
