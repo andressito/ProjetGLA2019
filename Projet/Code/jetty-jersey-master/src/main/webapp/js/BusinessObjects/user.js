@@ -143,7 +143,8 @@ function addPassenger(){
         dataType: "json"
     }).done(function (result) {
             if (result) {
-                $.ajax({
+                window.location.href="http://localhost:8080/SignIn.html";
+                /*$.ajax({
                     url: "http://localhost:8080/ws/user/users/email/"+emailP,
                     type: "GET",
                     contentType: "application/json",
@@ -157,7 +158,7 @@ function addPassenger(){
                     localStorage.setItem("typeUser", result['typeUser']);
                     sessionStorage.setItem("typeUser", result['typeUser']);
                     window.location.href = "http://localhost:8080/";
-                });
+                });*/
             } else {
                 swal({
                     title: "ChuChuFly!",
@@ -195,7 +196,8 @@ function addPilot(){
     }).success(function (result) {
         if(result) {
             if (result) {
-                $.ajax({
+                window.location.href="http://localhost:8080/SignIn.html";
+                /*$.ajax({
                     url: "http://localhost:8080/ws/user/users/email/" + email,
                     type: "GET",
                     contentType: "application/json",
@@ -211,7 +213,7 @@ function addPilot(){
                     localStorage.setItem("typeUser", result['typeUser']);
                     sessionStorage.setItem("typeUser", result['typeUser']);
                     window.location.href = "http://localhost:8080/";
-                });
+                });*/
             } else {
                 swal({
                     title: "ChuChuFly!",

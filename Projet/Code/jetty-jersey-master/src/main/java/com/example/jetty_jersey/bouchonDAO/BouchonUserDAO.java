@@ -15,17 +15,13 @@ public class BouchonUserDAO implements UserDAO {
     public boolean createUser(User user, Licence licence) {
         try {
             List<User> liste=JettyMain.c.allUser();
-            for(int i=0; i<liste.size(); i++){
-                if(liste.get(i).getEmail().equals(user.getEmail())) return false;
+            for (User value : liste) {
+                if (value.getEmail().equals(user.getEmail())) return false;
             }
             JettyMain.c.indexDB(user,licence);
             return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return false;
     }
@@ -33,9 +29,8 @@ public class BouchonUserDAO implements UserDAO {
     public boolean signInUser(User user) {
         try {
             List<User> liste=JettyMain.c.allUser();
-            for(int i=0; i<liste.size();i++){
-                System.out.println(liste.get(i));
-                if(liste.get(i).getEmail().equals(user.getEmail()) && liste.get(i).getPassword().equals(DigestUtils.md5Hex(user.getPassword())))
+            for (User value : liste) {
+                if (value.getEmail().equals(user.getEmail()) && value.getPassword().equals(DigestUtils.md5Hex(user.getPassword())))
                     return true;
             }
         } catch (IOException e) {
@@ -46,8 +41,13 @@ public class BouchonUserDAO implements UserDAO {
 
     public User getUserByEmail(String email) {
         try {
-            User user= JettyMain.c.getUserByEmail(email);
-            return user;
+            List<User> liste=JettyMain.c.allUser();
+            for (User user : liste) {
+                user.toStringUser();
+                if (user.getEmail().equals(email))
+                    return user;
+            }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,6 +80,7 @@ public class BouchonUserDAO implements UserDAO {
 
     public User getUserDetails(String userId) {
         try {
+
             return JettyMain.c.getUserById(userId);
         } catch (IOException e) {
             e.printStackTrace();
