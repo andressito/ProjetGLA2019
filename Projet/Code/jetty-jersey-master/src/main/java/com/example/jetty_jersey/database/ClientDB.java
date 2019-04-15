@@ -1274,6 +1274,29 @@ public class ClientDB {
         }
         return -1;
     }
+
+    public boolean updateFlightRemainingPlaces(Reservation r) throws Exception{
+        SearchHit[] sh = getByFieldValue("flight","flightId",r.getFlightId());
+        if(sh != null) {
+            System.out.println(sh.length);
+            if(sh.length == 1) {
+                Map<String, Object> m = sh[0].getSourceAsMap();
+                System.out.println(m.get("remainingSeats").toString());
+                int rp = Integer.parseInt(m.get("remainingSeats").toString()) - r.getNbPlaces();
+                System.out.println(rp);
+                UpdateRequest request = new UpdateRequest(
+                        "flight",
+                        "info",
+                        "" +sh[0].getId());
+                String jsonString = "{" +
+                        "\"remainingSeats\":\""+rp+"\"" +
+                        "}";
+                return updateCheck(request, jsonString);
+            }
+        }
+        return false;
+    }
+
     public boolean updateFlightRemainingPlaces(String flightId,String remainingPlaces) throws Exception{
         int id = getIdForFlightRemainingPlaces(flightId);
         System.out.println(id+"ddddddddd"+remainingPlaces);
