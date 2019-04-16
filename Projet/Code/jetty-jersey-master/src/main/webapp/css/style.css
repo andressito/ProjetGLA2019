@@ -1676,17 +1676,4 @@ nav.crumb{
     background: #2BBDB5;
     border-radius: 10px;
 }
-@media (min-width:700px) {
-#inner{
-background-color: rgba(0,0,0,0.6) ;
-    width : 200%;
-    heigt : 40%;
-    padding-left: 18%;
-    padding-right: 18%;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    margin-top: 15%;
-}
-}
-
 /*# sourceMappingURL=style.css.map */
