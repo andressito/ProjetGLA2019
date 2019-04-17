@@ -10,12 +10,7 @@ $(document).ready(function() {
             }
         }
         if(localStorage.getItem("singUp")){
-            swal({
-                title: "ChuChuFly!",
-                text: "Congrats, you've been registered successfully. \n" +
-                    "Please log in to your account",
-                icon: "success"
-            });
+        	
             localStorage.clear();
         }
     }
@@ -211,7 +206,17 @@ function addPilot(){
         if(result) {
             if (result) {
                 localStorage.setItem("singUp","ok");
-                window.location.href="http://localhost:8080/SignIn.html";
+                swal({
+            		title: "ChuChuFly!",
+                    text: "Congrats, you've been registered successfully. \n" +
+                        "Please log in to your account",
+                        icon: "success"
+            		})
+            		.then((willDelete) => {
+            		  if (willDelete) {
+                          window.location.href="http://localhost:8080/SignIn.html";
+            		  } 
+            		});
             } else {
                 swal({
                     title: "ChuChuFly!",
