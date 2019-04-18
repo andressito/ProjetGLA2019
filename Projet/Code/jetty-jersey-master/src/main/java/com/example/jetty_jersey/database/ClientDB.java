@@ -727,6 +727,24 @@ public class ClientDB {
         }
         return lf;
     }
+    public ArrayList<Reservation> getReservationByUser(String userId) throws IOException{
+        ArrayList<Reservation> lf = new ArrayList<Reservation>();
+        SearchHit[] t = getByFieldValue("reservation","userId",userId);
+         for(SearchHit sh : t){
+             Map<String, Object> m = sh.getSourceAsMap();
+             if(m.get("userId").toString().equals(userId)) lf.add(createReservation(m));
+         }
+         return lf;
+     }
+    public ArrayList<Reservation> getReservationByFlight(String flightId) throws IOException{
+        ArrayList<Reservation> lf = new ArrayList<Reservation>();
+        SearchHit[] t = getByFieldValue("reservation","flightId",flightId);
+         for(SearchHit sh : t){
+             Map<String, Object> m = sh.getSourceAsMap();
+             if(m.get("flightId").toString().equals(flightId)) lf.add(createReservation(m));
+         }
+         return lf;
+     }
 
     /*Return the user using a specific email address*/
     public User getUserByEmail(String email) throws IOException{
@@ -1438,6 +1456,17 @@ public class ClientDB {
                 ""+id);
         String jsonString = "{" +
                 "\"typeUser\":\""+typeUser+"\"" +
+                "}";
+        return updateCheck(request, jsonString);
+    }
+    public boolean updateReservationValidation(String reservation,String typeValidation) throws Exception{
+        int id = getIdForReservation(reservation);
+        UpdateRequest request = new UpdateRequest(
+                "reservation",
+                "info",
+                ""+id);
+        String jsonString = "{" +
+                "\"status\":\""+typeValidation+"\"" +
                 "}";
         return updateCheck(request, jsonString);
     }

@@ -78,15 +78,10 @@ public class BouchonFlightDAO implements FlightDAO {
         return null;
     }
 
-    public Flight getFLightByUserId(String userId){
+    public ArrayList<Flight> getFLightByUserId(String userId){
         try {
-            ArrayList<Flight> liste = JettyMain.c.allFlight();
-            ArrayList<Flight> res= new ArrayList<Flight>();
-            for(int i=0; i<liste.size();i++){
-                if(liste.get(i).getUserId().equals(userId))
-                    res.add(liste.get(i));
-            }
-            if(res.size()!=0) return res.get(0);
+            ArrayList<Flight> liste = JettyMain.c.getFlightByUserId(userId);
+            return liste;
         } catch (IOException e) {
             e.printStackTrace();
         }
