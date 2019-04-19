@@ -18,11 +18,13 @@ $(document).ready(function() {
             sessionStorage.setItem("userId",userId);
         }
         if(typeUser==="passenger"){
+            document.getElementById("bg").style.backgroundImage = "url('images/slide_1.jpg')";
             console.log("passenger");
             $("#menu").load('../Menu/MenuPassenger.html');
             document.getElementById('search').style.display='inline';
             document.getElementById('flight').style.display='none';
         }else{
+            document.getElementById("bg").style.backgroundImage = "url('images/town.jpg')";
             $("#menu").load('../Menu/MenuPilot.html');
             document.getElementById('search').style.display='none';
             document.getElementById('flight').style.display='inline';
@@ -35,8 +37,8 @@ $(document).ready(function() {
             }).done(function (result) {
                 if(result){
                     var table=
-                        "<h2> Comming Flight</h2>"+
-                        "<table class=\"table\">"+
+                        "<div class=\"upcomingFlight\"><h1> Upcoming Flight </h1>"+
+                        "<br><br><br><table class=\"table\">"+
                         "<thead>"+
                         "<tr>" +
                         "<td>Departure</td>"+
@@ -48,16 +50,17 @@ $(document).ready(function() {
                         "</tr>"+
                         "</thead>"+
                         "<tbody>"+
-                        "<tr class=\"success\">" +
+                        "<tr>" +
                         "<td>"+result['departureAerodrom']+"</td>"+
                         "<td>"+result['arrivalAerodrom']+"</td>"+
                         "<td>"+result['date']+"</td>"+
+                        "<td>"+result['allSeats']+"</td>"+
                         "<td>"+result['remainingSeats']+"</td>"+
-                        "<td>"+result['remainingSeats']+"</td>"+
-                        "<td> <button value='"+result['flightId']+"' onclick='DetailsFLightHome'> Details</button></td>"+
+                        "<td> <button value='"+result['flightId']+"' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>"+
                         "</tr>"+
                         "</tbody>"+
-                        "</table>";
+                        "</table>"+
+                        "</div>";
                     $("#flight").append(table);
                 }else{
                     var table ="<h3> Pas de vol à venir</h3>";
@@ -68,6 +71,7 @@ $(document).ready(function() {
         }
     }else{
         $("#menu").load('../Menu/Menu.html');
+        document.getElementById("bg").style.backgroundImage = "url('images/slide_1.jpg')";
         document.getElementById('search').style.display='inline';
         document.getElementById('flight').style.display='none';
     }
