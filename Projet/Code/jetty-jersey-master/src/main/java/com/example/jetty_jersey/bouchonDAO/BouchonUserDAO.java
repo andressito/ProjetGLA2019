@@ -14,12 +14,9 @@ public class BouchonUserDAO implements UserDAO {
 
     public boolean createUser(User user, Licence licence) {
         try {
-            List<User> liste=JettyMain.c.allUser();
-            for(int i=0; i<liste.size(); i++){
-                if(liste.get(i).getEmail().equals(user.getEmail())) return false;
-            }
-            JettyMain.c.indexDB(user,licence);
-            return true;
+            if(JettyMain.c.getByFieldValue("user","email",user.getEmail()).length!=0)
+                return false;
+            return JettyMain.c.indexDB(user,licence);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -32,12 +29,7 @@ public class BouchonUserDAO implements UserDAO {
 
     public boolean signInUser(User user) {
         try {
-            List<User> liste=JettyMain.c.allUser();
-            for(int i=0; i<liste.size();i++){
-                System.out.println(liste.get(i));
-                if(liste.get(i).getEmail().equals(user.getEmail()) && liste.get(i).getPassword().equals(DigestUtils.md5Hex(user.getPassword())))
-                    return true;
-            }
+            return JettyMain.c.canConnect(user.getEmail(),DigestUtils.md5Hex(user.getPassword()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,9 +38,7 @@ public class BouchonUserDAO implements UserDAO {
 
     public User getUserByEmail(String email) {
         try {
-            User user= JettyMain.c.getUserByEmail(email);
-            user.toStringUser();
-            return user;
+            return JettyMain.c.getUserByEmail(email);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +51,6 @@ public class BouchonUserDAO implements UserDAO {
                 JettyMain.c.updateUserBecomePilot(user.getUserId(),"pilot");
             }
             JettyMain.c.updateUserInIndex(user);
-            
             return true;
         } catch (Exception e) {
             e.printStackTrace();

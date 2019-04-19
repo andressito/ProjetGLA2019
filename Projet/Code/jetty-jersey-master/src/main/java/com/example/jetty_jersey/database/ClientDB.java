@@ -468,6 +468,19 @@ public class ClientDB {
         return updateResponse.getResult() == DocWriteResponse.Result.UPDATED;
     }
 
+    /*List map data of a database*/
+    /*public ArrayList<Integer> listIdMap(String table) throws IOException{
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        SearchHit[] sh = arrayTable(table);
+        if(sh == null || sh.length == 0)
+            return list;
+        for (SearchHit hit : sh) {
+            int id = Integer.parseInt(hit.getId());
+            list.add(id);
+        }
+        return list;
+    }*/
+
     /*List the index's values in an list of map*/
     public ArrayList<Map<String,Object>> listMap(String table) throws IOException {
         ArrayList<Map<String,Object>> list = new ArrayList<Map<String, Object>>();
@@ -714,26 +727,24 @@ public class ClientDB {
         }
         return lf;
     }
-
     public ArrayList<Reservation> getReservationByUser(String userId) throws IOException{
         ArrayList<Reservation> lf = new ArrayList<Reservation>();
         SearchHit[] t = getByFieldValue("reservation","userId",userId);
-        for(SearchHit sh : t){
-            Map<String, Object> m = sh.getSourceAsMap();
-            if(m.get("userId").toString().equals(userId)) lf.add(createReservation(m));
-        }
-        return lf;
-    }
-
+         for(SearchHit sh : t){
+             Map<String, Object> m = sh.getSourceAsMap();
+             if(m.get("userId").toString().equals(userId)) lf.add(createReservation(m));
+         }
+         return lf;
+     }
     public ArrayList<Reservation> getReservationByFlight(String flightId) throws IOException{
         ArrayList<Reservation> lf = new ArrayList<Reservation>();
         SearchHit[] t = getByFieldValue("reservation","flightId",flightId);
-        for(SearchHit sh : t){
-            Map<String, Object> m = sh.getSourceAsMap();
-            if(m.get("flightId").toString().equals(flightId)) lf.add(createReservation(m));
-        }
-        return lf;
-    }
+         for(SearchHit sh : t){
+             Map<String, Object> m = sh.getSourceAsMap();
+             if(m.get("flightId").toString().equals(flightId)) lf.add(createReservation(m));
+         }
+         return lf;
+     }
 
     /*Return the user using a specific email address*/
     public User getUserByEmail(String email) throws IOException{
@@ -853,28 +864,28 @@ public class ClientDB {
         ArrayList<Map<String,Object>> mapList = listMap("flight");
         for (Map<String, Object> map : mapList) {
             if (departureAerodromSearched != null) {
-                if (map.get("departureAerodrom").toString().equals(departureAerodromSearched))
+                if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                     list.add(createFlight(map));
                 //Search with departure aerodrom
             }
             else if (arrivalAerodromSearched != null) {
-                if (map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched))
+                if (map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                     list.add(createFlight(map));
                 //Search with arrival aerodrom
             }
             else if (dateSearched != null) {
                 Date d = StringToDate(map, "date");
-                if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)))
+                if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                     addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                 //Search with date
             }
             else if (typeSearched != null) {
-                if (map.get("type").toString().equals(typeSearched))
+                if (map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                     list.add(createFlight(map));
                 //Search with type
             }
             else if (priceSearched != null) {
-                if (Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched))
+                if (Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                     list.add(createFlight(map));
                 //Search with price
             }
@@ -896,22 +907,22 @@ public class ClientDB {
         for (Map<String, Object> map : mapList) {
             if (departureAerodromSearched != null) {
                 if(arrivalAerodromSearched != null) {
-                    if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched))
+                    if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                         list.add(createFlight(map));
                 }//Search with departure and arrival aerodrom
                 else if (dateSearched != null) {
                     Date d = StringToDate(map, "date");
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("departureAerodrom").toString().equals(departureAerodromSearched)) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0 && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with departure aerodrom and date
                 }
                 else if (typeSearched != null) {
-                    if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("type").toString().equals(typeSearched))
+                    if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                         list.add(createFlight(map));
                     //Search with departure aerodrom and type
                 }
                 else if (priceSearched != null) {
-                    if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched))
+                    if (map.get("departureAerodrom").toString().equals(departureAerodromSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                         list.add(createFlight(map));
                 }//Search with departure aerodrom and price
                 else{
@@ -922,17 +933,17 @@ public class ClientDB {
             else if(arrivalAerodromSearched != null){
                 if (dateSearched != null) {
                     Date d = StringToDate(map, "date");
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched)) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with arrival aerodrom and date
                 }
                 else if (typeSearched != null) {
-                    if (map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && map.get("type").toString().equals(typeSearched))
+                    if (map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                         list.add(createFlight(map));
                     //Search with arrival aerodrom and type
                 }
                 else if (priceSearched != null) {
-                    if (map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched))
+                    if (map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                         list.add(createFlight(map));
                 }//Search with arrival aerodrom and price
                 else{
@@ -943,12 +954,12 @@ public class ClientDB {
             else if (dateSearched != null) {
                 Date d = StringToDate(map, "date");
                 if(typeSearched != null) {
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched)) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with date and type
                 }
                 else if(priceSearched != null){
-                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched)) {
+                    if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                         addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                     } //Search with date and price
                 }
@@ -978,15 +989,15 @@ public class ClientDB {
                 if (arrivalAerodromSearched != null) {
                     if (dateSearched != null) {
                         Date d = StringToDate(map, "date");
-                        if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched)) {
+                        if (((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                             addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                         } //Search with date, departure and arrival aerodrom
                     } else if (typeSearched != null) {
-                        if (map.get("type").toString().equals(typeSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched))
+                        if (map.get("type").toString().equals(typeSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                             list.add(createFlight(map));
                         //Search with type, departure and arrival aerodrom
                     } else if (priceSearched != null) {
-                        if (Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched))
+                        if (Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                             list.add(createFlight(map));
                         //Search with price, departure and arrival aerodrom
                     } else {
@@ -998,11 +1009,11 @@ public class ClientDB {
                 else if(dateSearched != null){
                     Date d = StringToDate(map, "date");
                     if(typeSearched != null){
-                        if (map.get("type").toString().equals(typeSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0))) {
+                        if (map.get("type").toString().equals(typeSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                             addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                         } //Search with departure aerodrom,date and type
                     } else if(priceSearched != null){
-                        if (Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0))) {
+                        if (Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                             addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                         } //Search with departure aerodrom,date and price
                     } else {
@@ -1013,7 +1024,7 @@ public class ClientDB {
                 }
                 else if(typeSearched != null){
                     if(priceSearched != null){
-                        if (map.get("type").toString().equals(typeSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("price").toString().equals(priceSearched))
+                        if (map.get("type").toString().equals(typeSearched) && map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("price").toString().equals(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                             list.add(createFlight(map));
                         //Search with departure aerodrom,type and price
                     } else {
@@ -1032,11 +1043,11 @@ public class ClientDB {
                 if(dateSearched != null){
                     Date d = StringToDate(map, "date");
                     if(typeSearched != null){
-                        if (map.get("type").toString().equals(typeSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0))) {
+                        if (map.get("type").toString().equals(typeSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                             addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                         } //Search with arrival aerodrom,date and type
                     } else if(priceSearched != null){
-                        if (Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0))) {
+                        if (Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                             addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                         } //Search with arrival aerodrom,date and price
                     } else {
@@ -1046,7 +1057,7 @@ public class ClientDB {
                     }
                 } else if (typeSearched != null) {
                     if(priceSearched != null){
-                        if (map.get("type").toString().equals(typeSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && map.get("price").toString().equals(priceSearched))
+                        if (map.get("type").toString().equals(typeSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && map.get("price").toString().equals(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                             list.add(createFlight(map));
                         //Search with arrival aerodrom,type and price
                     } else {
@@ -1063,7 +1074,7 @@ public class ClientDB {
                 Date d = StringToDate(map, "date");
                 if(typeSearched != null){
                     if(priceSearched != null) {
-                        if (map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0))) {
+                        if (map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                             addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                         } //Search with date, type and price
                     } else {
@@ -1097,11 +1108,11 @@ public class ClientDB {
                     if(dateSearched != null) {
                         Date d = StringToDate(map, "date");
                         if(typeSearched != null){
-                            if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched)){
+                            if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0){
                                 addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                             } //Search with date, type, departure and arrival aerodrom
                         } else if(priceSearched != null){
-                            if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched)){
+                            if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0){
                                 addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                             } //Search with date, price, departure and arrival aerodrom
                         } else {
@@ -1111,7 +1122,7 @@ public class ClientDB {
                         }
                     } else if(typeSearched != null) {
                         if(priceSearched != null){
-                            if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched))
+                            if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0)
                                 list.add(createFlight(map));
                             //Search with type, price, departure and arrival aerodrom
                         } else {
@@ -1128,7 +1139,7 @@ public class ClientDB {
                     Date d = StringToDate(map, "date");
                     if(typeSearched != null){
                         if(priceSearched != null){
-                            if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched)) {
+                            if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0) {
                                 addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                             }
                             //Search with departure aerodrom, date, type and price
@@ -1152,7 +1163,7 @@ public class ClientDB {
                     Date d = StringToDate(map, "date");
                     if(typeSearched != null){
                         if(priceSearched != null){
-                            if(map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched))
+                            if(map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && Integer.parseInt(map.get("remainingSeats").toString()) > 0 && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched))
                                 addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                             //Search with arrival aerodrom, date, type and price
                         } else {
@@ -1193,7 +1204,7 @@ public class ClientDB {
                     if(dateSearched != null){
                         if (typeSearched != null){
                             if(priceSearched != null){
-                                if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched)){
+                                if(map.get("departureAerodrom").toString().equals(departureAerodromSearched) && map.get("arrivalAerodrom").toString().equals(arrivalAerodromSearched) && ((d.compareTo(StringToDate(dateSearched)) == 0) || (d.compareTo(StringToDate(dateSearched)) > 0)) && map.get("type").toString().equals(typeSearched) && Integer.parseInt(map.get("price").toString()) <= Integer.parseInt(priceSearched) && Integer.parseInt(map.get("remainingSeats").toString()) > 0){
                                     addToFlightSearchList(dateSearched, list, listAfterDate, map, d);
                                 }//Search with date, type, price, departure and arrival aerodrom
                             } else {
@@ -1248,6 +1259,11 @@ public class ClientDB {
 
     /*Get a specific value of a table by using an id(user,flight, etc)*/
     public Map<String,Object> getLineTable(String table, String tableid) throws IOException {
+        /*ArrayList<Map<String,Object>> list = listMap(table);
+        for(Map<String,Object> map : list){
+            if(map.containsValue(tableid))
+                return map;
+        }*/
         int idmax = getIdMax1(table);
         for(int i = 0; i <= idmax; i++){
             Map<String, Object> map = getById(table,""+i);
@@ -1259,6 +1275,14 @@ public class ClientDB {
     }
 
     /*Return a list of reservation which match with the userId*/
+    public ArrayList<Reservation> getReservationByUserId(String userId) throws IOException{
+        ArrayList<Reservation> l = allReservation();
+        for(Reservation r : l){
+            if(!r.getUserId().equals(userId)) l.remove(r);
+        }
+        return l;
+    }
+
     public int getIdForFlightRemainingPlaces(String flightId) throws IOException {
         SearchHit[] tab = arrayTable("flight");
         for (SearchHit sh : tab) {
@@ -1435,7 +1459,6 @@ public class ClientDB {
                 "}";
         return updateCheck(request, jsonString);
     }
-
     public boolean updateReservationValidation(String reservation,String typeValidation) throws Exception{
         int id = getIdForReservation(reservation);
         UpdateRequest request = new UpdateRequest(
@@ -1482,6 +1505,4 @@ public class ClientDB {
         }
         return false;
     }
-
-
 }
