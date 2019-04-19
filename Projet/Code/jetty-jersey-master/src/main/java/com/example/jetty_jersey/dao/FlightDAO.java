@@ -14,4 +14,5 @@ public interface FlightDAO {
     ArrayList<Flight> searchFlight(String departure_aerodrome, String date);
     List<Flight> getListeFlight();
     Flight getFlightDetails(String idFlight);
+    ArrayList<Flight> getFLightByUserId(String userId);
 }

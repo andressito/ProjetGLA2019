@@ -35,7 +35,7 @@ public class FlightResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/flightByUserId/{userId}")
-    public Flight getFlightByUserId(@PathParam("userId") String userId){
+    public ArrayList<Flight> getFlightByUserId(@PathParam("userId") String userId){
         return bfdao.getFLightByUserId(userId);
     }
 
