@@ -11,7 +11,7 @@ public interface ReservationDAO {
     List<Reservation> getAllReservation();
     Reservation getReservationDetails(String reservationId);
     boolean deleteReservation(String reservationId);
-    boolean validateReservation(String reservationId,String state);
+    boolean validateReservation(Reservation reservation);
     ArrayList<Reservation> getReservationByUserId(String userId);
     ArrayList<Reservation> getReservationByFlight(String flight);
 }

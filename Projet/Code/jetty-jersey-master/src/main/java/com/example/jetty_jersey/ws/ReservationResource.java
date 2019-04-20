@@ -58,9 +58,9 @@ public class ReservationResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/reservations/{reservationId}/{state}")
-    public boolean updateReservationState(@PathParam("reservationId") String reservationId, @PathParam("state") String state){
-        return brDAO.validateReservation(reservationId,state);
+    @Path("/reservations/state")
+    public boolean updateReservationState(Reservation reservation){
+        return brDAO.validateReservation(reservation);
     }
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)

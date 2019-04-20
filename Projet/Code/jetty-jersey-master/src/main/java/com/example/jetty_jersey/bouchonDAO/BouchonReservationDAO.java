@@ -1,6 +1,7 @@
 package com.example.jetty_jersey.bouchonDAO;
 
 import com.example.jetty_jersey.JettyMain;
+import com.example.jetty_jersey.classes.Flight;
 import com.example.jetty_jersey.classes.Reservation;
 import com.example.jetty_jersey.dao.ReservationDAO;
 
@@ -55,9 +56,18 @@ public class BouchonReservationDAO implements ReservationDAO {
         return false;
     }
 
-    public boolean validateReservation(String reservationId,String state) {
+    public boolean validateReservation(Reservation reservation) {
     	try{
-    		JettyMain.c.updateReservationValidation(reservationId,state);
+    		if(reservation.getStatus().equals("Failed")) {
+        		ArrayList<Flight> fl = JettyMain.c.allFlight();
+        		for(int i=0; i<fl.size(); i++){
+                    if(fl.get(i).getFlightId().equals(reservation.getFlightId())) {
+                    	fl.get(i).setRemainingSeats(fl.get(i).getRemainingSeats() + reservation.getNbPlaces());
+                    	JettyMain.c.updateFlightInIndex(fl);
+                    }
+                }
+    		}
+            JettyMain.c.updateReservationValidation(reservation.getReservationId(),reservation.getStatus());
     		return true;
         } catch (Exception e) {
             e.printStackTrace();
