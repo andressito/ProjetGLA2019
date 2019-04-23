@@ -1709,5 +1709,12 @@ div .static{
   overflow-scrolling: auto;
   overflow: scroll;
 }
+.modal-dialog{
+  width: 800px;
+  height: 800px;
+}
+.modal-content{
+  height: 600px;
+}
 
 /*# sourceMappingURL=style.css.map */
