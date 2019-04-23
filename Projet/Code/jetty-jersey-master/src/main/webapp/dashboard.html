@@ -51,6 +51,9 @@
 
     <!--mainjs-->
     <script type="text/javascript" src="js/dashboard.js"></script>
+
+	<!--swall-->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -58,7 +61,7 @@
 	<header id="fh5co-header" role="banner">
 		<div class="container">
 			<div class="header-inner">
-				<h1><img src="images/planev.png" style="img-responsive" width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
+				<h1><img src="images/planev.png" width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
 				<nav role="navigation">
 					<ul>
 						<li><a href="BecomePilot.html">Become Pilot</a></li>
@@ -76,7 +79,7 @@
 <aside id="fh5co-hero" >
 	<div class="flexslider js-fullheight">
 		<ul class="slides">
-			<li style="background-image: url(images/profile.jpg);">
+			<li id="dash_bg">
 				<div class="col-md-10 col-md-offset-1 text-center js-fullheight">
 					<div class="slider-text-inner">
 						<br>
@@ -124,8 +127,8 @@
 				    		<br>
 				    		<br>
 				    		<br>
-							<a class="btn-save" onclick="update()"> Save </a>
-							<a class="btn-cancel" onClick="cancelEdit()"> Cancel </a>
+							<a class="btn-save" onclick="updateUser()"> Save </a>
+							<a class="btn-cancel" onClick="cancelEditUser()"> Cancel </a>
 							<br>
 				    	</div>
 				    	<div class="daschboardContent" id="profile-settings" style="display: none;">
@@ -143,8 +146,8 @@
 				    		<h2>Make your profile private</h2>
 				    		<br>
 				    		<br>
-				    		<a class="btn-save" onclick="update()"> Save </a>
-							<a class="btn-cancel" onclick="cancel()"> Cancel </a>
+				    		<a class="btn-save" onclick="updatePassword()"> Save </a>
+							<a class="btn-cancel" onclick="cancelEditPassword()"> Cancel </a>
 							<br>
 				    	</div>
 				    	<div class="daschboardContent" id="verify-profile" style="display: none;">
@@ -161,8 +164,8 @@
 				    		<input class="dashboardInput" type="file" name="report" id="report" value="Medical report" class="inputFileu">
 				    		</h3>
 				    		<br>
-				    		<a class="btn-save" onclick="save_files()"> Save </a>
-							<a class="btn-cancel" onclick="cancel()"> Cancel </a>
+				    		<a class="btn-save" onclick="saveFiles()"> Save </a>
+							<a class="btn-cancel" onclick="cancelSavingFiles()"> Cancel </a>
 				    	</div>
 				    	<div class="daschboardContent" id="delete-profile" style="display: none;">
 				    		<br>
@@ -170,7 +173,7 @@
 				    		<h2>Delete your profile</h2>
 				    		<br><br>
 				    		<a class="btn-save" onclick="delete_account()"> Delete </a>
-							<a class="btn-cancel" onclick="cancel()"> Cancel </a>
+							<a class="btn-cancel" onclick="view()"> Cancel </a>
 							<br>
 				    	</div>
 				    	</center>
