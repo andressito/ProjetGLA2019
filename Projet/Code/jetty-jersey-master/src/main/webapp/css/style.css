@@ -1674,7 +1674,7 @@ nav.crumb{
 }
 
 .upcomingFlight th{
-    height: 100px;
+  height: 100px;
 }
 .btn-details{
     color: #fff;
@@ -1682,5 +1682,32 @@ nav.crumb{
     border-radius: 10px;
 }
 
+#dash_bg{
+    background-image:url("../images/profile.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    margin:0;
+}
+
+#map{
+  width: 40%;
+  height: 90vh;
+  padding-left: .5rem;
+  margin-left: .5rem;
+  float: right;
+  box-shadow: inset 5px 0 5px -5px #29627e;
+  font-style: italic;
+  color: #29627e;
+}
+
+div .static{
+  position: static;
+  border: 5px solid red;
+  height: 100px;
+  width: 200px;
+  overflow-scrolling: auto;
+  overflow: scroll;
+}
 
 /*# sourceMappingURL=style.css.map */
