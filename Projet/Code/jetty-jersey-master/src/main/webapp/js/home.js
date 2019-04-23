@@ -35,7 +35,8 @@ $(document).ready(function() {
                 cache: false,
                 dataType: "json"
             }).done(function (result) {
-                if(result){
+                console.log(result.length);
+                if(result.length>0){
                     var table=
                         "<div class=\"upcomingFlight\"><h1> Upcoming Flight </h1>"+
                         "<br><br><br><table class=\"table\">"+
@@ -51,19 +52,24 @@ $(document).ready(function() {
                         "</thead>"+
                         "<tbody>"+
                         "<tr>" +
-                        "<td>"+result['departureAerodrom']+"</td>"+
-                        "<td>"+result['arrivalAerodrom']+"</td>"+
-                        "<td>"+result['date']+"</td>"+
-                        "<td>"+result['remainingSeats']+"</td>"+
-                        "<td>"+result['remainingSeats']+"</td>"+
-                        "<td> <button value='"+result['flightId']+"' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>"+
+                        "<td>"+result[0].departureAerodrom+"</td>"+
+                        "<td>"+result[0].arrivalAerodrom+"</td>"+
+                        "<td>"+result[0].date+"</td>"+
+                        "<td>"+result[0].allSeats+"</td>"+
+                        "<td>"+result[0].remainingSeats+"</td>"+
+                        "<td> <button value='"+result[0].flightId+"' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>"+
                         "</tr>"+
                         "</tbody>"+
                         "</table>"+
                         "</div>";
                     $("#flight").append(table);
                 }else{
-                    var table ="<h3> Pas de vol à venir</h3>";
+
+                    var table=
+                        "<div class=\"upcomingFlight\"><br><h1> No flights to display </h1>"+
+                        "<br>"+
+                        "<a href='AddFlight.html'><h5> Add a new flight here</h5></a>"+
+                        "</div>";
                     $("#flight").append(table);
                 }
 
