@@ -745,8 +745,8 @@ public class ClientDB {
     }
 
     /*Return the user using a specific id*/
-    public User getUserById(String id) throws IOException{
-        SearchHit[] sh = getByFieldValue("user","userId",id);
+    public User getUserByUserId(String userId) throws IOException{
+        SearchHit[] sh = getByFieldValue("user","userId",userId);
         if(sh != null) {
             if (sh.length == 1)
                 return createUser(sh[0].getSourceAsMap());
@@ -754,12 +754,25 @@ public class ClientDB {
         return null;
     }
 
-    /*Return the user using a specific id*/
-    public Message getMessageById(String id) throws IOException{
-        SearchHit[] sh = getByFieldValue("message","messageId",id);
+    /*Return the message using a specific message id*/
+    public Message getMessageByMessageId(String messageId) throws IOException{
+        SearchHit[] sh = getByFieldValue("message","messageId",messageId);
         if(sh != null) {
             if (sh.length == 1)
                 return createMessage(sh[0].getSourceAsMap());
+        }
+        return null;
+    }
+
+    /*Return a list of messages using a specific user id*/
+    public ArrayList<Message> getMessageByUserId(String userId) throws IOException{
+        SearchHit[] sh = getByFieldValue("message","userId",userId);
+        if(sh != null) {
+            ArrayList<Message> l = new ArrayList<Message>();
+            for(SearchHit s : sh){
+                Map<String, Object> m = s.getSourceAsMap();
+                l.add(createMessage(m));
+            }
         }
         return null;
     }
