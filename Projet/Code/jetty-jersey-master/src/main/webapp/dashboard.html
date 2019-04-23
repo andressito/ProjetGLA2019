@@ -81,18 +81,21 @@
 					<div class="slider-text-inner">
 						<br>
 						<br>
-				    	<center><img class="profile-img" id="profilePicture" src="images/Profile.png">
-				    	<a href="#"><h1><span id="cam" class="glyphicon glyphicon-camera"></span><h1></a>
+				    	<center>
+							<img class="profile-img" id="profilePicture" src="images/Profile.png" alt="profile picture"/>
+				    	<a href="#"><h1><span id="cam" class="glyphicon glyphicon-camera"></span></h1></a>
+						<h1>
 				    	<div id="dash">
 				    		<ul>
-				    			<li><a href="#" alt="View your profile" onclick="view()"><span class="glyphicon glyphicon-list-alt"></span></a></li>
-				    			<li><a href="#" alt="Edit your profile" onclick="edit()"><span class="glyphicon glyphicon-pencil"></span></a></li>
-				    			<li><a href="#" alt="Profile settings" onclick="settings()"><span class="glyphicon glyphicon-cog"></span></i></a></li>
-				    			<li><a href="#" alt="Verify your profile" onclick="verify()"><span class="glyphicon glyphicon-ok"></span></a></li>
-				    			<li><a href="#" alt="Delete your profile" onclick="Delete()"<span class="glyphicon glyphicon-trash"></span></a></li>
+								<li><a href="#" onclick="view()"><span class="glyphicon glyphicon-list-alt"></span></a></li>
+								<li><a href="#" onclick="edit()"><span class="glyphicon glyphicon-pencil"></span></a></li>
+								<li><a href="#" onclick="settings()"><span class="glyphicon glyphicon-cog"></span></a></li>
+								<li><a href="#" onclick="verify()"><span class="glyphicon glyphicon-ok"></span></a></li>
+								<li><a href="#" onclick="Delete()"><span class="glyphicon glyphicon-trash"></span></a></li>
 				    		</ul>
 				    	</div>
-				    	<br>
+						</h1>
+							<br>
 				    	<div class="daschboardContent" id="view-profile" style="display: none;">
 				    		<h1>Your profile data </h1>
 				    		<h3 id="dash-fname">Firstname : </h3>
@@ -103,7 +106,7 @@
 							<h3 id="dash-email">email : </h3>
 							<h3 id="dash-gsm">GSM : </h3>
 				    		<h3 id="dash-date">Birth date : </h3>
-
+							<br>
 				    	</div>
 				    	<div class="daschboardContent" id="edit-profile" style="display: none;">
 				    		<h1>Edit your profile </h1>
@@ -123,6 +126,7 @@
 				    		<br>
 							<a class="btn-save" onclick="update()"> Save </a>
 							<a class="btn-cancel" onClick="cancelEdit()"> Cancel </a>
+							<br>
 				    	</div>
 				    	<div class="daschboardContent" id="profile-settings" style="display: none;">
 				    		<h1>Profile settings</h1>
@@ -141,6 +145,7 @@
 				    		<br>
 				    		<a class="btn-save" onclick="update()"> Save </a>
 							<a class="btn-cancel" onclick="cancel()"> Cancel </a>
+							<br>
 				    	</div>
 				    	<div class="daschboardContent" id="verify-profile" style="display: none;">
 				    		<h3>Verify your identity
@@ -166,11 +171,9 @@
 				    		<br><br>
 				    		<a class="btn-save" onclick="delete_account()"> Delete </a>
 							<a class="btn-cancel" onclick="cancel()"> Cancel </a>
+							<br>
 				    	</div>
 				    	</center>
-						<br>
-						<br>
-						<br>
 						<br>
 						<br>
 						<br>

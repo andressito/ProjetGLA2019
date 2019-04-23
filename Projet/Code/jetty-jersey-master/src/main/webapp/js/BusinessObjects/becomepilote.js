@@ -66,19 +66,17 @@ function becomepilot(){
                     dataType: "json",
                 }).done(function (resultt) {
                     if(result){
-                         swal({
-                                            title: "ChuChuFly!",
-                                            text: "you are pilot !",
-                                            icon: "success",
-                                               });
-
+                     swal({
+                        title: "ChuChuFly!",
+                        text: "you are pilot !",
+                        icon: "success",
+                     });
                     }else{
                       swal({
-                                         title: "ChuChuFly!",
-                                         text: "invalid license !",
-                                         icon: "error",
-                                            });
-
+                         title: "ChuChuFly!",
+                         text: "invalid license !",
+                         icon: "error",
+                      });
                     }
                 });
             }
