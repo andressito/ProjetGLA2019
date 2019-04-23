@@ -20,6 +20,7 @@ $(document).ready(function() {
         document.getElementById("bg").style.backgroundImage = "url('images/paris.jpg')";
         if (typeUser === "passenger") {
             $("#menu").load('../Menu/MenuPassenger.html');
+            document.getElementById('myFlights').style.display="'inline";
         } else {
             $("#menu").load('../Menu/MenuPilot.html');
             $.ajax({
