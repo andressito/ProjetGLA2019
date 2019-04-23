@@ -1661,6 +1661,11 @@ nav.crumb{
     color: #2BBDB5;
     font-pref-size: 4em;
 }
+
+.upcomingFlight h5{
+  color: white;
+}
+
 .upcomingFlight table{
     border: 1px solid #2BBDB5;
     border-radius: 10px;
@@ -1676,4 +1681,6 @@ nav.crumb{
     background: #2BBDB5;
     border-radius: 10px;
 }
+
+
 /*# sourceMappingURL=style.css.map */
