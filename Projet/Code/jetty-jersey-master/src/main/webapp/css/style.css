@@ -1677,9 +1677,20 @@ nav.crumb{
 .upcomingFlight th{
     height: 100px;
 }
+
 .btn-details{
     color: #fff;
     background: #2BBDB5;
     border-radius: 10px;
 }
+
+#bl_bg{
+  background-color: rgba(0,0,0,0.4);
+  display: block;
+}
+.fh5co-hero #search{
+    padding: 10px;
+    width: current screen width;
+}
+
 /*# sourceMappingURL=style.css.map */

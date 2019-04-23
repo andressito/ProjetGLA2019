@@ -18,7 +18,7 @@ $(document).ready(function() {
             sessionStorage.setItem("userId",userId);
         }
             $("#menu").load('../Menu/MenuPilot.html');
-        }
+    }
 });
 
 $(function () {
