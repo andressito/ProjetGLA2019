@@ -151,10 +151,61 @@ function delete_account() {
 
 function updatePassword(){
 
+    var pwd= localStorage["password"];
+    var oldPwd=$("#old-password").val();
+    var newPwd=$("#new-password").val();
+    var newPwd2=$("#new-password2").val();
+    if(oldPwd!=pwd){
+        swal({
+            title: "ChuChuFly!",
+            text: "The old password is incorrect, please try again",
+            icon: "error",
+        });
+    }
+    else{
+        if(newPwd!=newPwd2){
+            swal({
+                title: "ChuChuFly!",
+                text: "The new passwords don't match, please try again",
+                icon: "error",
+            });
+        }
+        else{
+            userId=localStorage["userId"];
+            var data= '{"password":"'+pwd+'", "userId":"'+userId+'"}';
+            var dataUrl = "http://localhost:8080/ws/user/update";
+            $.ajax({
+                url: dataUrl,
+                type: "PUT",
+                data: data,
+                contentType: "application/json",
+                cache: false,
+                dataType: "json",
+            }).done(function (result) {
+                if(result){
+                    swal({
+                        title: "ChuChuFly!",
+                        text: "Password updated successfully!",
+                        icon: "success",
+                    });
+                }else{
+                    swal({
+                        title: "ChuChuFly!",
+                        text: "An error ocurred, please try later",
+                        icon: "error",
+                    });
+                }
+            });
+        }
+    }
+
+
 }
 
 function cancelEditPassword(){
-
+    $('#old-password').val(null);
+    $('#new-password').val(null);
+    $('#new-password2').val(null);
 }
 
 function saveFiles(){
