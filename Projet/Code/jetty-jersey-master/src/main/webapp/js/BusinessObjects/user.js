@@ -261,6 +261,8 @@ $(function(){
                     console.log(result['firstName']);
                     localStorage.setItem("firstName",result['firstName']);
                     sessionStorage.setItem("firstName",result['firstName']);
+                    sessionStorage.setItem("lastName",result['lastName']);
+                    sessionStorage.setItem("gsm",result['gsm']);
                     localStorage.setItem("userId",result['userId']);
                     sessionStorage.setItem("userId",result['userId']);
                     localStorage.setItem("typeUser", result['typeUser']);
