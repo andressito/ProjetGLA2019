@@ -1,4 +1,3 @@
-const ok="";
 $(document).ready(function() {
     if(!localStorage.getItem("userId")){
         window.location.href="http://localhost:8080/";
@@ -63,8 +62,8 @@ $(document).ready(function() {
 });
 
 function booking(flightId,userId) {
-    localStorage.setItem("flightIdBooking",flightId);
-    window.location.href="http://localhost:8080/Booking.html";
+    console.log(flightId);
+    console.log(userId);
 }
 
 function getServerData(url, success){

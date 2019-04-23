@@ -15,7 +15,6 @@ $(document).ready(function() {
 
 function callDoneFlightDetails(result){
     var templateExample = _.template($('#templateExample').html());
-
     var html = templateExample({
         'type':JSON.stringify(result['type']),
         'price':JSON.stringify(result['price']),
@@ -43,7 +42,7 @@ function getServerData(url, success){
     $.ajax({
         dataType: "json",
         url: url,
-        type: "get",
+        type: "get"
     }).done(success);
 }
 
@@ -73,10 +72,8 @@ function formatDate(date) {
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
-
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
-
     return [year, month, day].join('-');
 }
 

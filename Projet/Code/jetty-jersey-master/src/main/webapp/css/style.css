@@ -486,7 +486,6 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 #fh5co-hero .flexslider .slides {
   position: relative;
-  overflow: hidden;
 }
 #fh5co-hero .flexslider .slides li {
   background-repeat: no-repeat;
@@ -555,6 +554,13 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #fh5co-services-section .services {
   position: relative;
+}
+.modal-dialog{
+  width: 800px;
+  height: 800px;
+}
+.modal-content{
+  height: 600px;
 }
 #fh5co-services-section .services i {
   position: absolute;
@@ -1682,5 +1688,12 @@ nav.crumb{
     border-radius: 10px;
 }
 
+#dash_bg{
+  background-image:url("../images/profile.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  margin:0;
+}
 
 /*# sourceMappingURL=style.css.map */
