@@ -24,15 +24,16 @@ $(document).ready(function() {
         } else {
             $("#menu").load('../Menu/MenuPilot.html');
             $.ajax({
-                url: "http://localhost:8080/ws/reservations/reservation/user/" + userId,
+                url: "http://localhost:8080/ws/reservation/reservations/user/" + userId,
                 type: "GET",
                 contentType: "application/json",
                 cache: false,
                 dataType: "json"
             }).done(function (result) {
-                if (result) {
+                if (result.length>0) {
+                    console.log(result);
                     var table =
-                        "<div class=\"upcomingFlight\"><h1> Reservations list </h1>" +
+                        "<div class=\"flightsList\"><h1> Reservations list </h1>" +
                         "<br><br><br><table class=\"table\">" +
                         "<thead>" +
                         "<tr>" +
