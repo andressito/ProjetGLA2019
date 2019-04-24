@@ -41,7 +41,7 @@ import java.util.Random;
 
 public class ClientDB {
     private RestHighLevelClient client;
-    private int idMaxFlight, idMaxLicence, idMaxMessage, idMaxPlane, idMaxReservation, idMaxUser;
+    private int idMaxFlight, idMaxLicence, idMaxMessage, idMaxPlane, idMaxReservation, idMaxUser, idMaxAerodrom;
 
     public ClientDB() throws IOException{
         client = new RestHighLevelClient(
@@ -58,7 +58,8 @@ public class ClientDB {
                     "\"message\":\"0\"," +
                     "\"plane\":\"0\"," +
                     "\"reservation\":\"0\"," +
-                    "\"user\":\"0\""+
+                    "\"user\":\"0\","+
+                    "\"aerodrom\":\"0\""+
                     "}";
             indReq.source(jsonString, XContentType.JSON);
             IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
@@ -71,12 +72,14 @@ public class ClientDB {
         if(!ifTableExist("plane")) createTable("plane");
         if(!ifTableExist("reservation")) createTable("reservation");
         if(!ifTableExist("user")) createTable("user");
+        if(!ifTableExist("aerodrom")) createTable("aerodrom");
         idMaxFlight = getIdMax2("flight");
         idMaxLicence = getIdMax2("licence");
         idMaxMessage = getIdMax2("message");
         idMaxPlane = getIdMax2("plane");
         idMaxReservation = getIdMax2("reservation");
         idMaxUser = getIdMax2("user");
+        idMaxAerodrom = getIdMax2("aerodrom");
     }
 
     public RestHighLevelClient getClient(){
@@ -87,6 +90,133 @@ public class ClientDB {
     /*Close the client*/
     public void closeClient() throws Exception{
         client.close();
+    }
+
+
+    /*A temporary function to fill aerodrom index*/
+    public boolean fillAerodrom() throws IOException{
+        int id = 1;
+        IndexRequest indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        String jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"charles de gaule\"," +
+                "\"location\":\"49.0097,2.5479\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"orly\"," +
+                "\"location\":\"48.726243,2.365247\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"le bourget\"," +
+                "\"location\":\"48.9694,2.44139\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"chelles\"," +
+                "\"location\":\"48.89421,2.60331\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"lognes-emerainville\"," +
+                "\"location\":\"48.81964,2.62555\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"meaux-esbly\"," +
+                "\"location\":\"48.928584,2.841064\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"toussus-le-noble\"," +
+                "\"location\":\"48.7517,2.10611\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"saint-cyr-l'ecole\"," +
+                "\"location\":\"48.81307,2.06754\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"fontenay-tresigny\"," +
+                "\"location\":\"48.70482,2.90745\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        id++;
+        indReq = new IndexRequest(
+                "aerodrom",
+                "info",
+                ""+id);
+        jsonString =  "{"+
+                "\"town\":\"paris\"," +
+                "\"airfieldName\":\"beynes-thyverval\"," +
+                "\"location\":\"48.85732,1.85094\"" +
+                "}";
+        indReq.source(jsonString, XContentType.JSON);
+        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        setIdMax("aerodrom",id);
+        return true;
     }
 
     /*Return true or false if the user can connect*/
@@ -151,7 +281,8 @@ public class ClientDB {
         else if(table.equals("message")) request.mapping("info", builderMessage());
         else if(table.equals("plane")) request.mapping("info", builderPlane());
         else if(table.equals("reservation")) request.mapping("info", builderReservation());
-        else request.mapping("info", builderUser());
+        else if(table.equals("user")) request.mapping("info", builderUser());
+        else request.mapping("info", builderAerodrom());
         CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
     }
 
@@ -284,6 +415,24 @@ public class ClientDB {
         return builder;
     }
 
+    /*Aerodrom*/
+    private XContentBuilder builderAerodrom() throws IOException{
+        XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject();{
+            builder.startObject("info");{
+                builder.startObject("properties");{
+                    builder.startObject("town");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("airfieldName");{builder.field("type", "keyword");}builder.endObject();
+                    builder.startObject("location");{builder.field("type", "geo_point");}builder.endObject();
+                }
+                builder.endObject();
+            }
+            builder.endObject();
+        }
+        builder.endObject();
+        return builder;
+    }
+
     /*Return the name of the instance into a String*/
     private String getTable(Object o){
         String res;
@@ -354,7 +503,8 @@ public class ClientDB {
         else if(table.equals("message")) return idMaxMessage;
         else if(table.equals("plane")) return idMaxPlane;
         else if(table.equals("reservation")) return idMaxReservation;
-        else return idMaxUser;
+        else if(table.equals("user")) return idMaxUser;
+        else return idMaxAerodrom;
     }
 
     /*Take idMax of the specific table using the database*/
@@ -436,10 +586,10 @@ public class ClientDB {
     }
 
     public int getIdForPlane(String atcnumber) throws IOException {
-            SearchHit[] sh = getByFieldValue("plane","atcNumber",atcnumber);
-            if(sh.length != 0)
-                return Integer.parseInt(sh[0].getId());
-            return -1;
+        SearchHit[] sh = getByFieldValue("plane","atcNumber",atcnumber);
+        if(sh.length != 0)
+            return Integer.parseInt(sh[0].getId());
+        return -1;
     }
 
     public int getIdForReservation(String reservationId) throws IOException {
@@ -467,9 +617,9 @@ public class ClientDB {
     }
     private boolean updateId(String table, int max) throws IOException{
         UpdateRequest request = new UpdateRequest(
-                    "idmax",
-                    "info",
-                    "1");
+                "idmax",
+                "info",
+                "1");
         String jsonString = "{" +
                 "\""+table+"\":\""+max+"\"" +
                 "}";
@@ -618,7 +768,7 @@ public class ClientDB {
                     "\"flightId\":\""+r.getFlightId()+"\"," +
                     "\"nbPlaces\":\""+r.getNbPlaces() +"\"," +
                     "\"date\":\""+r.getDate()+"\"," +
-                     "\"price\":\""+r.getPrice()+"\"," +
+                    "\"price\":\""+r.getPrice()+"\"," +
                     "\"status\":\""+r.getStatus()+"\"" +
                     "}";
         } else {
@@ -717,8 +867,8 @@ public class ClientDB {
     /*GET functions*/
     /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
     public ArrayList<Flight> getFlightByUserId(String userId) throws IOException{
-       ArrayList<Flight> lf = new ArrayList<Flight>();
-       SearchHit[] t = getByFieldValue("flight","userId",userId);
+        ArrayList<Flight> lf = new ArrayList<Flight>();
+        SearchHit[] t = getByFieldValue("flight","userId",userId);
         for(SearchHit sh : t){
             Map<String, Object> m = sh.getSourceAsMap();
             if(m.get("userId").toString().equals(userId)) lf.add(createFlight(m));
@@ -734,7 +884,7 @@ public class ClientDB {
         }
         return null;
     }
-    
+
     public ArrayList<Reservation> getReservationByUser(String userId) throws IOException{
         ArrayList<Reservation> lf = new ArrayList<Reservation>();
         SearchHit[] t = getByFieldValue("reservation","userId",userId);
@@ -1269,7 +1419,7 @@ public class ClientDB {
         return list;
     }
 
-        /*Search function for all arguments*/
+    /*Search function for all arguments*/
     private ArrayList<Flight> auxFlights6(String departureAerodromSearched, String arrivalAerodromSearched, String dateSearched, String typeSearched,String priceSearched, String seatsSearched) throws Exception {
         ArrayList<Flight> list = new ArrayList<Flight>();
         ArrayList<Flight> listAfterDate = new ArrayList<Flight>();
