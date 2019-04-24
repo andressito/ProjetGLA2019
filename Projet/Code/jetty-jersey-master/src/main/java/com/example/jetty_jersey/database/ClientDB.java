@@ -98,6 +98,17 @@ public class ClientDB {
         return false;
     }
 
+    /*Return a boolean if the user is a pilot*/
+    public boolean ifUserAPilot(String userId) throws IOException{
+        SearchHit[] sh = getByFieldValue("user","userId",userId);
+        if(sh != null){
+            User u = createUser(sh[0].getSourceAsMap());
+            return(u.getTypeUser().equals("pilot"));
+        }
+        System.out.println("The user doesn't exist");
+        return false;
+    }
+
     /*Verify if the table exists*/
     private boolean ifTableExist(String table) throws IOException{
         GetIndexRequest request = new GetIndexRequest();
@@ -715,6 +726,15 @@ public class ClientDB {
         return lf;
     }
 
+    public Licence getLicenceByUserId(String userId) throws IOException{
+        SearchHit[] sh = getByFieldValue("licence","userId",userId);
+        if(sh != null) {
+            if (sh.length == 1)
+                return createLicence(sh[0].getSourceAsMap());
+        }
+        return null;
+    }
+    
     public ArrayList<Reservation> getReservationByUser(String userId) throws IOException{
         ArrayList<Reservation> lf = new ArrayList<Reservation>();
         SearchHit[] t = getByFieldValue("reservation","userId",userId);
