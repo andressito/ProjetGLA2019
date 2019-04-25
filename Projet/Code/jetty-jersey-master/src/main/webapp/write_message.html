@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ChuChuFly | messages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="css/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Flexslider  -->
+    <link rel="stylesheet" href="css/flexslider.css">
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="js/modernizr-2.6.2.min.js"></script>
+
+    <script type="text/javascript" src="js/BusinessObjects/message.js"></script>
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
+</head>
+
+<body>
+<style type="text/css">
+			body {
+				background-image:url(images/slide_2.jpeg);
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				background-size: 100% 100%;
+				margin:0;
+			}
+		</style>
+
+<div id="fh5co-page">
+    <header id="fh5co-header" role="banner">
+        <div class="container">
+            <div class="header-inner">
+                <h1><img src="images/planev.png" style="img-responsive" width="40" height="30" /><a href="home.html"> ChuChuFly</a></h1>
+                <nav role="navigation">
+                    <ul>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="SignIn.html">Sign In</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+
+    </div>
+</div>
+
+<aside>
+    <div class="animate-box">
+        <br>
+        <div class="col-md-4 col-md-offset-4" style="background-color: rgba(0,0,0,.5);">
+            <div class="col-md-12"> </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend ">
+                    <span class="input-group-text white_label" for="user-email">From</span>
+                </div>
+                <input  id="user-email" size="45" type="text" class="form-control form-control mr-sm-2 home_input" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend ">
+                    <span class="input-group-text white_label" id="From">To</span>
+                </div>
+                <input id="received" size="45" type="text" class="form-control form-control mr-sm-2 home_input" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend ">
+                    <span class="input-group-text white_label" id="Objet">Objet</span>
+                </div>
+                <input  size="45" type="text" class="form-control form-control mr-sm-2 home_input" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label  class="white_label" for="message">message :</label>
+                </div>
+                <textarea  rows="10" cols="100" class="form-control form-control mr-sm-2 home_input" placeholder="Write your message" name="message" id="message"></textarea>
+            </div>
+            <br>
+            <br>
+            <div class="col-md-12">
+                <center>
+                    <div class="form-group">
+                        <a class="btn btn-primary " type="submit" onclick="Envoyer_message()"> Envoyer </a>
+                        <a class="btn btn-warning " id="Cancel"> Cancel </a>
+                    </div><br>
+                </center>
+            </div>
+        </div>
+    </div>
+
+</aside>
+
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+<!-- jQuery Easing -->
+<script src="js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<script src="js/bootstrap.min.js"></script>
+<!-- Waypoints -->
+<script src="js/jquery.waypoints.min.js"></script>
+<!-- Owl Carousel -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- Flexslider -->
+<script src="js/jquery.flexslider-min.js"></script>
+
+<script src="js/main.js"></script>
+</body>
+</html>

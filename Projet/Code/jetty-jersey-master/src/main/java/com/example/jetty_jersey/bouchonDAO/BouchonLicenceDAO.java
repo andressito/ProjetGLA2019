@@ -15,7 +15,6 @@ public class BouchonLicenceDAO implements LicenceDAO {
         System.out.println(""+licence.getUserId());
         try {
             JettyMain.c.indexDB(licence,null);
-            //JettyMain.c.updateUserInIndexDonko(licence.getUserId(),"pilot",user);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

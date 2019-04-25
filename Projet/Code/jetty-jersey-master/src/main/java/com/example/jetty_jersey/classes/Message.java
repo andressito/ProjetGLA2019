@@ -9,8 +9,9 @@ public class Message {
     public String receiverId;
     public String sendingDate;
 
-    public Message(String messageId,String content, String senderId, String receiverId, String sendingDate){
-        this.messageId= messageId;
+    public Message() {}
+    public Message(String content, String senderId, String receiverId, String sendingDate){
+        this.messageId= null;
         this.content=content;
         this.senderId=senderId;
         this.receiverId=receiverId;
