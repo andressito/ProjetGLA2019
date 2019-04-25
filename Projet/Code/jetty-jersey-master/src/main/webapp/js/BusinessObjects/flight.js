@@ -107,19 +107,13 @@ function ajouter(){
             //si resultat bon, is Ok
             swal({
                 title: "ChuChuFly!",
-                text: "Flight recorded successfully!",
+                text: "Flight registered successfully!",
                 icon: "success"
+            }).then((willDelete) => {
+                if (willDelete) {
+                    window.location.href="http://localhost:8080/myFlights.html";
+                }
             });
-            //effacement du contenu des inputs
-            $("#plane").val("");
-            $("#departureAirfield").val("");
-            $("#Date").val("");
-            $("#DepartureT").val("");
-            $("#allSeats").val("");
-            $("#ArrivalA").val("");
-            $("#ArrivalT").val("");
-            $("#price").val("");
-            //fin de l'effacement
         }else{
             swal({
                 title: "ChuChuFly!",

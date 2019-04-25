@@ -1717,4 +1717,28 @@ div .static{
   height: 600px;
 }
 
+
+.flightsList{
+  background-color: rgba(0,0,0,0.8);
+  margin: 40px;
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+  padding-top: 15%;
+  padding-bottom: 20%;
+  padding-left: 5%;
+  padding-right: 5%;
+  height: 80%;
+  width: 90%;
+}
+
+.flightsList h1{
+  color: #2BBDB5;
+  font-pref-size: 4em;
+}
+
+.flightsList h5{
+  color: white;
+}
+
 /*# sourceMappingURL=style.css.map */
