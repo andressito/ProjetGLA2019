@@ -521,36 +521,46 @@ public class ClientDB {
     /*Get the id of the line table using a instance of the table*/
     private int getIdForFlight(Flight f) throws IOException{
         SearchHit[] sh = getByFieldValue("flight","flightId",f.getFlightId());
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     private int getIdForLicence(Licence l) throws IOException{
         SearchHit[] sh = getByFieldValue("licence","licenceId",l.getLicenceId());
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     private int getIdForMessage(Message m) throws IOException{
         SearchHit[] sh = getByFieldValue("message","messageId",m.getMessageId());
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     private int getIdForPlane(Plane p) throws IOException {
         SearchHit[] sh = getByFieldValue("plane","atcNumber",p.getAtcNumber());
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     private int getIdForReservation(Reservation r) throws IOException {
         SearchHit[] sh = getByFieldValue("reservation","reservationId",r.getReservationId());
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
@@ -566,43 +576,64 @@ public class ClientDB {
     /*Gets the table's line's id by matching with the id in argument*/
     public int getIdForFlight(String flightId) throws IOException{
         SearchHit[] sh = getByFieldValue("flight","flightId",flightId);
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     public int getIdForLicence(String licenceId) throws IOException{
         SearchHit[] sh = getByFieldValue("licence","licenceId",licenceId);
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     public int getIdForMessage(String messageId) throws IOException {
         SearchHit[] sh = getByFieldValue("message", "messageId", messageId);
-        if (sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     public int getIdForPlane(String atcnumber) throws IOException {
         SearchHit[] sh = getByFieldValue("plane","atcNumber",atcnumber);
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     public int getIdForReservation(String reservationId) throws IOException {
         SearchHit[] sh = getByFieldValue("reservation","reservationId",reservationId);
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
     private int getIdForUser(String userId) throws IOException {
         SearchHit[] sh = getByFieldValue("user","userId",userId);
-        if(sh.length != 0)
-            return Integer.parseInt(sh[0].getId());
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
+        return -1;
+    }
+
+    public int getIdForAerodrom(String name) throws IOException{
+        SearchHit[] sh = getByFieldValue("aerodrom","airfieldName",name);
+        if(sh != null) {
+            if (sh.length != 0)
+                return Integer.parseInt(sh[0].getId());
+        }
         return -1;
     }
 
@@ -613,7 +644,8 @@ public class ClientDB {
         else if(table.equals("message")) idMaxMessage = val;
         else if(table.equals("plane")) idMaxPlane = val;
         else if(table.equals("reservation")) idMaxReservation = val;
-        else idMaxUser = val;
+        else if(table.equals("user")) idMaxUser = val;
+        else idMaxAerodrom = val;
     }
     private boolean updateId(String table, int max) throws IOException{
         UpdateRequest request = new UpdateRequest(
@@ -653,16 +685,20 @@ public class ClientDB {
     /*Return true if the licence id already exists, false if not*/
     public boolean ifLicenceIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("licence","licenceid",id);
-        if(sh.length != 0)
-            return true;
+        if(sh != null) {
+            if (sh.length != 0)
+                return true;
+        }
         return false;
     }
 
     /*Return true if the flight id already exists, false if not*/
     public boolean ifMessageIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("message","messageId",id);
-        if(sh.length != 0)
-            return true;
+        if(sh != null) {
+            if (sh.length != 0)
+                return true;
+        }
         return false;
     }
 
@@ -869,11 +905,14 @@ public class ClientDB {
     public ArrayList<Flight> getFlightByUserId(String userId) throws IOException{
         ArrayList<Flight> lf = new ArrayList<Flight>();
         SearchHit[] t = getByFieldValue("flight","userId",userId);
-        for(SearchHit sh : t){
-            Map<String, Object> m = sh.getSourceAsMap();
-            if(m.get("userId").toString().equals(userId)) lf.add(createFlight(m));
+        if(t != null) {
+            for (SearchHit sh : t) {
+                Map<String, Object> m = sh.getSourceAsMap();
+                if (m.get("userId").toString().equals(userId)) lf.add(createFlight(m));
+            }
+            return lf;
         }
-        return lf;
+        return null;
     }
 
     public Licence getLicenceByUserId(String userId) throws IOException{
@@ -888,21 +927,27 @@ public class ClientDB {
     public ArrayList<Reservation> getReservationByUser(String userId) throws IOException{
         ArrayList<Reservation> lf = new ArrayList<Reservation>();
         SearchHit[] t = getByFieldValue("reservation","userId",userId);
-        for(SearchHit sh : t){
-            Map<String, Object> m = sh.getSourceAsMap();
-            if(m.get("userId").toString().equals(userId)) lf.add(createReservation(m));
+        if(t!= null) {
+            for (SearchHit sh : t) {
+                Map<String, Object> m = sh.getSourceAsMap();
+                if (m.get("userId").toString().equals(userId)) lf.add(createReservation(m));
+            }
+            return lf;
         }
-        return lf;
+        return null;
     }
 
     public ArrayList<Reservation> getReservationByFlight(String flightId) throws IOException{
         ArrayList<Reservation> lf = new ArrayList<Reservation>();
         SearchHit[] t = getByFieldValue("reservation","flightId",flightId);
-        for(SearchHit sh : t){
-            Map<String, Object> m = sh.getSourceAsMap();
-            if(m.get("flightId").toString().equals(flightId)) lf.add(createReservation(m));
+        if(t != null) {
+            for (SearchHit sh : t) {
+                Map<String, Object> m = sh.getSourceAsMap();
+                if (m.get("flightId").toString().equals(flightId)) lf.add(createReservation(m));
+            }
+            return lf;
         }
-        return lf;
+        return null;
     }
 
     /*Return the user using a specific email address*/
@@ -911,7 +956,8 @@ public class ClientDB {
         if(sh != null) {
             if (sh.length == 1)
                 return createUser(sh[0].getSourceAsMap());
-        }return null;
+        }
+        return null;
     }
 
     /*Return the user using a specific id*/
