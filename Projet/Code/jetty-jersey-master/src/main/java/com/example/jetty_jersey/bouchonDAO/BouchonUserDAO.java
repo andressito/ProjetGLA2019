@@ -60,6 +60,12 @@ public class BouchonUserDAO implements UserDAO {
 
     public boolean deleteUser(String userId) {
         try{
+            if(JettyMain.c.ifUserAPilot(userId)) {
+                Licence l = JettyMain.c.getLicenceByUserId(userId);
+                JettyMain.c.delete(l.licenceId, "licence");
+                JettyMain.c.delete(userId, "user");
+                return true;
+            }
             JettyMain.c.delete(userId, "user");
             return true;
         } catch (IOException e) {
