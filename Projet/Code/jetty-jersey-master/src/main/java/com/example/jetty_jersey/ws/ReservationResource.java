@@ -43,6 +43,13 @@ public class ReservationResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/reservationPilot/{userId}")
+    public ArrayList<Reservation> getReservationForPilot(@PathParam("userId") String userId) {
+        return brDAO.getReservationForPilot(userId);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/reservations/Flight/{flightId}")
     public ArrayList<Reservation> getReservationByFlight(@PathParam("flightId") String flightId) {
     	return brDAO.getReservationByFlight(flightId);

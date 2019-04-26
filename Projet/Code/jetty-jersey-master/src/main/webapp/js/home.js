@@ -28,6 +28,7 @@ $(document).ready(function() {
             $("#menu").load('../Menu/MenuPilot.html');
             document.getElementById('search').style.display='none';
             document.getElementById('flight').style.display='inline';
+            getServerData("http://localhost:8080/ws/reservation/reservationPilot/" + userId,callDone);
             $.ajax({
                 url: "http://localhost:8080/ws/flight/flightByUserId/"+userId,
                 type: "GET",
@@ -38,7 +39,6 @@ $(document).ready(function() {
                 console.log(result.length);
                 if(result.length>0){
                     var table=
-                        "<div class=\"upcomingFlight\"><h1> Upcoming Flight </h1>"+
                         "<br><br><br><table class=\"table\">"+
                         "<thead>"+
                         "<tr>" +
@@ -60,8 +60,7 @@ $(document).ready(function() {
                         "<td> <button value='"+result[0].flightId+"' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>"+
                         "</tr>"+
                         "</tbody>"+
-                        "</table>"+
-                        "</div>";
+                        "</table>";
                     $("#flight").append(table);
                 }else{
 
@@ -103,4 +102,36 @@ function searchFlight(){
     sessionStorage.setItem("departureDate",departureDate);
     document.location.href = "SearchList.html";
 
+}
+
+function getServerData(url, success){
+    $.ajax({
+        dataType: "json",
+        url: url,
+        type: "get"
+    }).done(success);
+}
+
+function callDone(result){
+    console.log(result);
+    var templateExample = _.template($('#templateExample').html());
+    for(var i=0; i<result.length; i++) {
+        var html = templateExample({
+            "flightId": JSON.stringify(result[i].flightId),
+            "userId": JSON.stringify(result[i].userId),
+            "nbSeats": JSON.stringify(result[i].nbPlaces),
+            "price": JSON.stringify(result[i].price),
+            "status": JSON.stringify(result[i].status)
+        });
+        $("#myReservations").append(html);
+    }
+
+}
+
+function acceptReservation(flightId){
+    console.log(flightId);
+}
+
+function declineReservation(flightId){
+    console.log(flightId);
 }

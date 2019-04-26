@@ -4,6 +4,7 @@ import com.example.jetty_jersey.JettyMain;
 import com.example.jetty_jersey.classes.Flight;
 import com.example.jetty_jersey.classes.Reservation;
 import com.example.jetty_jersey.dao.ReservationDAO;
+import org.elasticsearch.search.SearchHit;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,8 +68,7 @@ public class BouchonReservationDAO implements ReservationDAO {
                     }
                 }
     		}
-            JettyMain.c.updateReservationValidation(reservation.getReservationId(),reservation.getStatus());
-    		return true;
+            return JettyMain.c.updateReservationValidation(reservation.getReservationId(),reservation.getStatus());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,4 +94,26 @@ public class BouchonReservationDAO implements ReservationDAO {
         }
         return null;
 	}
+
+	public ArrayList<Reservation> getReservationForPilot(String userId){
+        ArrayList<Flight> listFlight;
+        ArrayList<Reservation> listReservation= new ArrayList<Reservation>();
+        try {
+            listFlight=JettyMain.c.getFlightByUserId(userId);
+            for(Flight flight : listFlight){
+                SearchHit[] sh =JettyMain.c.getByFieldValue("reservation","flightId",flight.getFlightId());
+                if(sh!=null){
+                    for(int i=0; i<sh.length;i++){
+                        Reservation r =JettyMain.c.createReservation(sh[i].getSourceAsMap());
+                        if(r.getStatus().equals("waiting"))
+                            listReservation.add(r);
+                    }
+                }
+            }
+            return listReservation;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

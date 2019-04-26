@@ -54,15 +54,39 @@
             <li id="bg">
                 <div class="overlay-gradient" ></div>
                 <div class="container" id="inner">
-                    <div class="text-center js-fullheight slider-text" id="myFlights">
+                    <div></div>
+                    <div class="upcomingFlight" id="testReser" >
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td>Departure</td>
+                                <td>Arrival</td>
+                                <td>Depatrture date</td>
+                                <td>Initial seats</td>
+                                <td>Remaining seats</td>
+                                <td>Details</td>
+                            </tr>
+                            </thead>
+                            <tbody id="myFlight">
 
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </li>
         </ul>
     </div>
 </aside>
-
+<script id="templateFlight" type="text/template">
+    <tr>
+        <td> <%= departure %> </td>
+        <td> <%= arrival %> </td>
+        <td> <%= departuredate %> </td>
+        <td> <%= initialseats %> </td>
+        <td> <%= remainingseats %> </td>
+        <td> <button type="submit" class="btn-details"> Details</button> </td>
+    </tr>
+</script>
 
 <!-- jQuery Easing -->
 <script src="js/jquery.easing.1.3.js"></script>

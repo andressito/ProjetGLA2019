@@ -2,7 +2,9 @@ package com.example.jetty_jersey.bouchonDAO;
 
 import com.example.jetty_jersey.JettyMain;
 import com.example.jetty_jersey.classes.Flight;
+import com.example.jetty_jersey.classes.User;
 import com.example.jetty_jersey.dao.FlightDAO;
+import org.elasticsearch.search.SearchHit;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -11,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class BouchonFlightDAO implements FlightDAO {
     static ArrayList<Flight>  liste= new ArrayList<Flight>();
@@ -122,5 +125,22 @@ public class BouchonFlightDAO implements FlightDAO {
             return res;
         }*/
         //return null;
+    }
+
+
+    public User getPilotByFlightId(String flightId) {
+        try {
+            SearchHit[] sh =JettyMain.c.getByFieldValue("flight","flightId",flightId);
+            if(sh!=null){
+                if(sh.length!=0){
+                    Flight f = JettyMain.c.createFlight(sh[0].getSourceAsMap());
+                    BouchonUserDAO bouchonUserDAO= new BouchonUserDAO();
+                    return bouchonUserDAO.getUserDetails(f.getUserId());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

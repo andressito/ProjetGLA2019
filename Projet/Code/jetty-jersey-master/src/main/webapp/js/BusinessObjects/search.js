@@ -60,7 +60,7 @@ function booking() {
         var date=formatDate(today);
         var data ='{"userId" : "'+userId+'", "flightId":"'+flightId+'","nbPlaces":"'+nbPlace+'"' +
             ', "price": "'+price+'","status":"'+status+'","date": "'+date+'" }';
-        lancerMethodePost(data);
+        lancerMethodePost(data,flightId);
     });
 }
 
@@ -125,13 +125,13 @@ function sendMail(address,message) {
         Host : "smtp.gmail.com",
         Username : "noreplychuchufly@gmail.com",
         Password : "passer123&",
-        To : "noreplychuchufly@gmail.com",
-        From : "remzi.vukovic@gmail.com",
+        To : address,
+        From : "noreplychuchufly@gmail.com",
         Subject : "Reservation",
-        Body : "Test successful if received"
+        Body : message
     }).then(
-        message => alert(message)
-);
+
+    );
 }
 
 
@@ -167,11 +167,11 @@ function callDone(result){
 }
 
 function pilotDetails(pilotId) {
-    sessionStorage.setItem("detailsPilotId",pilotId)
+    sessionStorage.setItem("detailsPilotId",pilotId);
     window.location.href="http://localhost:8080/DetailsProfile.html";
 }
 
-function lancerMethodePost( data) {
+function lancerMethodePost( data,flightId) {
     $.ajax({
         url: "http://localhost:8080/ws/reservation/create",
         type: "POST",
@@ -181,6 +181,8 @@ function lancerMethodePost( data) {
         dataType: "json"
     }).done(function (result) {
         if(result){
+            sendMail(sessionStorage.getItem("email"),"Reservation prise en compte pour le vol "+flightId);
+            sendMessageToPilot(flightId);
             swal({
                 title: "ChuChuFly!",
                 text: "reservation successfully ",
@@ -193,6 +195,32 @@ function lancerMethodePost( data) {
                 icon: "error"
             });
         }
+    });
+}
+
+function sendMessageToPilot(flightId) {
+    $.ajax({
+        url: "http://localhost:8080/ws/flight/pilotByFlightId/"+flightId,
+        type: "GET",
+        contentType: "application/json",
+        cache: false,
+        dataType: "json"
+    }).done(function (result) {
+
+        var email=result['email'];
+        console.log(email);
+        /*Email.send({
+            Host : "smtp.gmail.com",
+            Username : "noreplychuchufly@gmail.com",
+            Password : "passer123&",
+            To : email,
+            From : "noreplychuchufly@gmail.com",
+            Subject : "Reservation",
+            Body :
+        }).then(
+
+        );*/
+        sendMail(email,"Bonjour vous avez une nouvelle reservation concernant le vol "+flightId);
     });
 }
 
