@@ -1,4 +1,5 @@
 package com.example.jetty_jersey.ws;
+
 import com.example.jetty_jersey.bouchonDAO.BouchonUserDAO;
 import com.example.jetty_jersey.classes.Licence;
 import com.example.jetty_jersey.classes.User;

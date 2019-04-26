@@ -215,7 +215,7 @@ function addPilot(){
             		.then((willDelete) => {
             		  if (willDelete) {
                           window.location.href="http://localhost:8080/SignIn.html";
-            		  } 
+            		  }
             		});
             } else {
                 swal({
@@ -262,6 +262,7 @@ $(function(){
                     localStorage.setItem("firstName",result['firstName']);
                     sessionStorage.setItem("firstName",result['firstName']);
                     sessionStorage.setItem("lastName",result['lastName']);
+                    sessionStorage.setItem("email",result['email']);
                     sessionStorage.setItem("gsm",result['gsm']);
                     localStorage.setItem("userId",result['userId']);
                     sessionStorage.setItem("userId",result['userId']);

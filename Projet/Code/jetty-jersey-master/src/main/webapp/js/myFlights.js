@@ -26,6 +26,7 @@ $(document).ready(function() {
             cache: false,
             dataType: "json"
         }).done(function (result) {
+            console.log(result);
             console.log(result.length);
             if(result.length>0){
                 var table=
@@ -43,17 +44,17 @@ $(document).ready(function() {
                     "</thead>"+
                     "<tbody>"+
                     "<tr>" +
-                    "<td>"+result['departureAerodrom']+"</td>"+
-                    "<td>"+result['arrivalAerodrom']+"</td>"+
-                    "<td>"+result['date']+"</td>"+
-                    "<td>"+result['allSeats']+"</td>"+
-                    "<td>"+result['remainingSeats']+"</td>"+
-                    "<td> <button value='"+result['flightId']+"' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>"+
+                    "<td>"+result[0].departureAerodrom+"</td>"+
+                    "<td>"+result[0].arrivalAerodrom+"</td>"+
+                    "<td>"+result[0].date+"</td>"+
+                    "<td>"+result[0].allSeats+"</td>"+
+                    "<td>"+result[0].remainingSeats+"</td>"+
+                    "<td> <button value='"+result[0].flightId+"' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>"+
                     "</tr>"+
                     "</tbody>"+
                     "</table>"+
                     "</div>";
-                $("#flight").append(table);
+                $("#myFlights").append(table);
             }else{
 
                 var table=

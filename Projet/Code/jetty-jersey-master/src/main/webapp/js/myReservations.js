@@ -20,10 +20,13 @@ $(document).ready(function() {
         document.getElementById("bg").style.backgroundImage = "url('images/paris.jpg')";
         if (typeUser === "passenger") {
             $("#menu").load('../Menu/MenuPassenger.html');
-            document.getElementById('myFlights').style.display="'inline";
+            document.getElementById('myReservations').style.display="'inline";
         } else {
             $("#menu").load('../Menu/MenuPilot.html');
-            $.ajax({
+        }
+
+        getServerData("http://localhost:8080/ws/reservation/reservations/user/" + userId,callDone);
+            /*$.ajax({
                 url: "http://localhost:8080/ws/reservation/reservations/user/" + userId,
                 type: "GET",
                 contentType: "application/json",
@@ -59,14 +62,40 @@ $(document).ready(function() {
                         "</div>";
                     $("#myReservations").append(table);
                 } else {
-                    var table =
+                    var table1 =
                         "<div class=\"upcomingFlight\"><br><h1> No Reservations to display </h1>" +
                         "<br>" +
                         "<a href='home.html'><h5> Search for a convenient flight and book it here </h5></a>" +
                         "</div>";
-                    $("#myReservations").append(table);
+                    $("#myReservations").append(table1);
                 }
-            });
-        }
+            });*/
+
     }
 });
+
+function getServerData(url, success){
+    $.ajax({
+        dataType: "json",
+        url: url,
+        type: "get"
+    }).done(success);
+}
+
+function callDone(result){
+    console.log(result);
+    //document.getElementById('testReser').style.display='inline';
+    var templateExample = _.template($('#templateExample').html());
+    for(var i=0; i<result.length; i++) {
+        var html = templateExample({
+            "flightId": JSON.stringify(result[i].flightId),
+            "userId": JSON.stringify(result[i].userId),
+            "nbSeats": JSON.stringify(result[i].nbPlaces),
+            "price": JSON.stringify(result[i].price),
+            "status": JSON.stringify(result[i].status)
+            //"details": JSON.stringify("details")
+        });
+        $("#myReservations").append(html);
+    }
+
+}
