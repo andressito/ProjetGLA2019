@@ -43,6 +43,13 @@ public class ReservationResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/reservationPilot/{userId}")
+    public ArrayList<Reservation> getReservationForPilot(@PathParam("userId") String userId) {
+        return brDAO.getReservationForPilot(userId);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/reservations/Flight/{flightId}")
     public ArrayList<Reservation> getReservationByFlight(@PathParam("flightId") String flightId) {
     	return brDAO.getReservationByFlight(flightId);
@@ -55,6 +62,7 @@ public class ReservationResource {
     public String updateReservation(@PathParam("reservationId") String reservationId){
         return "SUCCESS";
     }
+
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -62,6 +70,7 @@ public class ReservationResource {
     public boolean updateReservationState(Reservation reservation){
         return brDAO.validateReservation(reservation);
     }
+
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/reservations/{reservationId}")

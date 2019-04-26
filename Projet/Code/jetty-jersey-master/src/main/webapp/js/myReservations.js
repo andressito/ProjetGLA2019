@@ -84,7 +84,6 @@ function getServerData(url, success){
 
 function callDone(result){
     console.log(result);
-    //document.getElementById('testReser').style.display='inline';
     var templateExample = _.template($('#templateExample').html());
     for(var i=0; i<result.length; i++) {
         var html = templateExample({
@@ -93,7 +92,6 @@ function callDone(result){
             "nbSeats": JSON.stringify(result[i].nbPlaces),
             "price": JSON.stringify(result[i].price),
             "status": JSON.stringify(result[i].status)
-            //"details": JSON.stringify("details")
         });
         $("#myReservations").append(html);
     }

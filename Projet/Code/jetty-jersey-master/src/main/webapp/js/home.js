@@ -23,11 +23,13 @@ $(document).ready(function() {
             $("#menu").load('../Menu/MenuPassenger.html');
             document.getElementById('search').style.display='inline';
             document.getElementById('flight').style.display='none';
+            document.getElementById('pilotHome').style.display='none';
         }else{
             document.getElementById("bg").style.backgroundImage = "url('images/town.jpg')";
             $("#menu").load('../Menu/MenuPilot.html');
             document.getElementById('search').style.display='none';
             document.getElementById('flight').style.display='inline';
+            getServerData("http://localhost:8080/ws/reservation/reservationPilot/" + userId,callDone);
             $.ajax({
                 url: "http://localhost:8080/ws/flight/flightByUserId/"+userId,
                 type: "GET",
@@ -38,7 +40,6 @@ $(document).ready(function() {
                 console.log(result.length);
                 if(result.length>0){
                     var table=
-                        "<div class=\"upcomingFlight\"><h1> Upcoming Flight </h1>"+
                         "<br><br><br><table class=\"table\">"+
                         "<thead>"+
                         "<tr>" +
@@ -60,8 +61,7 @@ $(document).ready(function() {
                         "<td> <button value='"+result[0].flightId+"' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>"+
                         "</tr>"+
                         "</tbody>"+
-                        "</table>"+
-                        "</div>";
+                        "</table>";
                     $("#flight").append(table);
                 }else{
 
@@ -80,6 +80,7 @@ $(document).ready(function() {
         document.getElementById("bg").style.backgroundImage = "url('images/slide_1.jpg')";
         document.getElementById('search').style.display='inline';
         document.getElementById('flight').style.display='none';
+        document.getElementById('pilotHome').style.display='none';
     }
 });
 
@@ -102,5 +103,63 @@ function searchFlight(){
     sessionStorage.setItem("departureAerodrome",departureAerodrome);
     sessionStorage.setItem("departureDate",departureDate);
     document.location.href = "SearchList.html";
+
+}
+
+function getServerData(url, success){
+    $.ajax({
+        dataType: "json",
+        url: url,
+        type: "get"
+    }).done(success);
+}
+
+function callDone(result){
+    console.log(result);
+    var templateExample = _.template($('#templateExample').html());
+    for(var i=0; i<result.length; i++) {
+        var html = templateExample({
+            "flightId": JSON.stringify(result[i].flightId),
+            "userId": JSON.stringify(result[i].userId),
+            "nbSeats": JSON.stringify(result[i].nbPlaces),
+            "price": JSON.stringify(result[i].price),
+            "status": JSON.stringify(result[i].status),
+            "reserId":JSON.stringify(result[i].reservationId)
+        });
+        $("#myReservations").append(html);
+    }
+
+}
+
+function acceptReservation(reservationId){
+    var status="accept";
+    var data='{"reservationId":"'+reservationId+'", "status":"'+status+'"}';
+    $.ajax({
+        url:"http://localhost:8080/ws/reservation/reservations/state",
+        type:"PUT",
+        data: data,
+        contentType: "application/json",
+        cache: false,
+        dataType: "json"
+    }).success( function (result) {
+        window.location.href="http://localhost:8080/";
+        console.log(result);
+    });
+}
+
+function declineReservation(reservationId){
+    var status="failed";
+    var data='{"reservationId":"'+reservationId+'", "status":"'+status+'"}';
+    $.ajax({
+        url:"http://localhost:8080/ws/reservation/reservations/state",
+        type:"PUT",
+        data: data,
+        contentType: "application/json",
+        cache: false,
+        dataType: "json"
+    }).success( function (result) {
+        window.location.href="http://localhost:8080/";
+        console.log(result);
+    });
 
 }

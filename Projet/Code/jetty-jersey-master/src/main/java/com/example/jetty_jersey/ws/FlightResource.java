@@ -2,6 +2,8 @@ package com.example.jetty_jersey.ws;
 
 import com.example.jetty_jersey.bouchonDAO.BouchonFlightDAO;
 import com.example.jetty_jersey.classes.Flight;
+import com.example.jetty_jersey.classes.User;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
@@ -44,6 +46,13 @@ public class FlightResource {
     @Path("/flights/{flightId}")
     public Flight getFlight(@PathParam("flightId") String flightId) {
         return  bfdao.getFlightDetails(flightId);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/pilotByFlightId/{flightId}")
+    public User getPilotByFlightId(@PathParam("flightId") String flightId) {
+        return  bfdao.getPilotByFlightId(flightId);
     }
 
     @PUT

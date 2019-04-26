@@ -17,9 +17,10 @@ $(document).ready(function() {
             sessionStorage.setItem("firstName",firstName);
             sessionStorage.setItem("userId",userId);
         }
-        document.getElementById("bg").style.backgroundImage = "url('images/paris.jpg')";
+        //document.getElementById("bg").style.backgroundImage = "url('images/paris.jpg')";
         $("#menu").load('../Menu/MenuPilot.html');
-        $.ajax({
+        getServerData("http://localhost:8080/ws/flight/flightByUserId/" + userId,callDone)
+        /*$.ajax({
             url: "http://localhost:8080/ws/flight/flightByUserId/"+userId,
             type: "GET",
             contentType: "application/json",
@@ -65,6 +66,30 @@ $(document).ready(function() {
                 $("#myFlights").append(table);
             }
 
-        });
+        });*/
     }
 });
+
+function getServerData(url, success){
+    $.ajax({
+        dataType: "json",
+        url: url,
+        type: "get"
+    }).done(success);
+}
+
+function callDone(result){
+    console.log(result);
+    var templateExample = _.template($('#templateFlight').html(),{res : result});
+    /*for(var i=0; i<result.length; i++) {
+        var html = templateExample({
+            "flightId": JSON.stringify(result[i].flightId),
+            "userId": JSON.stringify(result[i].userId),
+            "nbSeats": JSON.stringify(result[i].nbPlaces),
+            "price": JSON.stringify(result[i].price),
+            "status": JSON.stringify(result[i].status)
+        });
+        $("#myFlight").append(html);
+    }*/
+
+}
