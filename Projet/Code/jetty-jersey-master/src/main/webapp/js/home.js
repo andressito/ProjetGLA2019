@@ -23,6 +23,7 @@ $(document).ready(function() {
             $("#menu").load('../Menu/MenuPassenger.html');
             document.getElementById('search').style.display='inline';
             document.getElementById('flight').style.display='none';
+            document.getElementById('pilotHome').style.display='none';
         }else{
             document.getElementById("bg").style.backgroundImage = "url('images/town.jpg')";
             $("#menu").load('../Menu/MenuPilot.html');
@@ -79,6 +80,7 @@ $(document).ready(function() {
         document.getElementById("bg").style.backgroundImage = "url('images/slide_1.jpg')";
         document.getElementById('search').style.display='inline';
         document.getElementById('flight').style.display='none';
+        document.getElementById('pilotHome').style.display='none';
     }
 });
 
@@ -121,17 +123,43 @@ function callDone(result){
             "userId": JSON.stringify(result[i].userId),
             "nbSeats": JSON.stringify(result[i].nbPlaces),
             "price": JSON.stringify(result[i].price),
-            "status": JSON.stringify(result[i].status)
+            "status": JSON.stringify(result[i].status),
+            "reserId":JSON.stringify(result[i].reservationId)
         });
         $("#myReservations").append(html);
     }
 
 }
 
-function acceptReservation(flightId){
-    console.log(flightId);
+function acceptReservation(reservationId){
+    var status="accept";
+    var data='{"reservationId":"'+reservationId+'", "status":"'+status+'"}';
+    $.ajax({
+        url:"http://localhost:8080/ws/reservation/reservations/state",
+        type:"PUT",
+        data: data,
+        contentType: "application/json",
+        cache: false,
+        dataType: "json"
+    }).success( function (result) {
+        window.location.href="http://localhost:8080/";
+        console.log(result);
+    });
 }
 
-function declineReservation(flightId){
-    console.log(flightId);
+function declineReservation(reservationId){
+    var status="failed";
+    var data='{"reservationId":"'+reservationId+'", "status":"'+status+'"}';
+    $.ajax({
+        url:"http://localhost:8080/ws/reservation/reservations/state",
+        type:"PUT",
+        data: data,
+        contentType: "application/json",
+        cache: false,
+        dataType: "json"
+    }).success( function (result) {
+        window.location.href="http://localhost:8080/";
+        console.log(result);
+    });
+
 }

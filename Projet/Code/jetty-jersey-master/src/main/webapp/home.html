@@ -55,7 +55,7 @@
 			<li id="bg">
 				<div class="overlay-gradient" ></div>
 				<div class="container" id="inner">
-					<div class="text-center js-fullheight slider-text" >
+					<div class="text-center js-fullheight slider-text"  id="pilotHome">
 						<div class="slider-text-inner">
 							<div class="upcomingFlight">
 								<h1> Reservations </h1>
@@ -104,8 +104,8 @@
 		<td> <%= nbSeats %> </td>
 		<td> <%= price %> </td>
 		<td> <%= status %> </td>
-		<td> <button type="submit" onclick=acceptReservation(<%= flightId %>); class="btn-details"> Accept</button>
-			<button type="submit" onclick=declineReservation(<%= flightId %>); class="btn-details"> Decline</button>
+		<td> <button type="submit" onclick=acceptReservation(<%= reserId %>); class="btn-details"> Accept</button>
+			<button type="submit" onclick=declineReservation(<%= reserId %>); class="btn-details"> Decline</button>
 		</td>
 	</tr>
 </script>

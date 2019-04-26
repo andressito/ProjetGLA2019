@@ -59,7 +59,8 @@ public class BouchonReservationDAO implements ReservationDAO {
 
     public boolean validateReservation(Reservation reservation) {
     	try{
-    		if(reservation.getStatus().equals("Failed")) {
+    		if(reservation.getStatus().equals("failed")) {
+                System.out.println("ok");
         		ArrayList<Flight> fl = JettyMain.c.allFlight();
         		for(int i=0; i<fl.size(); i++){
                     if(fl.get(i).getFlightId().equals(reservation.getFlightId())) {
