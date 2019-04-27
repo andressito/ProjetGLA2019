@@ -99,15 +99,63 @@
 </aside>
 <script id="templateExample" type="text/template">
 	<tr>
-		<td> <%= flightId %> </td>
-		<td> <%= userId %> </td>
+		<td> <a href="#myModal2" data-toggle="modal" onclick=flightDetails(<%= flightId %>)> <%= flightId %> </a>  </td>
+		<td> <a href="#myModal2" data-toggle="modal"  onclick=userDetails(<%= userId %>)> <%= userId %> </a> </td>
 		<td> <%= nbSeats %> </td>
 		<td> <%= price %> </td>
 		<td> <%= status %> </td>
-		<td> <button type="submit" onclick=acceptReservation(<%= reserId %>); class="btn-details"> Accept</button>
-			<button type="submit" onclick=declineReservation(<%= reserId %>); class="btn-details"> Decline</button>
+		<td> <button type="submit" onclick=acceptReservation(<%= reserId %>,<%= userId %>); class="btn-details"> Accept</button>
+			<button type="submit" onclick=declineReservation(<%= reserId %>, <%= userId %>); class="btn-details"> Decline</button>
 		</td>
 	</tr>
+</script>
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal2" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content pricing col-md-12">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+				<center><h4 class="modal-title">Details</h4></center>
+			</div>
+			<div class="modal-body">
+				<div id="result"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script id="templateExample2" type="text/template">
+	<div class="col-md-2" >
+	</div>
+	<div class="col-md-10" >
+		<h1>Profile data </h1>
+		<h3 id="dash-fname">Firstname : <%= firstName%> </h3>
+		<h3 id="dash-lname">Lastname : <%= lastName%> </h3>
+		<h3 id="dash-status">Status : not verified</h3>
+		<h3 id="dash-anonymous">Anonymous : On/Off</h3>
+		<h3 id="dash-email">email : <%= email%></h3>
+		<h3 id="dash-gsm">GSM : <%= gsm%></h3>
+		<% if ( typeUser === "pilot") { %>
+			<h3 id="dash-fHoursFly">Hours fly : <%= hFly%> </h3>
+			<h3 id="dash-mark">Mark : <%= mark%> </h3>
+		<% } %>
+	</div>
+</script>
+
+<script id="templateExample3" type="text/template">
+	<div class="col-md-2" >
+	</div>
+	<div class="col-md-5" >
+		<div class="price-box">
+			<h2 class="pricing-plan"> <%= type %> </h2>
+			<div class="price"><sup class="currency">€</sup> <%= price %> <small>/seat</small></div>
+			<p> From : <%= departure %></p>
+			<p> To : <%= arrival %></p>
+			<p>Date Departure: <%= dateDeparture%></p>
+			<p> Departure Time: <%=timeDeparture %></p>
+			<p> Arrival Time: <%=arrivalTime %></p>
+			<p> All Seats : <%= allSeats %> </p>
+			<p> Remaining Seats : <%= remainingSeats %> </p>
+		</div>
+	</div>
 </script>
 
 <!-- jQuery Easing -->

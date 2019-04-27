@@ -131,7 +131,7 @@ function callDone(result){
 
 }
 
-function acceptReservation(reservationId){
+function acceptReservation(reservationId,userId){
     var status="accept";
     var data='{"reservationId":"'+reservationId+'", "status":"'+status+'"}';
     $.ajax({
@@ -147,7 +147,7 @@ function acceptReservation(reservationId){
     });
 }
 
-function declineReservation(reservationId){
+function declineReservation(reservationId,userId){
     var status="failed";
     var data='{"reservationId":"'+reservationId+'", "status":"'+status+'"}';
     $.ajax({
@@ -163,3 +163,65 @@ function declineReservation(reservationId){
     });
 
 }
+
+function userDetails(userId) {
+    getServerData("http://localhost:8080/ws/user/users/" + userId,callDone2);
+}
+
+function flightDetails(flightId) {
+    getServerData("http://localhost:8080/ws/flight/flights/" + flightId,callDone3);
+}
+
+function callDone2(result){
+    $("#result").empty();
+    var templateExample = _.template($('#templateExample2').html());
+    if(result["typeUser"]==="pilot"){
+        $.ajax({
+            url: "http://localhost:8080/ws/licence/licences/user/"+sessionStorage.getItem("detailsPilotId"),
+            type: "GET",
+            contentType: "application/json",
+            cache: false,
+            dataType: "json"
+        }).done(function (resultat) {
+            var html = templateExample({
+                "typeUser":JSON.stringify(result['typeUser']),
+                "firstName": JSON.stringify(result['firstName']),
+                "lastName": JSON.stringify(result['lastName']),
+                "email": JSON.stringify(result['email']),
+                "gsm": JSON.stringify(result['gsm']),
+                "hFly": JSON.stringify(resultat['numberHoursFlight']),
+                "mark": JSON.stringify(resultat['mark'])
+            });
+            $("#result").append(html);
+        });
+    }else{
+        var html = templateExample({
+            "typeUser":JSON.stringify(result['typeUser']),
+            "firstName": JSON.stringify(result['firstName']),
+            "lastName": JSON.stringify(result['lastName']),
+            "email": JSON.stringify(result['email']),
+            "gsm": JSON.stringify(result['gsm']),
+            "hFly": JSON.stringify("0"),
+            "mark": JSON.stringify("0")
+        });
+        $("#result").append(html);
+    }
+
+}
+function callDone3(result){
+    $("#result").empty();
+    var templateExample = _.template($('#templateExample3').html());
+    var html = templateExample({
+        "type": JSON.stringify(result['type']),
+        "price": JSON.stringify(result['price']),
+        "departure": JSON.stringify(result['departureAerodrom']),
+        "arrival": JSON.stringify(result['arrivalAerodrom']),
+        "dateDeparture": JSON.stringify(result['date']),
+        "timeDeparture":JSON.stringify(result['departureTime']),
+        "allSeats":JSON.stringify(result['allSeats']),
+        "arrivalTime": JSON.stringify(result['arrivalAerodrom']),
+        "remainingSeats": JSON.stringify(result['remainingSeats'])
+    });
+    $("#result").append(html);
+}
+
