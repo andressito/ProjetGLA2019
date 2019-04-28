@@ -19,11 +19,11 @@ $(document).ready(function() {
         }
         if(typeUser==="passenger"){
             console.log("passenger");
-            $("#menu").load('../Menu/MenuPassenger.html');
+            $("#menu").load('../../Menu/MenuPassenger.html');
         }else{
-            $("#menu").load('../Menu/MenuPilot.html');
+            $("#menu").load('../../Menu/MenuPilot.html');
         }
     }else{
-        $("#menu").load('../Menu/Menu.html');
+        $("#menu").load('../../Menu/Menu.html');
     }
 });
