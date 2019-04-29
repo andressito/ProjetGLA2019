@@ -1150,7 +1150,6 @@ h1, h2, h3, h4, h5, h6, figure {
   }
 }
 #fh5co-pricing-section .pricing {
-  display: block;
   float: left;
   margin-bottom: 30px;
 }
@@ -1411,6 +1410,7 @@ nav.crumb{
     border-radius:100px;
     left: 500px;
     right: 500px;
+    color: #fff;
   }
 
   #dash ul {
@@ -1449,12 +1449,23 @@ nav.crumb{
     background-color: rgba(64,75,78,0.3);
     width: 80%;
     padding: 20px;
-    color: white;
+    color:  #fff;
     -webkit-border-radius:50px;
     -moz-border-radius:50px;
     border-radius:50px;
     font-size: 24px;
+    margin-bottom: 100px;
   }
+  .daschboardContent h1 {
+    color: white;
+  }
+  .daschboardContent h2 {
+    color: white;
+  }
+  .daschboardContent h3 {
+    color: white;
+  }
+
   .dashboardInput{
     background-color: rgba(255,255,255,0.4);
     border-color: #2BBDB5;
@@ -1569,7 +1580,18 @@ nav.crumb{
     padding: 20px;
     color: white;
     font-size: 20px;
+    margin-bottom: 100px;
   }
+  .daschboardContent h1 {
+    color: white;
+  }
+  .daschboardContent h2 {
+    color: white;
+  }
+  .daschboardContent h3 {
+    color: white;
+  }
+
   .dashboardInput{
     background-color: rgba(255,255,255,0.4);
     border-color: #2BBDB5;
