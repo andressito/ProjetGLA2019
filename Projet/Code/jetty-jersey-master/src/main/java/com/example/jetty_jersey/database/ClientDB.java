@@ -1006,6 +1006,39 @@ public class ClientDB {
         return null;
     }
 
+    /*Return the aerodrom in lat lon, else return the closest one*/
+    public String getAerodrom(double latitude, double longitude) throws IOException{
+        SearchHit[] t = arrayTable("aerodrom");
+        double lat,lon,dist;
+        if(t != null){
+            Map<String, Object> m = t[0].getSourceAsMap();
+            String name = m.get("airfieldName").toString();
+            String[] locate = m.get("location").toString().split(",");
+            lat = Double.parseDouble(locate[0]);
+            lon = Double.parseDouble(locate[1]);
+            if(lat == latitude && lon == longitude) return m.get("airfieldName").toString();
+            double x = Math.pow(lat+latitude,2.0);
+            double y = Math.pow(lon+longitude,2.0);
+            dist = Math.sqrt(x+y);
+            for(int i = 1; i<t.length; i++){
+                m = t[i].getSourceAsMap();
+                locate = m.get("location").toString().split(",");
+                lat = Double.parseDouble(locate[0]);
+                lon = Double.parseDouble(locate[1]);
+                if(lat == latitude && lon == longitude) return m.get("airfieldName").toString();
+                x = Math.pow(lat+latitude,2.0);
+                y = Math.pow(lon+longitude,2.0);
+                double tmp = Math.sqrt(x+y);
+                if(tmp < dist) {
+                    dist = tmp;
+                    name = m.get("airfieldName").toString();
+                }
+                System.out.println(name);
+            }
+            return name;
+        }
+        return null;
+    }
     /*Return list of a specific table by transforming the list of map of the this table*/
     public ArrayList<Flight> allFlight() throws IOException{
         ArrayList<Flight> list = new ArrayList<Flight>();
