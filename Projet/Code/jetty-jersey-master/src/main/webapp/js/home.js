@@ -86,9 +86,6 @@ function callDone(result){
     }
 
 }
-function detailsFlight(flightId) {
-
-}
 
 function callDone4(result){
     console.log(result);
@@ -250,7 +247,7 @@ function sendMail(status,userId,flightId,reservationId) {
             );
             swal({
                 title: "ChuChuFly!",
-                text: "Flight registered successfully!",
+                text: "Change taken into account",
                 icon: "success"
             }).then((willDelete) => {
                 if (willDelete) {

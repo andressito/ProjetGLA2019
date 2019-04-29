@@ -54,20 +54,23 @@
             <li id="bg">
                 <div class="overlay-gradient" ></div>
                 <div class="container" id="inner">
-                    <div></div>
-                    <div class="upcomingFlight" id="testReser" >
+                    <div ></div>
+                    <div class="upcomingFlight" id="flight">
+                        <center>
+                            <h1> Upcoming Flight </h1>
+                        </center>
                         <table class="table">
                             <thead>
                             <tr>
                                 <td>Departure</td>
                                 <td>Arrival</td>
-                                <td>Depatrture date</td>
-                                <td>Initial seats</td>
-                                <td>Remaining seats</td>
+                                <td>Date Departure</td>
+                                <td>Initial Seats</td>
+                                <td>Remaining Seats</td>
                                 <td>Details</td>
                             </tr>
                             </thead>
-                            <tbody id="myFlight">
+                            <tbody id="myFlights">
 
                             </tbody>
                         </table>
@@ -77,15 +80,46 @@
         </ul>
     </div>
 </aside>
-<script id="templateFlight" type="text/template">
+<script id="templateExample4" type="text/template">
     <tr>
         <td> <%= departure %> </td>
-        <td> <%= arrival %> </td>
-        <td> <%= departuredate %> </td>
-        <td> <%= initialseats %> </td>
-        <td> <%= remainingseats %> </td>
-        <td> <button type="submit" class="btn-details"> Details</button> </td>
+        <td> <%= arrival %></td>
+        <td> <%= dateDeparture %> </td>
+        <td> <%= iniSeats %> </td>
+        <td> <%= remSeats %> </td>
+        <td> <button type="submit"  href="#myModal2" data-toggle="modal" onclick=flightDetails(<%= flightId %>); class="btn-details"> Details</button>
+        </td>
     </tr>
+</script>
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal2" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content pricing col-md-12">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <center><h4 class="modal-title">Details</h4></center>
+            </div>
+            <div class="modal-body">
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="templateExample3" type="text/template">
+    <div class="col-md-2" >
+    </div>
+    <div class="col-md-5" >
+        <div class="price-box">
+            <h2 class="pricing-plan"> <%= type %> </h2>
+            <div class="price"><sup class="currency">€</sup> <%= price %> <small>/seat</small></div>
+            <p> From : <%= departure %></p>
+            <p> To : <%= arrival %></p>
+            <p>Date Departure: <%= dateDeparture%></p>
+            <p> Departure Time: <%=timeDeparture %></p>
+            <p> Arrival Time: <%=arrivalTime %></p>
+            <p> All Seats : <%= allSeats %> </p>
+            <p> Remaining Seats : <%= remainingSeats %> </p>
+        </div>
+    </div>
 </script>
 
 <!-- jQuery Easing -->
