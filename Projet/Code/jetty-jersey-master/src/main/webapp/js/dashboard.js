@@ -3,9 +3,10 @@ var lname;
 var email;
 var gsm;
 var userId;
-
+var typeUser;
 $(document).ready(function() {
     var id = localStorage.getItem("userId");
+    typeUser = localStorage.getItem("typeUser");
     if(id!=null){
         $.ajax({
             url:"http://localhost:8080/ws/user/users/"+id,
@@ -41,6 +42,16 @@ $(document).ready(function() {
         });
     }else{
         window.location.href="http://localhost:8080/";
+    }
+    if(typeUser=="passenger"){
+        $("#menu").load('../Menu/MenuPassenger.html');
+    }else {
+        if(typeUser=="pilot"){
+            $("#menu").load('../Menu/MenuPilot.html');
+        }
+        else{
+            $("#menu").load('../Menu/Menu.html');
+        }
     }
 });
 
