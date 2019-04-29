@@ -989,6 +989,31 @@ public class ClientDB {
                 Map<String, Object> m = s.getSourceAsMap();
                 l.add(createMessage(m));
             }
+            return l;
+        }
+        return null;
+    }
+
+    /*Return the message using a specific message id*/
+    public Reservation getReservationByReservationId(String reservationId) throws IOException{
+        SearchHit[] sh = getByFieldValue("reservation","reservationId",reservationId);
+        if(sh != null) {
+            if (sh.length == 1)
+                return createReservation(sh[0].getSourceAsMap());
+        }
+        return null;
+    }
+
+    /*Return a list of reservations using a specific user id*/
+    public ArrayList<Reservation> getReservationByUserId(String userId) throws IOException{
+        SearchHit[] sh = getByFieldValue("reservation","userId",userId);
+        if(sh != null) {
+            ArrayList<Reservation> l = new ArrayList<Reservation>();
+            for(SearchHit s : sh){
+                Map<String, Object> m = s.getSourceAsMap();
+                l.add(createReservation(m));
+            }
+            return l;
         }
         return null;
     }
