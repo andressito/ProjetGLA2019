@@ -21,9 +21,11 @@ $(document).ready(function() {
             console.log("passenger");
             $("#menu").load('../../Menu/MenuPassenger.html');
         }else{
+            console.log("pilot");
             $("#menu").load('../../Menu/MenuPilot.html');
         }
     }else{
+        console.log("none");
         $("#menu").load('../../Menu/Menu.html');
     }
 });
