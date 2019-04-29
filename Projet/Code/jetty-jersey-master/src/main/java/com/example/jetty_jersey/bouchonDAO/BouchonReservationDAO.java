@@ -59,15 +59,29 @@ public class BouchonReservationDAO implements ReservationDAO {
 
     public boolean validateReservation(Reservation reservation) {
     	try{
-    		if(reservation.getStatus().equals("failed")) {
-                System.out.println("ok");
+    		if(reservation.getStatus().equals("decline")) {
+                SearchHit[] sh =JettyMain.c.getByFieldValue("reservation","reservationId",reservation.getReservationId());
+    		    if(sh!=null){
+    		        if(sh.length!=0){
+    		            Reservation res = JettyMain.c.createReservation(sh[0].getSourceAsMap());
+    		            SearchHit[] shFlight = JettyMain.c.getByFieldValue("flight","flightId",res.getFlightId());
+                        if(shFlight!=null) {
+                            if (shFlight.length != 0) {
+                                Flight f = JettyMain.c.createFlight(shFlight[0].getSourceAsMap());
+                                f.setRemainingSeats(f.getRemainingSeats()+res.getNbPlaces());
+                                JettyMain.c.updateFlightInIndex(f);
+                            }
+                        }
+                    }
+                }
+                /*
         		ArrayList<Flight> fl = JettyMain.c.allFlight();
         		for(int i=0; i<fl.size(); i++){
                     if(fl.get(i).getFlightId().equals(reservation.getFlightId())) {
                     	fl.get(i).setRemainingSeats(fl.get(i).getRemainingSeats() + reservation.getNbPlaces());
                     	JettyMain.c.updateFlightInIndex(fl);
                     }
-                }
+                }*/
     		}
             return JettyMain.c.updateReservationValidation(reservation.getReservationId(),reservation.getStatus());
         } catch (Exception e) {
@@ -78,8 +92,7 @@ public class BouchonReservationDAO implements ReservationDAO {
 
 	public ArrayList<Reservation> getReservationByUserId(String userId) {
 		try {
-            ArrayList<Reservation> res = JettyMain.c.getReservationByUser(userId);
-            return res;
+            return JettyMain.c.getReservationByUser(userId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,8 +101,7 @@ public class BouchonReservationDAO implements ReservationDAO {
 
 	public ArrayList<Reservation> getReservationByFlight(String flight) {
 		try {
-            ArrayList<Reservation> res = JettyMain.c.getReservationByFlight(flight);
-            return res;
+            return JettyMain.c.getReservationByFlight(flight);
         } catch (IOException e) {
             e.printStackTrace();
         }

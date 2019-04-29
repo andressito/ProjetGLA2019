@@ -131,7 +131,7 @@ function callDone(result){
 
 }
 
-function acceptReservation(reservationId,userId){
+function acceptReservation(reservationId,userId,flightId){
     var status="accept";
     var data='{"reservationId":"'+reservationId+'", "status":"'+status+'"}';
     $.ajax({
@@ -142,13 +142,13 @@ function acceptReservation(reservationId,userId){
         cache: false,
         dataType: "json"
     }).success( function (result) {
-        window.location.href="http://localhost:8080/";
-        console.log(result);
+        var status="accept";
+        sendMail(status,userId,flightId,reservationId);
     });
 }
 
-function declineReservation(reservationId,userId){
-    var status="failed";
+function declineReservation(reservationId,userId,flightId){
+    var status="decline";
     var data='{"reservationId":"'+reservationId+'", "status":"'+status+'"}';
     $.ajax({
         url:"http://localhost:8080/ws/reservation/reservations/state",
@@ -158,8 +158,8 @@ function declineReservation(reservationId,userId){
         cache: false,
         dataType: "json"
     }).success( function (result) {
-        window.location.href="http://localhost:8080/";
-        console.log(result);
+        var status="decline";
+        sendMail(status,userId,flightId,reservationId);
     });
 
 }
@@ -225,3 +225,92 @@ function callDone3(result){
     $("#result").append(html);
 }
 
+function sendMail(status,userId,flightId,reservationId) {
+    $.ajax({
+        url: "http://localhost:8080/ws/user/users/"+userId,
+        type: "GET",
+        contentType: "application/json",
+        cache: false,
+        dataType: "json"
+    }).done(function (result) {
+        $.ajax({
+            url: "http://localhost:8080/ws/flight/flights/"+flightId,
+            type: "GET",
+            contentType: "application/json",
+            cache: false,
+            dataType: "json"
+        }).done(function (resultat) {
+            var message="";
+            if(status==="decline"){
+                message= "Dear "+result['firstName']+" , <br\>" +
+                    "We're sorry to announce your reservation n° "+reservationId+" has been declined by the pilot.\n" +
+                    "Sign in to ChuChuFly and find more interesting flights!\n" +
+                    "Thank you for your trust\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "ChuChuFly Team";
+            }else{
+                message="Dear "+result['firstName']+",\r " +
+                    "Congratulations, your reservation n° "+reservationId+" has been accepted by the pilot.\n " +
+                    "Your departure will take place on "+resultat['date']+" at "+resultat['departureTime']+"  from "+resultat['departureAerodrom']+" to "+resultat['arrivalAerodrom']+"\n" +
+                    "Please be on time and ready to enjoy your flight! \n\n " +
+                    "Thank you for your trust\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "ChuChuFly Team";
+            }
+            Email.send({
+                Host: "smtp.gmail.com",
+                Username: "noreplychuchufly@gmail.com",
+                Password: "passer123&",
+                To: result['email'],
+                From: "noreplychuchufly@gmail.com",
+                Subject: "Reservation",
+                Body: message
+            }).then(
+
+            );
+            swal({
+                title: "ChuChuFly!",
+                text: "Flight registered successfully!",
+                icon: "success"
+            }).then((willDelete) => {
+                if (willDelete) {
+                    window.location.href="http://localhost:8080";
+                }
+            });
+
+        });
+
+    });
+
+}
+
+var Email = {
+    send: function (a) {
+        return new Promise(function (n, e) {
+            a.nocache = Math.floor(1e6 * Math.random() + 1), a.Action = "Send";
+            var t = JSON.stringify(a);
+            Email.ajaxPost("https://smtpjs.com/v3/smtpjs.aspx?", t, function (e) { n(e) })
+        })
+    }, ajaxPost: function (e, n, t) {
+        var a = Email.createCORSRequest("POST", e);
+        a.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), a.onload = function () {
+            var e = a.responseText; null != t && t(e) },
+            a.send(n)
+    }, ajax: function (e, n) {
+        var t = Email.createCORSRequest("GET", e);
+        t.onload = function () {
+            var e = t.responseText;
+            null != n && n(e)
+        }, t.send()
+    },
+    createCORSRequest: function (e, n) {
+        var t = new XMLHttpRequest;
+        return "withCredentials" in t ? t.open(e, n, !0) : "undefined" != typeof XDomainRequest ? (t = new XDomainRequest).open(e, n) : t = null, t }
+};
+
+
+//faire l'envoie de mail pour la  confirmation de reservation ou l'annulation
