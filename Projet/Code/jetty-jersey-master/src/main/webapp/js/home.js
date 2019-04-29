@@ -30,50 +30,7 @@ $(document).ready(function() {
             document.getElementById('search').style.display='none';
             document.getElementById('flight').style.display='inline';
             getServerData("http://localhost:8080/ws/reservation/reservationPilot/" + userId,callDone);
-            $.ajax({
-                url: "http://localhost:8080/ws/flight/flightByUserId/"+userId,
-                type: "GET",
-                contentType: "application/json",
-                cache: false,
-                dataType: "json"
-            }).done(function (result) {
-                console.log(result.length);
-                if(result.length>0){
-                    var table=
-                        "<br><br><br><table class=\"table\">"+
-                        "<thead>"+
-                        "<tr>" +
-                        "<td>Departure</td>"+
-                        "<td>Arrival</td>"+
-                        "<td>Date departure</td>"+
-                        "<td>Initial Seats</td>"+
-                        "<td>Remaining Seats</td>"+
-                        "<td>Details</td>"+
-                        "</tr>"+
-                        "</thead>"+
-                        "<tbody>"+
-                        "<tr>" +
-                        "<td>"+result[0].departureAerodrom+"</td>"+
-                        "<td>"+result[0].arrivalAerodrom+"</td>"+
-                        "<td>"+result[0].date+"</td>"+
-                        "<td>"+result[0].allSeats+"</td>"+
-                        "<td>"+result[0].remainingSeats+"</td>"+
-                        "<td> <button value='"+result[0].flightId+"' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>"+
-                        "</tr>"+
-                        "</tbody>"+
-                        "</table>";
-                    $("#flight").append(table);
-                }else{
-
-                    var table=
-                        "<div class=\"upcomingFlight\"><br><h1> No flights to display </h1>"+
-                        "<br>"+
-                        "<a href='AddFlight.html'><h5> Add a new flight here</h5></a>"+
-                        "</div>";
-                    $("#flight").append(table);
-                }
-
-            });
+            getServerData("http://localhost:8080/ws/flight/flightByUserId/"+userId,callDone4);
         }
     }else{
         $("#menu").load('../Menu/Menu.html');
@@ -115,7 +72,6 @@ function getServerData(url, success){
 }
 
 function callDone(result){
-    console.log(result);
     var templateExample = _.template($('#templateExample').html());
     for(var i=0; i<result.length; i++) {
         var html = templateExample({
@@ -127,6 +83,26 @@ function callDone(result){
             "reserId":JSON.stringify(result[i].reservationId)
         });
         $("#myReservations").append(html);
+    }
+
+}
+function detailsFlight(flightId) {
+
+}
+
+function callDone4(result){
+    console.log(result);
+    var templateExample = _.template($('#templateExample4').html());
+    for(var i=0; i<result.length; i++) {
+        var html = templateExample({
+            "departure": JSON.stringify(result[i].departureAerodrom),
+            "arrival": JSON.stringify(result[i].arrivalAerodrom),
+            "dateDeparture": JSON.stringify(result[i].date),
+            "iniSeats": JSON.stringify(result[i].allSeats),
+            "remSeats": JSON.stringify(result[i].remainingSeats),
+            "flightId":JSON.stringify(result[i].flightId)
+        });
+        $("#myFlights").append(html);
     }
 
 }
@@ -242,7 +218,7 @@ function sendMail(status,userId,flightId,reservationId) {
         }).done(function (resultat) {
             var message="";
             if(status==="decline"){
-                message= "Dear "+result['firstName']+" , <br\>" +
+                message= "Dear "+result['firstName']+" ,\n" +
                     "We're sorry to announce your reservation n° "+reservationId+" has been declined by the pilot.\n" +
                     "Sign in to ChuChuFly and find more interesting flights!\n" +
                     "Thank you for your trust\n" +
