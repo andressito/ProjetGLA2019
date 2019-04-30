@@ -1733,12 +1733,12 @@ div .static{
 }
 .modal-dialog{
   width: 800px;
-  height: 800px;
-}
-.modal-content{
   height: 600px;
 }
-
+.modal-content{
+    width: 800px;
+  height: 600px;
+}
 
 .flightsList{
   background-color: rgba(0,0,0,0.8);
@@ -1775,8 +1775,37 @@ div .static{
 
 .modal-body{
   text-align: center;
-  padding-left: 20%;
-  padding-right: 5%;
+}
+
+.flightPopup h2{
+    color: #2BBDB5;
+    font-size: 30px;
+}
+
+.flightPopup p{
+    font-size: 30px;
+    color: #fff;
+}
+
+.modal-content{
+    background: url(../images/popup.png) no-repeat center fixed;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.modal-dialog{
+    box-shadow: 4px 4px 30px #2BBDB5;
+}
+
+.flightPopup .price{
+    font-size: 60px;
+    color: #2BBDB5;
+}
+
+.flightPopup p h5{
+    font-size: 18px;
+    color: Black;
 }
 
 /*# sourceMappingURL=style.css.map */
