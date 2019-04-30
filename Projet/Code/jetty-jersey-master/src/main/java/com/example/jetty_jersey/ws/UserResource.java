@@ -11,10 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 import java.util.List;
 
 @Path("/user")
 public class UserResource {
+    private static final String salt = "&é*-;";
     public BouchonUserDAO buDAO = new BouchonUserDAO();
 
     @Context private HttpServletRequest request;
@@ -31,7 +36,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public boolean createUser(Object o) {
+    public boolean createUser(Object o) throws NoSuchAlgorithmException, NoSuchProviderException {
         String fistName=null,lastName=null,birthDate=null,email=null,type=null,password=null,gsm=null;
         String validityDate=null;
         String test = o.toString();
@@ -76,7 +81,7 @@ public class UserResource {
             if(val[0].equals("validityDate")) validityDate=val[1];
 
         }
-        User newUser = new User(fistName,lastName,email,DigestUtils.md5Hex(password),birthDate,gsm,type);
+        User newUser = new User(fistName,lastName,email,executeSaltMD5(password),birthDate,gsm,type);
         if(newUser.typeUser.equals("passenger")) return buDAO.createUser(newUser,null);
         else{
             Licence licence1= new Licence(null,null,validityDate,0,0);
@@ -85,11 +90,16 @@ public class UserResource {
         //return false;
     }
 
+    public static String executeSaltMD5(String passwordToHash) throws NoSuchAlgorithmException, NoSuchProviderException {
+        String machin=passwordToHash+salt;
+        return DigestUtils.md5Hex(machin);
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/signin")
-    public boolean signIn(User user) {
+    public boolean signIn(User user) throws NoSuchAlgorithmException, NoSuchProviderException {
         return buDAO.signInUser(user);
     }
 
