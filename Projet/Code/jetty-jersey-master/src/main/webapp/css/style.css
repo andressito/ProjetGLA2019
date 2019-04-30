@@ -1773,4 +1773,10 @@ div .static{
   z-index: 99 !important;
 }
 
+.modal-body{
+  text-align: center;
+  padding-left: 20%;
+  padding-right: 5%;
+}
+
 /*# sourceMappingURL=style.css.map */
