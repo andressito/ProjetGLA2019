@@ -13,8 +13,20 @@ import java.util.List;
 public class BouchonReservationDAO implements ReservationDAO {
     public boolean createReservation(Reservation reservation) {
         try {
-            if(JettyMain.c.indexDB(reservation, null))
-                return JettyMain.c.updateFlightRemainingPlaces(reservation);
+            SearchHit[] sh =JettyMain.c.getByFieldValue("flight","flightId",reservation.getFlightId());
+            if(sh!=null){
+                if(sh.length!=0){
+                    Flight f = JettyMain.c.createFlight(sh[0].getSourceAsMap());
+                    if (f.getUserId().equals(reservation.getUserId())) {
+                        return false;
+                    }else{
+                        if(JettyMain.c.indexDB(reservation, null))
+                            return JettyMain.c.updateFlightRemainingPlaces(reservation);
+                    }
+                }
+            }
+        }catch (IOException ex) {
+            ex.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
