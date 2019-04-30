@@ -43,13 +43,12 @@ public class BouchonPlaneDAO implements PlaneDAO {
     }
 
     public List<Plane> getAllPlane() {
-        ArrayList<Plane> planes = null;
         try {
-            planes = JettyMain.c.allPlane();
+            return JettyMain.c.allPlane();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return planes;
+        return null;
     }
 
     public Plane getPlaneDetails(String atcNumber) {

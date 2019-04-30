@@ -247,34 +247,34 @@ public class ClientDB {
     }
 
     /*Return the string date in a map into a date.Using the key to find the date*/
-    public Date StringToDate(Map<String,Object> map, String key) throws ParseException{
+    private Date StringToDate(Map<String,Object> map, String key) throws ParseException{
         String d = map.get(key).toString();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return df.parse(d);
     }
 
     /*Return the time in a map into a date.Using the key to find the date*/
-    public Date StringToTime(Map<String,Object> map, String key) throws ParseException{
+    private Date StringToTime(Map<String,Object> map, String key) throws ParseException{
         String d = map.get(key).toString();
         DateFormat df = new SimpleDateFormat("hh:mm");
         return df.parse(d);
     }
 
     /*Convert into a Date and return it*/
-    public Date StringToDate(String d) throws ParseException{
+    private Date StringToDate(String d) throws ParseException{
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return df.parse(d);
     }
 
     /*Return today's date*/
-    public Date currentDay() throws ParseException{
+    private Date currentDay() throws ParseException{
         Date date = Calendar.getInstance().getTime();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return StringToDate(df.format(date));
     }
 
     /*Return hat time it is*/
-    public Date currentTime() throws ParseException{
+    private Date currentTime() throws ParseException{
         Date date = Calendar.getInstance().getTime();
         DateFormat df = new SimpleDateFormat("hh:mm");
         return df.parse(df.format(date));
@@ -481,8 +481,8 @@ public class ClientDB {
             searchRequest.source(searchSourceBuilder);
             SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
             SearchHits hits = searchResponse.getHits();
-            SearchHit[] searchHits = hits.getHits();
-            return searchHits;
+            return hits.getHits();
+
         }
         return null;
     }
@@ -495,8 +495,7 @@ public class ClientDB {
             searchRequest.source(searchSourceBuilder);
             SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
             SearchHits hits = searchResponse.getHits();
-            SearchHit[] searchHits = hits.getHits();
-            return searchHits;
+            return hits.getHits();
         }
         return null;
     }
@@ -627,7 +626,7 @@ public class ClientDB {
         return -1;
     }
 
-    public int getIdForReservation(String reservationId) throws IOException {
+    private int getIdForReservation(String reservationId) throws IOException {
         SearchHit[] sh = getByFieldValue("reservation","reservationId",reservationId);
         if(sh != null) {
             if (sh.length != 0)
@@ -679,7 +678,7 @@ public class ClientDB {
     }
 
     /*List the index's values in an list of map*/
-    public ArrayList<Map<String,Object>> listMap(String table) throws IOException {
+    private ArrayList<Map<String,Object>> listMap(String table) throws IOException {
         ArrayList<Map<String,Object>> list = new ArrayList<Map<String, Object>>();
         SearchHit[] sh = arrayTable(table);
         if(sh == null || sh.length == 0)
@@ -690,11 +689,10 @@ public class ClientDB {
     }
 
     /*Return true if the flight id already exists, false if not*/
-    public boolean ifFlightIdExist(String id) throws IOException {
+    private boolean ifFlightIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("flight","flightId",id);
         if(sh != null) {
-            if (sh.length != 0)
-                return true;
+            return sh.length != 0;
         }
         return false;
     }
@@ -703,8 +701,7 @@ public class ClientDB {
     public boolean ifLicenceIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("licence","licenceid",id);
         if(sh != null) {
-            if (sh.length != 0)
-                return true;
+            return sh.length != 0;
         }
         return false;
     }
@@ -713,8 +710,7 @@ public class ClientDB {
     public boolean ifMessageIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("message","messageId",id);
         if(sh != null) {
-            if (sh.length != 0)
-                return true;
+            return sh.length != 0;
         }
         return false;
     }
@@ -723,18 +719,16 @@ public class ClientDB {
     public boolean ifPlaneIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("plane","planeId",id);
         if(sh != null) {
-            if (sh.length != 0)
-                return true;
+            return sh.length != 0;
         }
         return false;
     }
 
     /*Return true if the flight id already exists, false if not*/
-    public boolean ifReservationIdExist(String id) throws IOException {
+    private boolean ifReservationIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("reservation","reservationId",id);
         if(sh != null) {
-            if (sh.length != 0)
-                return true;
+            return sh.length != 0;
         }
         return false;
     }
@@ -743,8 +737,7 @@ public class ClientDB {
     public boolean ifUserIdExist(String id) throws IOException {
         SearchHit[] sh = getByFieldValue("user","userId",id);
         if(sh != null) {
-            if (sh.length != 0)
-                return true;
+            return sh.length != 0;
         }
         return false;
     }
@@ -764,7 +757,7 @@ public class ClientDB {
                 table,
                 "info",
                 ""+id);
-        String jsonString = "";
+        String jsonString;
         if(table.equals("flight")){
             Flight f = (Flight)o;
             String tmpId = createId(7);
@@ -886,8 +879,7 @@ public class ClientDB {
 
     /*Function of creation of instances*/
     public Aerodrom createAerodrom(Map<String,Object> map){
-        Aerodrom a = new Aerodrom(map.get("town").toString(),map.get("airfieldName").toString(),map.get("location").toString());
-        return a;
+        return new Aerodrom(map.get("town").toString(),map.get("airfieldName").toString(),map.get("location").toString());
     }
     public Flight createFlight(Map<String,Object> map){
         Flight f = new Flight(map.get("atcNumber").toString(),map.get("departureAerodrom").toString(),map.get("date").toString(),map.get("departureTime").toString(),Integer.parseInt(map.get("allSeats").toString()),Integer.parseInt(map.get("remainingSeats").toString()),map.get("type").toString(),map.get("arrivalAerodrom").toString(),map.get("arrivalTime").toString(),map.get("price").toString(),map.get("userId").toString());
@@ -895,15 +887,15 @@ public class ClientDB {
         return f;
     }
 
-    public Licence createLicence(Map<String,Object> map) {
+    private Licence createLicence(Map<String,Object> map) {
         return new Licence(map.get("licenceId").toString(),map.get("userId").toString(),map.get("validityDate").toString(),Integer.parseInt(map.get("mark").toString()),Integer.parseInt(map.get("numberHoursFlight").toString()));
     }
 
-    public Message createMessage(Map<String,Object> map) {
+    private Message createMessage(Map<String,Object> map) {
         return new Message(map.get("messageId").toString(),map.get("content").toString(),map.get("senderId").toString(),map.get("receiverId").toString(),map.get("sendingDate").toString());
     }
 
-    public Plane createPlane(Map<String,Object> map){
+    private Plane createPlane(Map<String,Object> map){
         return new Plane(map.get("atcNumber").toString(),Integer.parseInt(map.get("numberSeats").toString()));
     }
 
@@ -914,7 +906,7 @@ public class ClientDB {
 
     }
 
-    public User createUser(Map<String,Object> map){
+    private User createUser(Map<String,Object> map){
         User newUser= new User(map.get("firstName").toString(),map.get("lastName").toString(),map.get("email").toString(),map.get("password").toString(),map.get("birthDate").toString(),map.get("gsm").toString(),map.get("typeUser").toString());
         newUser.setUserId(map.get("userId").toString());
         return newUser;
@@ -954,6 +946,17 @@ public class ClientDB {
         return null;
     }
 
+    public Flight getFlightByFlightId(String flightId) throws IOException{
+        SearchHit[] t = getByFieldValue("flight","flightId",flightId);
+        if(t != null) {
+            for (SearchHit sh : t) {
+                Map<String, Object> m = sh.getSourceAsMap();
+                if (m.get("flightId").toString().equals(flightId)) return createFlight(m);
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Flight> getFlightByUserId(String userId) throws IOException{
         ArrayList<Flight> lf = new ArrayList<Flight>();
         SearchHit[] t = getByFieldValue("flight","userId",userId);
@@ -963,6 +966,15 @@ public class ClientDB {
                 if (m.get("userId").toString().equals(userId)) lf.add(createFlight(m));
             }
             return lf;
+        }
+        return null;
+    }
+
+    public Licence getLicenceByLicenceId(String licenceId) throws IOException{
+        SearchHit[] sh = getByFieldValue("licence","licenceId",licenceId);
+        if(sh != null) {
+            if (sh.length == 1)
+                return createLicence(sh[0].getSourceAsMap());
         }
         return null;
     }
@@ -1605,10 +1617,12 @@ public class ClientDB {
     /*Return a list of reservation which match with the userId*/
     public int getIdForFlightRemainingPlaces(String flightId) throws IOException {
         SearchHit[] tab = arrayTable("flight");
-        for (SearchHit sh : tab) {
-            int i = Integer.parseInt(sh.getId());
-            Map<String, Object> map = sh.getSourceAsMap();
-            if (flightId.equals(map.get("flightId"))) return i;
+        if(tab != null) {
+            for (SearchHit sh : tab) {
+                int i = Integer.parseInt(sh.getId());
+                Map<String, Object> map = sh.getSourceAsMap();
+                if (flightId.equals(map.get("flightId"))) return i;
+            }
         }
         return -1;
     }
@@ -1805,23 +1819,25 @@ public class ClientDB {
 
     public boolean delete(String id, String table) throws IOException {
         SearchHit[] sh = arrayTable(table);
-        for (SearchHit s : sh) {
-            String _id = s.getId();
-            Map<String, Object> map = s.getSourceAsMap();
-            Object o;
-            if (table.equals("flight")) o = map.get("flightId");
-            else if (table.equals("licence")) o = map.get("licenceId");
-            else if (table.equals("message")) o = map.get("messageId");
-            else if (table.equals("plane")) o = map.get("atcNumber");
-            else if (table.equals("reservation")) o = map.get("reservationId");
-            else o = map.get("userId");
-            if (o.equals(id)) {
-                DeleteRequest request = new DeleteRequest(
-                        table,
-                        "info",
-                        _id);
-                deleteCheck(request);
-                return true;
+        if(sh != null) {
+            for (SearchHit s : sh) {
+                String _id = s.getId();
+                Map<String, Object> map = s.getSourceAsMap();
+                Object o;
+                if (table.equals("flight")) o = map.get("flightId");
+                else if (table.equals("licence")) o = map.get("licenceId");
+                else if (table.equals("message")) o = map.get("messageId");
+                else if (table.equals("plane")) o = map.get("atcNumber");
+                else if (table.equals("reservation")) o = map.get("reservationId");
+                else o = map.get("userId");
+                if (o.equals(id)) {
+                    DeleteRequest request = new DeleteRequest(
+                            table,
+                            "info",
+                            _id);
+                    deleteCheck(request);
+                    return true;
+                }
             }
         }
         return false;

@@ -33,10 +33,7 @@ public class BouchonLicenceDAO implements LicenceDAO {
 
     public Licence getLicenceByUserId(String userId) {
         try {
-            liste = JettyMain.c.allLicence();
-            for(int i=0; i<liste.size(); i++){
-                if(liste.get(i).getUserId().equals(userId))return liste.get(i);
-            }
+            return JettyMain.c.getLicenceByUserId(userId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,10 +42,7 @@ public class BouchonLicenceDAO implements LicenceDAO {
 
     public Licence getLicenceById(String licenceId) {
         try {
-            liste = JettyMain.c.allLicence();
-            for(int i=0; i<liste.size(); i++){
-                if(liste.get(i).getLicenceId().equals(licenceId))return liste.get(i);
-            }
+            JettyMain.c.getLicenceByLicenceId(licenceId);
         } catch (Exception e) {
             e.printStackTrace();
         }
