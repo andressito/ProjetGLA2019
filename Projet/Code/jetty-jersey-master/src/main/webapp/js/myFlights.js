@@ -48,7 +48,7 @@ function callDone3(result){
         "dateDeparture": JSON.stringify(result['date']),
         "timeDeparture":JSON.stringify(result['departureTime']),
         "allSeats":JSON.stringify(result['allSeats']),
-        "arrivalTime": JSON.stringify(result['arrivalAerodrom']),
+        "arrivalTime": JSON.stringify(result['arrivalTime']),
         "remainingSeats": JSON.stringify(result['remainingSeats'])
     });
     $("#result").append(html);
