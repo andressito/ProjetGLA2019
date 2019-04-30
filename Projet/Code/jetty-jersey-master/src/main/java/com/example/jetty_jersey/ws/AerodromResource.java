@@ -18,7 +18,7 @@ public class AerodromResource{
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/aerodrome")
     public ArrayList<Aerodrom> getAllAerodrome() {
-        return bldao.getListeAerodrom();
+        return bldao.getListAerodrom();
     }
 
 }
