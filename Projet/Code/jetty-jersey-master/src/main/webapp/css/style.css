@@ -7,8 +7,8 @@
 }
 /* =======================================================
 *
-* 	Template Style 
-*	Edit this section
+*   Template Style 
+* Edit this section
 *
 * ======================================================= */
 body {
@@ -486,7 +486,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 #fh5co-hero .flexslider .slides {
   position: relative;
-  overflow: hidden;
+  overflow: auto;
 }
 #fh5co-hero .flexslider .slides li {
   background-repeat: no-repeat;
@@ -1376,7 +1376,7 @@ nav.crumb{
 }
 
 #fh5co-pricing-section .price-box-form {
-  margin-left: 40px;
+  margin-left: 50px;
   height: 650px;
   width : 600px;
   text-align: center;
@@ -1708,7 +1708,8 @@ nav.crumb{
     background-image:url("../images/profile.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: 100% 100%;
+    background-size: cover;
+    background-position: center center;
     margin:0;
 }
 
@@ -1729,16 +1730,16 @@ div .static{
   height: 100px;
   width: 200px;
   overflow-scrolling: auto;
-  overflow: scroll;
+  overflow: auto;
 }
 .modal-dialog{
   width: 800px;
-  height: 600px;
+  height: 800px;
 }
 .modal-content{
-    width: 800px;
   height: 600px;
 }
+
 
 .flightsList{
   background-color: rgba(0,0,0,0.8);
@@ -1763,49 +1764,6 @@ div .static{
   color: white;
 }
 
-#Slogan{
-  background-color: rgba(0,0,0,0.5);
-  min-width: 1200px;
-  position: absolute;
-  padding: 3%;
-  margin-top: 10%;
-  max-height: 400px !important;
-  z-index: 99 !important;
-}
 
-.modal-body{
-  text-align: center;
-}
-
-.flightPopup h2{
-    color: #2BBDB5;
-    font-size: 30px;
-}
-
-.flightPopup p{
-    font-size: 30px;
-    color: #fff;
-}
-
-.modal-content{
-    background: url(../images/popup.png) no-repeat center fixed;
-    -webkit-background-size: cover;
-    background-size: cover;
-    background-color: rgba(0,0,0,0.3);
-}
-
-.modal-dialog{
-    box-shadow: 4px 4px 30px #2BBDB5;
-}
-
-.flightPopup .price{
-    font-size: 60px;
-    color: #2BBDB5;
-}
-
-.flightPopup p h5{
-    font-size: 18px;
-    color: Black;
-}
 
 /*# sourceMappingURL=style.css.map */
