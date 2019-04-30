@@ -17,21 +17,10 @@ $(document).ready(function() {
             sessionStorage.setItem("firstName",firstName);
             sessionStorage.setItem("userId",userId);
         }
-            $("#menu").load('../Menu/MenuPilot.html');
-        }
-});
-
-$(function () {
-    $("#signOut").click(function () {
-        sessionStorage.clear();
-        localStorage.clear();
+        $("#menu").load('../Menu/MenuPilot.html');
+    }else{
         window.location.href="http://localhost:8080/";
-        swal({
-            title: "ChuChuFly!",
-            text: "Success Sign Out",
-            icon: "success"
-        });
-    });
+    }
 });
 
 function searchFlight(){

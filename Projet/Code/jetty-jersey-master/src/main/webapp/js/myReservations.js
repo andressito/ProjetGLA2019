@@ -25,7 +25,6 @@ $(document).ready(function() {
             $("#menu").load('../Menu/MenuPilot.html');
         }
         getServerData("http://localhost:8080/ws/reservation/reservations/user/" + userId,callDone);
-
     }
 });
 

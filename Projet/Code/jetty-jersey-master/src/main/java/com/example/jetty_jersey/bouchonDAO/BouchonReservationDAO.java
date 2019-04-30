@@ -13,8 +13,20 @@ import java.util.List;
 public class BouchonReservationDAO implements ReservationDAO {
     public boolean createReservation(Reservation reservation) {
         try {
-            if(JettyMain.c.indexDB(reservation, null))
-                return JettyMain.c.updateFlightRemainingPlaces(reservation);
+            SearchHit[] sh =JettyMain.c.getByFieldValue("flight","flightId",reservation.getFlightId());
+            if(sh!=null){
+                if(sh.length!=0){
+                    Flight f = JettyMain.c.createFlight(sh[0].getSourceAsMap());
+                    if (f.getUserId().equals(reservation.getUserId())) {
+                        return false;
+                    }else{
+                        if(JettyMain.c.indexDB(reservation, null))
+                            return JettyMain.c.updateFlightRemainingPlaces(reservation);
+                    }
+                }
+            }
+        }catch (IOException ex) {
+            ex.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +96,7 @@ public class BouchonReservationDAO implements ReservationDAO {
 
 	public ArrayList<Reservation> getReservationByUserId(String userId) {
 		try {
-            return JettyMain.c.getReservationByUser(userId);
+            return JettyMain.c.getReservationByUserId(userId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +105,7 @@ public class BouchonReservationDAO implements ReservationDAO {
 
 	public ArrayList<Reservation> getReservationByFlight(String flight) {
 		try {
-            return JettyMain.c.getReservationByFlight(flight);
+            return JettyMain.c.getReservationByFlightId(flight);
         } catch (IOException e) {
             e.printStackTrace();
         }
