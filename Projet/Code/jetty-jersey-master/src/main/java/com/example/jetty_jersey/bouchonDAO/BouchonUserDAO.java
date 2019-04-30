@@ -32,7 +32,7 @@ public class BouchonUserDAO implements UserDAO {
         return false;
     }
 
-    public boolean signInUser(User user) throws NoSuchAlgorithmException, NoSuchProviderException  {
+    public boolean signInUser(User user)   {
         try {
             return JettyMain.c.canConnect(user.getEmail(), UserResource.executeSaltMD5(user.getPassword()));
         } catch (IOException e) {

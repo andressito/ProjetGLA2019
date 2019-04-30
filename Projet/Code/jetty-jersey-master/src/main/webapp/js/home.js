@@ -19,7 +19,6 @@ $(document).ready(function() {
         }
         if(typeUser==="passenger"){
             document.getElementById("bg").style.backgroundImage = "url('images/slide_1.jpg')";
-            console.log("passenger");
             $("#menu").load('../Menu/MenuPassenger.html');
             document.getElementById('search').style.display='inline';
             document.getElementById('flight').style.display='none';
@@ -30,7 +29,7 @@ $(document).ready(function() {
             document.getElementById('search').style.display='none';
             document.getElementById('flight').style.display='inline';
             getServerData("http://localhost:8080/ws/reservation/reservationPilot/" + userId,callDone);
-            getServerData("http://localhost:8080/ws/flight/flightByUserId/"+userId,callDone4);
+            getServerData("http://localhost:8080/ws/flight/closeFlight/"+userId,callDone4);
         }
     }else{
         $("#menu").load('../Menu/Menu.html');
@@ -74,15 +73,30 @@ function getServerData(url, success){
 function callDone(result){
     var templateExample = _.template($('#templateExample').html());
     for(var i=0; i<result.length; i++) {
-        var html = templateExample({
-            "flightId": JSON.stringify(result[i].flightId),
-            "userId": JSON.stringify(result[i].userId),
-            "nbSeats": JSON.stringify(result[i].nbPlaces),
-            "price": JSON.stringify(result[i].price),
-            "status": JSON.stringify(result[i].status),
-            "reserId":JSON.stringify(result[i].reservationId)
+        var flightId=result[i].flightId;
+        var userId=result[i].userId;
+        var nbSeats= result[i].nbPlaces;
+        var price =result[i].price;
+        var status=result[i].status;
+        var reservationId=result[i].reservationId;
+        $.ajax({
+            url: "http://localhost:8080/ws/user/users/"+result[i].userId,
+            type: "GET",
+            contentType: "application/json",
+            cache: false,
+            dataType: "json"
+        }).done(function (resultat) {
+            var html = templateExample({
+                "flightId": JSON.stringify(flightId),
+                "userId": JSON.stringify(userId),
+                "nbSeats": JSON.stringify(nbSeats),
+                "price": JSON.stringify(price),
+                "status": JSON.stringify(status),
+                "reserId": JSON.stringify(reservationId),
+                "firstName":JSON.stringify(resultat['firstName'])
+            });
+            $("#myReservations").append(html);
         });
-        $("#myReservations").append(html);
     }
 
 }
@@ -90,17 +104,15 @@ function callDone(result){
 function callDone4(result){
     console.log(result);
     var templateExample = _.template($('#templateExample4').html());
-    for(var i=0; i<result.length; i++) {
         var html = templateExample({
-            "departure": JSON.stringify(result[i].departureAerodrom),
-            "arrival": JSON.stringify(result[i].arrivalAerodrom),
-            "dateDeparture": JSON.stringify(result[i].date),
-            "iniSeats": JSON.stringify(result[i].allSeats),
-            "remSeats": JSON.stringify(result[i].remainingSeats),
-            "flightId":JSON.stringify(result[i].flightId)
+            "departure": JSON.stringify(result['departureAerodrom']),
+            "arrival": JSON.stringify(result['arrivalAerodrom']),
+            "dateDeparture": JSON.stringify(result['date']),
+            "iniSeats": JSON.stringify(result['allSeats']),
+            "remSeats": JSON.stringify(result['remainingSeats']),
+            "flightId":JSON.stringify(result['flightId'])
         });
         $("#myFlights").append(html);
-    }
 
 }
 
