@@ -1734,7 +1734,7 @@ div .static{
 }
 .modal-dialog{
   width: 800px;
-  height: 800px;
+  height: 600px;
 }
 .modal-content{
   height: 600px;
