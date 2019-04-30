@@ -103,7 +103,7 @@ public class ClientDB {
                 "\"location\":\"49.0097,2.5479\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        IndexResponse indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -115,7 +115,7 @@ public class ClientDB {
                 "\"location\":\"48.726243,2.365247\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -127,7 +127,7 @@ public class ClientDB {
                 "\"location\":\"48.9694,2.44139\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -139,7 +139,7 @@ public class ClientDB {
                 "\"location\":\"48.89421,2.60331\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -151,7 +151,7 @@ public class ClientDB {
                 "\"location\":\"48.81964,2.62555\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -163,7 +163,7 @@ public class ClientDB {
                 "\"location\":\"48.928584,2.841064\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -175,7 +175,7 @@ public class ClientDB {
                 "\"location\":\"48.7517,2.10611\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -187,7 +187,7 @@ public class ClientDB {
                 "\"location\":\"48.81307,2.06754\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -199,7 +199,7 @@ public class ClientDB {
                 "\"location\":\"48.70482,2.90745\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         id++;
         indReq = new IndexRequest(
                 "aerodrom",
@@ -211,7 +211,7 @@ public class ClientDB {
                 "\"location\":\"48.85732,1.85094\"" +
                 "}";
         indReq.source(jsonString, XContentType.JSON);
-        indexResponse = client.index(indReq, RequestOptions.DEFAULT);
+        client.index(indReq, RequestOptions.DEFAULT);
         setIdMax("aerodrom",id);
         return true;
     }
@@ -885,6 +885,10 @@ public class ClientDB {
     }
 
     /*Function of creation of instances*/
+    public Aerodrom createAerodrom(Map<String,Object> map){
+        Aerodrom a = new Aerodrom(map.get("town").toString(),map.get("airfieldName").toString(),map.get("location").toString());
+        return a;
+    }
     public Flight createFlight(Map<String,Object> map){
         Flight f = new Flight(map.get("atcNumber").toString(),map.get("departureAerodrom").toString(),map.get("date").toString(),map.get("departureTime").toString(),Integer.parseInt(map.get("allSeats").toString()),Integer.parseInt(map.get("remainingSeats").toString()),map.get("type").toString(),map.get("arrivalAerodrom").toString(),map.get("arrivalTime").toString(),map.get("price").toString(),map.get("userId").toString());
         f.setFlightId(map.get("flightId").toString());
