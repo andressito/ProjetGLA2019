@@ -1,9 +1,21 @@
 $(document).ready(function() {
+    var typeUser = localStorage.getItem("typeUser");
     if(!localStorage.getItem("userId")){
         window.location.href="http://localhost:8080/";
     }else{
+        if(typeUser==="passenger"){
+        $("#menu").load('../Menu/MenuPassenger.html');
+    }else {
+        if(typeUser==="pilot"){
+            $("#menu").load('../Menu/MenuPilot.html');
+        }
+        else{
+            $("#menu").load('../Menu/Menu.html');
+        }
+    }
         getServerData("http://localhost:8080/ws/user/users/"+sessionStorage.getItem("detailsPilotId"),callDone);
     }
+
 });
 
 function getServerData(url, success){
