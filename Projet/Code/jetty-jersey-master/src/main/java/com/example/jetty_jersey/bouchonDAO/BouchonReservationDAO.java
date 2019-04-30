@@ -84,7 +84,7 @@ public class BouchonReservationDAO implements ReservationDAO {
 
 	public ArrayList<Reservation> getReservationByUserId(String userId) {
 		try {
-            return JettyMain.c.getReservationByUser(userId);
+            return JettyMain.c.getReservationByUserId(userId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +93,7 @@ public class BouchonReservationDAO implements ReservationDAO {
 
 	public ArrayList<Reservation> getReservationByFlight(String flight) {
 		try {
-            return JettyMain.c.getReservationByFlight(flight);
+            return JettyMain.c.getReservationByFlightId(flight);
         } catch (IOException e) {
             e.printStackTrace();
         }
