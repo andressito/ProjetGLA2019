@@ -194,6 +194,10 @@ function lancerMethodePost( data,flightId) {
                 title: "ChuChuFly!",
                 text: "reservation successfully ",
                 icon: "success"
+            }).then((willDelete) => {
+                if (willDelete) {
+                    window.location.href="http://localhost:8080/myReservations.html";
+                }
             });
         }else{
             swal({

@@ -17,59 +17,14 @@ $(document).ready(function() {
             sessionStorage.setItem("firstName", firstName);
             sessionStorage.setItem("userId", userId);
         }
-        document.getElementById("bg").style.backgroundImage = "url('images/paris.jpg')";
+        //document.getElementById("bg").style.backgroundImage = "url('images/paris.jpg')";
         if (typeUser === "passenger") {
             $("#menu").load('../Menu/MenuPassenger.html');
             document.getElementById('myReservations').style.display="'inline";
         } else {
             $("#menu").load('../Menu/MenuPilot.html');
         }
-
         getServerData("http://localhost:8080/ws/reservation/reservations/user/" + userId,callDone);
-            /*$.ajax({
-                url: "http://localhost:8080/ws/reservation/reservations/user/" + userId,
-                type: "GET",
-                contentType: "application/json",
-                cache: false,
-                dataType: "json"
-            }).done(function (result) {
-                if (result.length>0) {
-                    console.log(result);
-                    var table =
-                        "<div class=\"flightsList\"><h1> Reservations list </h1>" +
-                        "<br><br><br><table class=\"table\">" +
-                        "<thead>" +
-                        "<tr>" +
-                        "<td>Departure</td>" +
-                        "<td>Arrival</td>" +
-                        "<td>Date departure</td>" +
-                        "<td>Initial Seats</td>" +
-                        "<td>Remaining Seats</td>" +
-                        "<td>Details</td>" +
-                        "</tr>" +
-                        "</thead>" +
-                        "<tbody>" +
-                        "<tr>" +
-                        "<td>" + result['departureAerodrom'] + "</td>" +
-                        "<td>" + result['arrivalAerodrom'] + "</td>" +
-                        "<td>" + result['date'] + "</td>" +
-                        "<td>" + result['allSeats'] + "</td>" +
-                        "<td>" + result['remainingSeats'] + "</td>" +
-                        "<td> <button value='" + result['flightId'] + "' onclick='DetailsFLightHome' class=\"btn-details\"> Details</button></td>" +
-                        "</tr>" +
-                        "</tbody>" +
-                        "</table>" +
-                        "</div>";
-                    $("#myReservations").append(table);
-                } else {
-                    var table1 =
-                        "<div class=\"upcomingFlight\"><br><h1> No Reservations to display </h1>" +
-                        "<br>" +
-                        "<a href='home.html'><h5> Search for a convenient flight and book it here </h5></a>" +
-                        "</div>";
-                    $("#myReservations").append(table1);
-                }
-            });*/
 
     }
 });
@@ -83,17 +38,43 @@ function getServerData(url, success){
 }
 
 function callDone(result){
-    console.log(result);
-    var templateExample = _.template($('#templateExample').html());
-    for(var i=0; i<result.length; i++) {
-        var html = templateExample({
-            "flightId": JSON.stringify(result[i].flightId),
-            "userId": JSON.stringify(result[i].userId),
-            "nbSeats": JSON.stringify(result[i].nbPlaces),
-            "price": JSON.stringify(result[i].price),
-            "status": JSON.stringify(result[i].status)
-        });
-        $("#myReservations").append(html);
+    if(result.length==0){
+        $("#testReser").empty();
+        //var html="test";
+        $("#testReser").append(html);
+    }else {
+        var templateExample = _.template($('#templateExample').html());
+        for (var i = 0; i < result.length; i++) {
+            var html = templateExample({
+                "reservationId": JSON.stringify(result[i].reservationId),
+                "flightId": JSON.stringify(result[i].flightId),
+                "nbSeats": JSON.stringify(result[i].nbPlaces),
+                "price": JSON.stringify(result[i].price),
+                "status": JSON.stringify(result[i].status)
+            });
+            $("#myReservations").append(html);
+        }
     }
 
+}
+
+function flightDetails(flightId) {
+    getServerData("http://localhost:8080/ws/flight/flights/" + flightId,callDone3);
+}
+
+function callDone3(result){
+    $("#result").empty();
+    var templateExample = _.template($('#templateExample3').html());
+    var html = templateExample({
+        "type": JSON.stringify(result['type']),
+        "price": JSON.stringify(result['price']),
+        "departure": JSON.stringify(result['departureAerodrom']),
+        "arrival": JSON.stringify(result['arrivalAerodrom']),
+        "dateDeparture": JSON.stringify(result['date']),
+        "timeDeparture":JSON.stringify(result['departureTime']),
+        "allSeats":JSON.stringify(result['allSeats']),
+        "arrivalTime": JSON.stringify(result['arrivalAerodrom']),
+        "remainingSeats": JSON.stringify(result['remainingSeats'])
+    });
+    $("#result").append(html);
 }

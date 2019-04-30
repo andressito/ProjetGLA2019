@@ -74,14 +74,6 @@ public class BouchonReservationDAO implements ReservationDAO {
                         }
                     }
                 }
-                /*
-        		ArrayList<Flight> fl = JettyMain.c.allFlight();
-        		for(int i=0; i<fl.size(); i++){
-                    if(fl.get(i).getFlightId().equals(reservation.getFlightId())) {
-                    	fl.get(i).setRemainingSeats(fl.get(i).getRemainingSeats() + reservation.getNbPlaces());
-                    	JettyMain.c.updateFlightInIndex(fl);
-                    }
-                }*/
     		}
             return JettyMain.c.updateReservationValidation(reservation.getReservationId(),reservation.getStatus());
         } catch (Exception e) {

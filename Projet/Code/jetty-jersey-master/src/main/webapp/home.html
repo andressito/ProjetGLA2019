@@ -76,7 +76,23 @@
 									</tbody>
 								</table>
 								<h1> Upcoming Flight </h1>
-								<div id="flight"></div>
+								<div id="flight">
+									<table class="table">
+										<thead>
+										<tr>
+											<td>Departure</td>
+											<td>Arrival</td>
+											<td>Date Departure</td>
+											<td>Initial Seats</td>
+											<td>Remaining Seats</td>
+											<td>Details</td>
+										</tr>
+										</thead>
+										<tbody id="myFlights">
+
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -106,6 +122,17 @@
 		<td> <%= status %> </td>
 		<td> <button type="submit" onclick=acceptReservation(<%= reserId %>,<%= userId %>,<%= flightId %>); class="btn-details"> Accept</button>
 			<button type="submit" onclick=declineReservation(<%= reserId %>,<%= userId %>,<%= flightId %>); class="btn-details"> Decline</button>
+		</td>
+	</tr>
+</script>
+<script id="templateExample4" type="text/template">
+	<tr>
+		<td> <%= departure %> </td>
+		<td> <%= arrival %></td>
+		<td> <%= dateDeparture %> </td>
+		<td> <%= iniSeats %> </td>
+		<td> <%= remSeats %> </td>
+		<td> <button type="submit"  href="#myModal2" data-toggle="modal" onclick=flightDetails(<%= flightId %>); class="btn-details"> Details</button>
 		</td>
 	</tr>
 </script>
