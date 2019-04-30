@@ -181,12 +181,23 @@ function lancerMethodePost( data,flightId) {
         dataType: "json"
     }).done(function (result) {
         if(result){
-            sendMail(sessionStorage.getItem("email"),"Reservation prise en compte pour le vol "+flightId);
+            var message="Dear "+sessionStorage.getItem("firstName")+" ,\n" +
+                "Your seat(s) reservation is registered correctly.\n" +
+                "We'll keep you updated as soon as the pilot in charge of the flight "+flightId+" replies to your reservation.\n" +
+                "You can also check your reservation status through ChuChuFly platform.\n" +
+                "Thank you for your trust\n" +
+                "\n" +
+                "ChuChuFly Team";
+            sendMail(sessionStorage.getItem("email"),message);
             sendMessageToPilot(flightId);
             swal({
                 title: "ChuChuFly!",
                 text: "reservation successfully ",
                 icon: "success"
+            }).then((willDelete) => {
+                if (willDelete) {
+                    window.location.href="http://localhost:8080/myReservations.html";
+                }
             });
         }else{
             swal({
@@ -209,17 +220,7 @@ function sendMessageToPilot(flightId) {
 
         var email=result['email'];
         console.log(email);
-        /*Email.send({
-            Host : "smtp.gmail.com",
-            Username : "noreplychuchufly@gmail.com",
-            Password : "passer123&",
-            To : email,
-            From : "noreplychuchufly@gmail.com",
-            Subject : "Reservation",
-            Body :
-        }).then(
-
-        );*/
+        var message="";
         sendMail(email,"Bonjour vous avez une nouvelle reservation concernant le vol "+flightId);
     });
 }

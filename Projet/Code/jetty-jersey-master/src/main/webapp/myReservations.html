@@ -56,11 +56,11 @@
                 <div class="container" id="inner">
                     <div></div>
                     <div class="upcomingFlight" id="testReser" >
+                        <center><h1>My Reservations</h1></center>
                         <table class="table">
                             <thead>
                             <tr>
-                                <td>FlightId</td>
-                                <td>User</td>
+                                <td>ReservationId</td>
                                 <td>Number Seats</td>
                                 <td>Price</td>
                                 <td>Status</td>
@@ -80,14 +80,50 @@
 </aside>
 <script id="templateExample" type="text/template">
     <tr>
-        <td> <%= flightId %> </td>
-        <td> <%= userId %> </td>
+        <td> <%= reservationId %> </td>
         <td> <%= nbSeats %> </td>
         <td> <%= price %> </td>
         <td> <%= status %> </td>
-        <td> <button type="submit" class="btn-details"> Details</button> </td>
+        <td> <button type="submit" href="#myModal2" data-toggle="modal" onclick=flightDetails(<%= flightId %>); class="btn-details"> Details</button> </td>
     </tr>
 </script>
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal2" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content pricing col-md-12">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <center><h4 class="modal-title">Details Flight</h4></center>
+            </div>
+            <div class="modal-body">
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="pricing col-md-12" id="flightList">
+
+    </div>
+</div>
+<script id="templateExample3" type="text/template">
+    <div class="col-md-2" >
+    </div>
+    <div class="col-md-5 pricing" >
+        <div class="price-box">
+            <h2 class="pricing-plan"> <%= type %> </h2>
+            <div class="price"><sup class="currency">€</sup> <%= price %> <small>/seat</small></div>
+            <p> From : <%= departure %></p>
+            <p> To : <%= arrival %></p>
+            <p>Date Departure: <%= dateDeparture%></p>
+            <p> Departure Time: <%=timeDeparture %></p>
+            <p> Arrival Time: <%=arrivalTime %></p>
+            <p> All Seats : <%= allSeats %> </p>
+            <p> Remaining Seats : <%= remainingSeats %> </p>
+        </div>
+    </div>
+</script>
+
+
 
 
 <!-- jQuery Easing -->
