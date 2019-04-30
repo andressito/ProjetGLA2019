@@ -924,32 +924,6 @@ public class ClientDB {
         return null;
     }
 
-    public ArrayList<Reservation> getReservationByUser(String userId) throws IOException{
-        ArrayList<Reservation> lf = new ArrayList<Reservation>();
-        SearchHit[] t = getByFieldValue("reservation","userId",userId);
-        if(t!= null) {
-            for (SearchHit sh : t) {
-                Map<String, Object> m = sh.getSourceAsMap();
-                if (m.get("userId").toString().equals(userId)) lf.add(createReservation(m));
-            }
-            return lf;
-        }
-        return null;
-    }
-
-    public ArrayList<Reservation> getReservationByFlight(String flightId) throws IOException{
-        ArrayList<Reservation> lf = new ArrayList<Reservation>();
-        SearchHit[] t = getByFieldValue("reservation","flightId",flightId);
-        if(t != null) {
-            for (SearchHit sh : t) {
-                Map<String, Object> m = sh.getSourceAsMap();
-                if (m.get("flightId").toString().equals(flightId)) lf.add(createReservation(m));
-            }
-            return lf;
-        }
-        return null;
-    }
-
     /*Return the user using a specific email address*/
     public User getUserByEmail(String email) throws IOException{
         SearchHit[] sh = getByFieldValue("user","email",email);
@@ -989,6 +963,45 @@ public class ClientDB {
                 Map<String, Object> m = s.getSourceAsMap();
                 l.add(createMessage(m));
             }
+            return l;
+        }
+        return null;
+    }
+
+    /*Return the reservation using a specific reservation id*/
+    public Reservation getReservationByReservationId(String reservationId) throws IOException{
+        SearchHit[] sh = getByFieldValue("reservation","reservationId",reservationId);
+        if(sh != null) {
+            if (sh.length == 1)
+                return createReservation(sh[0].getSourceAsMap());
+        }
+        return null;
+    }
+
+    /*Return a list of reservations using a specific user id*/
+    public ArrayList<Reservation> getReservationByUserId(String userId) throws IOException{
+        ArrayList<Reservation> lf = new ArrayList<Reservation>();
+        SearchHit[] t = getByFieldValue("reservation","userId",userId);
+        if(t != null) {
+            for (SearchHit sh : t) {
+                Map<String, Object> m = sh.getSourceAsMap();
+                lf.add(createReservation(m));
+            }
+            return lf;
+        }
+        return null;
+    }
+
+    /*Return a list of reservations using a specific flight id*/
+    public ArrayList<Reservation> getReservationByFlightId(String flightId) throws IOException{
+        ArrayList<Reservation> lf = new ArrayList<Reservation>();
+        SearchHit[] t = getByFieldValue("reservation","flightId",flightId);
+        if(t != null) {
+            for (SearchHit sh : t) {
+                Map<String, Object> m = sh.getSourceAsMap();
+                lf.add(createReservation(m));
+            }
+            return lf;
         }
         return null;
     }
