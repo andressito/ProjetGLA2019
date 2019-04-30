@@ -4,9 +4,14 @@ import com.example.jetty_jersey.JettyMain;
 import com.example.jetty_jersey.classes.Licence;
 import com.example.jetty_jersey.classes.User;
 import com.example.jetty_jersey.dao.UserDAO;
+import com.example.jetty_jersey.ws.UserResource;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.util.List;
 
@@ -27,9 +32,9 @@ public class BouchonUserDAO implements UserDAO {
         return false;
     }
 
-    public boolean signInUser(User user) {
+    public boolean signInUser(User user) throws NoSuchAlgorithmException, NoSuchProviderException  {
         try {
-            return JettyMain.c.canConnect(user.getEmail(),DigestUtils.md5Hex(user.getPassword()));
+            return JettyMain.c.canConnect(user.getEmail(), UserResource.executeSaltMD5(user.getPassword()));
         } catch (IOException e) {
             e.printStackTrace();
         }
