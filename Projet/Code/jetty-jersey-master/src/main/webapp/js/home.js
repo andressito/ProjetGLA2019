@@ -249,14 +249,10 @@ function sendMail(status,userId,flightId,reservationId) {
                 title: "ChuChuFly!",
                 text: "Change taken into account",
                 icon: "success"
-            }).then((willDelete) => {
-                if (willDelete) {
-                    window.location.href="http://localhost:8080";
-                }
-            });
-
+            }).then(function () {
+                window.location.href="http://localhost:8080";
+            })
         });
-
     });
 
 }
@@ -284,6 +280,3 @@ var Email = {
         var t = new XMLHttpRequest;
         return "withCredentials" in t ? t.open(e, n, !0) : "undefined" != typeof XDomainRequest ? (t = new XDomainRequest).open(e, n) : t = null, t }
 };
-
-
-//faire l'envoie de mail pour la  confirmation de reservation ou l'annulation

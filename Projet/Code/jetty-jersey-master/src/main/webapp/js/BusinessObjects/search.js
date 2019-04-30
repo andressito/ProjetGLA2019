@@ -9,7 +9,6 @@ $(document).ready(function() {
         }
     }
     getFlightList2();
-
     var carte = L.map('map').setView([46.3630104, 2.9846608], 6);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -23,8 +22,8 @@ function detailsFlight(flightId) {
     }else{
         $("#result").empty();
         var ht=
-        '<a href="../../SignIn.html"> Have you an account, please sign-in  </a>'+
-            '<a href="../../SignUp.html"> create an account</a>';
+            '<a href="../../SignIn.html">Please sign in!</a>'+
+            '<a href="../../SignUp.html"> don\'t have an account yet? sign up here!</a>';
         $("#result").append(ht);
 
     }
@@ -35,7 +34,6 @@ function formatDate(date) {
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
-
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
@@ -72,7 +70,8 @@ function getFlightList2(){
     //sessionStorage.removeItem("departureDate");
     if(dpDate.length===0)
         dpDate="0";
-    $.ajax({
+    getServerData("http://localhost:8080/ws/flight/search/"+dpAero+"/"+dpDate,callDoneListSearch);
+    /*$.ajax({
         url: "http://localhost:8080/ws/flight/search/"+dpAero+"/"+dpDate,
         type: "GET",
         contentType: "application/json",
@@ -109,7 +108,38 @@ function getFlightList2(){
                 $("#flightList").append(tr_str);
             });
         }
-    });
+    });*/
+}
+
+function callDoneListSearch(result) {
+    var templateExample = _.template($('#templateListSearch').html());
+    for(var i=0; i<result.length; i++){
+        const flightId = result[i].flightId;
+        const departureAerodrom = result[i].departureAerodrom;
+        const type = result[i].type;
+        const arrivalAerodrom = result[i].arrivalAerodrom;
+        const remainingSeats= result[i].remainingSeats;
+        const price = result[i].price;
+        const userId = result[i].userId;
+        $.ajax({
+            url: "http://localhost:8080/ws/user/users/"+userId,
+            type: "GET",
+            contentType: "application/json",
+            cache: false,
+            dataType: "json"
+        }).done(function (resultat) {
+            var html = templateExample({
+                "type":JSON.stringify(type),
+                "price":JSON.stringify(price),
+                "departureAerodrom":JSON.stringify(departureAerodrom),
+                "arrivalAerodrom":JSON.stringify(arrivalAerodrom),
+                "remainingSeats":JSON.stringify(remainingSeats),
+                "firstName":JSON.stringify(resultat['firstName']),
+                "flightId":JSON.stringify(flightId)
+            });
+            $("#flightList").append(html);
+        });
+    }
 }
 
 function getServerData(url, success){
@@ -155,9 +185,9 @@ function callDone(result){
             "dateDeparture":JSON.stringify(result['date']),
             "timeDeparture":JSON.stringify(result['departureTime']),
             "flightId":JSON.stringify(result['flightId']),
-            "name1":JSON.stringify(sessionStorage.getItem("firstName")),
-            "name2":JSON.stringify(sessionStorage.getItem("lastName")),
-            "gsm":JSON.stringify(sessionStorage.getItem("gsm")),
+            "name1":JSON.stringify(localStorage.getItem("firstName")),
+            "name2":JSON.stringify(localStorage.getItem("lastName")),
+            "gsm":JSON.stringify(localStorage.getItem("gsm")),
             "remainingSeats":JSON.stringify(result['remainingSeats']),
             "flight":JSON.stringify(result['flightId'])
         });
@@ -192,17 +222,15 @@ function lancerMethodePost( data,flightId) {
             sendMessageToPilot(flightId);
             swal({
                 title: "ChuChuFly!",
-                text: "reservation successfully ",
+                text: "Reservation request sent to the pilot in charge",
                 icon: "success"
-            }).then((willDelete) => {
-                if (willDelete) {
-                    window.location.href="http://localhost:8080/myReservations.html";
-                }
+            }).then(function(){
+                window.location.href="http://localhost:8080/myReservations.html";
             });
         }else{
             swal({
                 title: "ChuChuFly!",
-                text: "error reservation ",
+                text: "An error occured, please try later",
                 icon: "error"
             });
         }
@@ -217,18 +245,21 @@ function sendMessageToPilot(flightId) {
         cache: false,
         dataType: "json"
     }).done(function (result) {
-
         var email=result['email'];
-        console.log(email);
-        var message="";
-        sendMail(email,"Bonjour vous avez une nouvelle reservation concernant le vol "+flightId);
+        var message="Dear "+result['firstName']+" , \n" +
+            "You have a new reservation request on your flght no "+flightId+"\n" +
+            "Please accept or decline as soon as you can.\n" +
+            "Thank you for your trust\n" +
+            "\n" +
+            "ChuChuFly Team";
+        sendMail(email,message);
     });
 }
 
 var Email = {
     send: function (a) {
         return new Promise(function (n, e) {
-            a.nocache = Math.floor(1e6 * Math.random() + 1), a.Action = "Send";
+            a.nocache = Math.floor(1e6 * Math.random() + 1),a.Action = "Send";
             var t = JSON.stringify(a);
             Email.ajaxPost("https://smtpjs.com/v3/smtpjs.aspx?", t, function (e) { n(e) })
         })

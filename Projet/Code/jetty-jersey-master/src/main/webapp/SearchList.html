@@ -84,7 +84,7 @@
 						<p>Date Departure: <%= dateDeparture%></p>
 						<p> Departure Time: <%=timeDeparture %></p>
 						<p> Remaining Seats : <%= seats %> </p>
-						<p> Pilot : <a href="#"  onclick=pilotDetails(<%= pilotId %>)> <%= userName %></a></p>
+						<p> Pilot : <a href="#" onclick=pilotDetails(<%= pilotId %>)> <%= userName %></a></p>
 
 						<input hidden id="iF" value= <%= flight %> >  </input>
 					</div>
@@ -119,6 +119,22 @@
 					</div>
 				</div>
 			<div>
+			</div>
+		</script>
+		<script type="text/template" id="templateListSearch">
+			<div class="col-md-3" >
+				<div class="price-box">
+					<h2 class="pricing-plan"><%= type %></h2>
+					<div class="price">
+						<p style="font-size : 60% !important;"><sup class="currency">€</sup><%=  price %></p><small>/seat</small>
+					</div>
+					<p> From :<%= departureAerodrom %>  </p>
+					<p> To : <%=arrivalAerodrom %> </p>
+					<p> Remaining Seats : <%=remainingSeats%> </p>
+					<p> Pilot : <%=firstName%></p>
+					<h6 id="idFlight1"> &#x2605; &#x2605; &#x2606; &#x2606; &#x2606; </h6>
+					<a style="font-size : 80% !important;" class="btn btn-select-plan btn-sm"  href="#myModal2" data-toggle="modal"  onclick=detailsFlight(<%=flightId %>); >Details</a>
+				</div>
 			</div>
 		</script>
 		<!-- fin personnel modal-->
