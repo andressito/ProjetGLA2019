@@ -5,8 +5,7 @@ import com.example.jetty_jersey.classes.Aerodrom;
 import java.util.ArrayList;
 
 public interface AerodromDAO {
-    boolean createAerodrome( Aerodrom aero );
     ArrayList<Aerodrom> searchFlight(String aero);
-    ArrayList<Aerodrom> getListeAerodrom();
+    ArrayList<Aerodrom> getListAerodrom();
     Aerodrom getAerodromDetails(String aerodromeId);
 }
