@@ -19,7 +19,7 @@ import java.util.List;
 
 @Path("/user")
 public class UserResource {
-    private static final String salt = "&é*-;";
+    private static final String salt = "é*♫5Ma   ■";
     public BouchonUserDAO buDAO = new BouchonUserDAO();
 
     @Context private HttpServletRequest request;
