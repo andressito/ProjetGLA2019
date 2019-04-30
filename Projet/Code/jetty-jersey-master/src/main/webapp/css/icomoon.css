@@ -2373,6 +2373,12 @@
 .icon-tools-2:before {
     content: "\e034";
 }
+.icon-ok:before {
+    content: "\f046";
+}
+.icon-ok-2:before {
+    content: "\f046";
+}
 .icon-scissors2:before {
     content: "\e035";
 }
