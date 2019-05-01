@@ -3,20 +3,11 @@ $(document).ready(function() {
         var firstName;
         var typeUser;
         var userId;
-        if (sessionStorage.getItem("firstName") && sessionStorage.getItem("userId") && sessionStorage.getItem("typeUser")) {
-            firstName = sessionStorage.getItem("firstName");
-            typeUser = sessionStorage.getItem("typeUser");
-            userId = sessionStorage.getItem("userId");
-            sessionStorage.removeItem("departureAerodrome");
-            sessionStorage.removeItem("departureDate");
-        } else {
-            firstName = localStorage.getItem("firstName");
-            typeUser = localStorage.getItem("typeUser");
-            userId = localStorage.getItem("userId");
-            sessionStorage.setItem("typeUser", typeUser);
-            sessionStorage.setItem("firstName", firstName);
-            sessionStorage.setItem("userId", userId);
-        }
+
+        firstName = localStorage.getItem("firstName");
+        typeUser = localStorage.getItem("typeUser");
+        userId = localStorage.getItem("userId");
+
         //document.getElementById("bg").style.backgroundImage = "url('images/paris.jpg')";
         if (typeUser === "passenger") {
             $("#menu").load('../Menu/MenuPassenger.html');
@@ -25,6 +16,8 @@ $(document).ready(function() {
             $("#menu").load('../Menu/MenuPilot.html');
         }
         getServerData("http://localhost:8080/ws/reservation/reservations/user/" + userId,callDone);
+    }else{
+        window.location.href="http://localhost:8080";
     }
 });
 
@@ -38,9 +31,9 @@ function getServerData(url, success){
 
 function callDone(result){
     if(result.length==0){
-        $("#testReser").empty();
+        $("#reservations").empty();
         //var html="test";
-        $("#testReser").append(html);
+        $("#reservations").append(html);
     }else {
         var templateExample = _.template($('#templateExample').html());
         for (var i = 0; i < result.length; i++) {

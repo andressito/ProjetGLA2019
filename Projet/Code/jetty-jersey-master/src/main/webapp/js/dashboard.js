@@ -8,6 +8,12 @@ $(document).ready(function() {
     var id = localStorage.getItem("userId");
     typeUser = localStorage.getItem("typeUser");
     if(id!=null){
+        if(typeUser==="passenger"){
+            $("#menu").load('../Menu/MenuPassenger.html');
+        }else {
+
+            $("#menu").load('../Menu/MenuPilot.html');
+        }
         $.ajax({
             url:"http://localhost:8080/ws/user/users/"+id,
             type:"GET",
@@ -43,16 +49,6 @@ $(document).ready(function() {
     }else{
         window.location.href="http://localhost:8080/";
     }
-    if(typeUser=="passenger"){
-        $("#menu").load('../Menu/MenuPassenger.html');
-    }else {
-        if(typeUser=="pilot"){
-            $("#menu").load('../Menu/MenuPilot.html');
-        }
-        else{
-            $("#menu").load('../Menu/Menu.html');
-        }
-    }
 });
 
 function view() {
@@ -67,28 +63,28 @@ function edit(){
     document.getElementById('profile-settings').style.display='none';
     document.getElementById('verify-profile').style.display='none';
     document.getElementById('delete-profile').style.display='none';
-    document.getElementById('view-profile').style.display='none';   
+    document.getElementById('view-profile').style.display='none';
 }
 function settings(){
     document.getElementById('edit-profile').style.display='none';
     document.getElementById('profile-settings').style.display='block';
     document.getElementById('verify-profile').style.display='none';
     document.getElementById('delete-profile').style.display='none';
-    document.getElementById('view-profile').style.display='none';   
+    document.getElementById('view-profile').style.display='none';
 }
 function verify(){
     document.getElementById('edit-profile').style.display='none';
     document.getElementById('profile-settings').style.display='none';
     document.getElementById('verify-profile').style.display='block';
     document.getElementById('delete-profile').style.display='none';
-    document.getElementById('view-profile').style.display='none';   
+    document.getElementById('view-profile').style.display='none';
 }
 function Delete(){
     document.getElementById('edit-profile').style.display='none';
     document.getElementById('profile-settings').style.display='none';
     document.getElementById('verify-profile').style.display='none';
     document.getElementById('delete-profile').style.display='block';
-    document.getElementById('view-profile').style.display='none';   
+    document.getElementById('view-profile').style.display='none';
 }
 
 function cancelEditUser(){
@@ -112,20 +108,21 @@ function updateUser(){
         data: data,
         contentType: "application/json",
         cache: false,
-        dataType: "json",
+        dataType: "json"
     }).done(function (result) {
         if(result){
             swal({
                 title: "ChuChuFly!",
                 text: "Profile updated successfully!",
-                icon: "success",
+                icon: "success"
+            }).then(function () {
+                window.location.href="http://localhost:8080/dashboard.html";
             });
-            window.location.href="http://localhost:8080/dashboard.html";
         }else{
             swal({
                 title: "ChuChuFly!",
                 text: "An error ocurred, please try later",
-                icon: "error",
+                icon: "error"
             });
         }
     });
@@ -145,16 +142,17 @@ function delete_account() {
             swal({
                 title: "ChuChuFly!",
                 text: "Profile deleted successfully!",
-                icon: "success",
+                icon: "success"
+            }).then(function () {
+                localStorage.clear();
+                sessionStorage.clear();
+                window.location.href="http://localhost:8080";
             });
-            localStorage.clear();
-            sessionStorage.clear();
-            window.location.href="http://localhost:8080/home.html";
         }else{
             swal({
                 title: "ChuChuFly!",
                 text: "An error ocurred, please try later",
-                icon: "error",
+                icon: "error"
             });
         }
     });
@@ -170,7 +168,7 @@ function updatePassword(){
         swal({
             title: "ChuChuFly!",
             text: "The old password is incorrect, please try again",
-            icon: "error",
+            icon: "error"
         });
     }
     else{
@@ -178,10 +176,9 @@ function updatePassword(){
             swal({
                 title: "ChuChuFly!",
                 text: "The new passwords don't match, please try again",
-                icon: "error",
+                icon: "error"
             });
-        }
-        else{
+        }else{
             userId=localStorage["userId"];
             var data= '{"password":"'+pwd+'", "userId":"'+userId+'"}';
             var dataUrl = "http://localhost:8080/ws/user/update";
@@ -191,19 +188,21 @@ function updatePassword(){
                 data: data,
                 contentType: "application/json",
                 cache: false,
-                dataType: "json",
+                dataType: "json"
             }).done(function (result) {
                 if(result){
                     swal({
                         title: "ChuChuFly!",
                         text: "Password updated successfully!",
-                        icon: "success",
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href="http://localhost:8080/dashboard.html";
                     });
                 }else{
                     swal({
                         title: "ChuChuFly!",
                         text: "An error ocurred, please try later",
-                        icon: "error",
+                        icon: "error"
                     });
                 }
             });

@@ -3,20 +3,9 @@ $(document).ready(function() {
         var firstName;
         var typeUser;
         var userId;
-        if(sessionStorage.getItem("firstName") && sessionStorage.getItem("userId") && sessionStorage.getItem("typeUser")){
-            firstName = sessionStorage.getItem("firstName");
-            typeUser =sessionStorage.getItem("typeUser");
-            userId = sessionStorage.getItem("userId");
-            sessionStorage.removeItem("departureAerodrome");
-            sessionStorage.removeItem("departureDate");
-        }else{
-            firstName = localStorage.getItem("firstName");
-            typeUser =localStorage.getItem("typeUser");
-            userId = localStorage.getItem("userId");
-            sessionStorage.setItem("typeUser",typeUser);
-            sessionStorage.setItem("firstName",firstName);
-            sessionStorage.setItem("userId",userId);
-        }
+        firstName = localStorage.getItem("firstName");
+        typeUser =localStorage.getItem("typeUser");
+        userId = localStorage.getItem("userId");
         if(typeUser==="passenger"){
             document.getElementById("bg").style.backgroundImage = "url('images/slide_1.jpg')";
             $("#menu").load('../Menu/MenuPassenger.html');
@@ -40,24 +29,11 @@ $(document).ready(function() {
     }
 });
 
-$(function () {
-    $("#signOut").click(function () {
-        sessionStorage.clear();
-        localStorage.clear();
-        window.location.href="http://localhost:8080/";
-        swal({
-            title: "ChuChuFly!",
-            text: "Success Sign Out",
-            icon: "success"
-        });
-    });
-});
-
 function searchFlight(){
     var departureAerodrome=$("#departureAerodrome").val();
     var departureDate=$("#departureDate").val();
-    sessionStorage.setItem("departureAerodrome",departureAerodrome);
-    sessionStorage.setItem("departureDate",departureDate);
+    localStorage.setItem("departureAerodrome",departureAerodrome);
+    localStorage.setItem("departureDate",departureDate);
     document.location.href = "SearchList.html";
 
 }
@@ -102,17 +78,16 @@ function callDone(result){
 }
 
 function callDone4(result){
-    console.log(result);
     var templateExample = _.template($('#templateExample4').html());
-        var html = templateExample({
-            "departure": JSON.stringify(result['departureAerodrom']),
-            "arrival": JSON.stringify(result['arrivalAerodrom']),
-            "dateDeparture": JSON.stringify(result['date']),
-            "iniSeats": JSON.stringify(result['allSeats']),
-            "remSeats": JSON.stringify(result['remainingSeats']),
-            "flightId":JSON.stringify(result['flightId'])
-        });
-        $("#myFlights").append(html);
+    var html = templateExample({
+        "departure": JSON.stringify(result['departureAerodrom']),
+        "arrival": JSON.stringify(result['arrivalAerodrom']),
+        "dateDeparture": JSON.stringify(result['date']),
+        "iniSeats": JSON.stringify(result['allSeats']),
+        "remSeats": JSON.stringify(result['remainingSeats']),
+        "flightId":JSON.stringify(result['flightId'])
+    });
+    $("#myFlights").append(html);
 
 }
 
@@ -126,7 +101,7 @@ function acceptReservation(reservationId,userId,flightId){
         contentType: "application/json",
         cache: false,
         dataType: "json"
-    }).success( function (result) {
+    }).success( function () {
         var status="accept";
         sendMail(status,userId,flightId,reservationId);
     });
@@ -142,7 +117,7 @@ function declineReservation(reservationId,userId,flightId){
         contentType: "application/json",
         cache: false,
         dataType: "json"
-    }).success( function (result) {
+    }).success( function () {
         var status="decline";
         sendMail(status,userId,flightId,reservationId);
     });
@@ -162,7 +137,7 @@ function callDone2(result){
     var templateExample = _.template($('#templateExample2').html());
     if(result["typeUser"]==="pilot"){
         $.ajax({
-            url: "http://localhost:8080/ws/licence/licences/user/"+sessionStorage.getItem("detailsPilotId"),
+            url: "http://localhost:8080/ws/licence/licences/user/"+result['userId'],
             type: "GET",
             contentType: "application/json",
             cache: false,
