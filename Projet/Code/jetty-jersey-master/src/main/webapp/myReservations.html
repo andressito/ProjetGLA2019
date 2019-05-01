@@ -55,7 +55,7 @@
                 <div class="overlay-gradient" ></div>
                 <div class="container" id="inner">
                     <div ></div>
-                    <div class="upcomingFlight" id="testReser" >
+                    <div class="upcomingFlight" id="reservations" >
                         <center><h1>My Reservations</h1></center>
                         <table class="table">
                             <thead>
@@ -104,20 +104,14 @@
     </div>
 </div>
 <script id="templateExample3" type="text/template">
-    <div class="col-md-2" >
-    </div>
-    <div class="col-md-5 pricing" >
-        <div class="price-box">
-            <h2 class="pricing-plan"> <%= type %> </h2>
-            <div class="price"><sup class="currency">€</sup> <%= price %> <small>/seat</small></div>
-            <p> From : <%= departure %></p>
-            <p> To : <%= arrival %></p>
-            <p>Date Departure: <%= dateDeparture%></p>
-            <p> Departure Time: <%=timeDeparture %></p>
-            <p> Arrival Time: <%=arrivalTime %></p>
-            <p> All Seats : <%= allSeats %> </p>
-            <p> Remaining Seats : <%= remainingSeats %> </p>
-        </div>
+    <div class="flightPopup" >
+        <br><br><br>
+        <p> <font size="2" color="#2BBDB5">Type of flight : </font> <%= type %> </p>
+        <div class="price"><sup >€</sup> <%= price %> <small>/seat</small></div>
+        <p> <FONT size="2" color="#2BBDB5">FROM : </FONT><%= departure %>&nbsp;&nbsp;&nbsp; <font size="2" color="#2BBDB5">TO : </font><%= arrival %></p>
+        <p><FONT size="2" color="#2BBDB5">Departure: </font><%= dateDeparture%> <font size="2" color="#2BBDB5"> &nbsp;AT : </font><%=timeDeparture %></p>
+        <p> Arrival Time: <%=arrivalTime %></p>
+        <p><font size="2" color="#2BBDB5">Remaining Seats : </font><%= remainingSeats %> / <%= allSeats %> </p>
     </div>
 </script>
 

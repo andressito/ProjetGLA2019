@@ -41,15 +41,48 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
 
 	</head>
-	<body>
+	<body> 
 		<div id="menu"></div>
 		<aside id="fh5co-hero">
 			<div id="map"> </div>
         	<div id="fh5co-pricing-section">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3 text-center fh5co-heading animate-box">
-							<h2>Search results</h2>
+				<div class="container"  style="margin-top:-35px;">
+					<div class="row  col-md-offset-3" >
+						<h2>Results</h2>
+					</div>
+					<div class="row ">
+						<div class="col-md-3">
+							<select class="form-control">
+									<option value="">Type</option>
+									<option value="all">Visit</option>
+									<option value="all">One Way</option>
+							</select>
+							<br>
+						</div>
+						<div class="col-md-3">
+							<select class="form-control">
+									<option value="">Seats</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="2">5</option>
+							</select>
+							<br>
+						</div>
+						<div class="col-md-3">
+							<select class="form-control">
+									<option value="">Price</option>
+									<option value="1">00 - 10 €</option>
+									<option value="2">11 - 30 €</option>
+									<option value="2">31 - 60 €</option>
+									<option value="2">31 - 90 €</option>
+									<option value="2">100€ and more</option>
+							</select>
+							<br>
+						</div>
+						<div class="col-md-3">
+							<button class="form-control btn" type="submit">Search</button>
 						</div>
 					</div>
 					<div class="row">
@@ -114,11 +147,32 @@
 					<br>
 					<div>
 						<center>
-							<input type="submit" id="submit" value="Booking" onclick="booking();" class="btn btn-primary ">
+							<% if ( seats == 0) { %>
+							<input type="submit" disabled value="Booking"  class="btn btn-primary ">
+							<% } else { %>
+							<input type="submit"  value="Booking" onclick="booking();" class="btn btn-primary ">
+							<% } %>
 						</center>
 					</div>
 				</div>
-			<div>
+				<div>
+				</div>
+		</script>
+		<script type="text/template" id="templateListSearch">
+			<div class="col-md-3" >
+				<div class="price-box">
+					<h2 class="pricing-plan"><%= type %></h2>
+					<div class="price">
+						<p style="font-size : 60% !important;"><sup class="currency">€</sup><%=  price %></p><small>/seat</small>
+					</div>
+					<p> From :<%= departureAerodrom %>  </p>
+					<p> To : <%=arrivalAerodrom %> </p>
+					<p> Remaining Seats : <%=remainingSeats%> </p>
+					<p> Pilot : <%=firstName%></p>
+					<h6 id="idFlight1"> &#x2605; &#x2605; &#x2606; &#x2606; &#x2606; </h6>
+
+					<a style="font-size : 80% !important;" class="btn btn-select-plan btn-sm"  href="#myModal2" data-toggle="modal"  onclick=detailsFlight(<%=flightId %>); >Details</a>
+				</div>
 			</div>
 		</script>
 		<!-- fin personnel modal-->

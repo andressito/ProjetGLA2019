@@ -55,6 +55,13 @@ public class FlightResource {
         return  bfdao.getPilotByFlightId(flightId);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/closeFlight/{userId}")
+    public Flight getgetClosestFlight(@PathParam("userId") String userId) {
+        return  bfdao.getClosesFlight(userId);
+    }
+
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

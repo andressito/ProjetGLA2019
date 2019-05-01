@@ -3,23 +3,14 @@ $(document).ready(function() {
         var firstName;
         var typeUser;
         var userId;
-        if(sessionStorage.getItem("firstName") && sessionStorage.getItem("userId") && sessionStorage.getItem("typeUser")){
-            firstName = sessionStorage.getItem("firstName");
-            typeUser =sessionStorage.getItem("typeUser");
-            userId = sessionStorage.getItem("userId");
-            sessionStorage.removeItem("departureAerodrome");
-            sessionStorage.removeItem("departureDate");
+        typeUser =localStorage.getItem("typeUser");
+        userId = localStorage.getItem("userId");
+        if (typeUser==="pilot") {
+            $("#menu").load('../Menu/MenuPilot.html');
+            getServerData("http://localhost:8080/ws/flight/flightByUserId/" + userId,callDone4);
         }else{
-            firstName = localStorage.getItem("firstName");
-            typeUser =localStorage.getItem("typeUser");
-            userId = localStorage.getItem("userId");
-            sessionStorage.setItem("typeUser",typeUser);
-            sessionStorage.setItem("firstName",firstName);
-            sessionStorage.setItem("userId",userId);
+            window.location.href="http://localhost:8080";
         }
-        //document.getElementById("bg").style.backgroundImage = "url('images/paris.jpg')";
-        $("#menu").load('../Menu/MenuPilot.html');
-        getServerData("http://localhost:8080/ws/flight/flightByUserId/" + userId,callDone4)
     }else{
         window.location.href="http://localhost:8080";
     }
@@ -48,14 +39,13 @@ function callDone3(result){
         "dateDeparture": JSON.stringify(result['date']),
         "timeDeparture":JSON.stringify(result['departureTime']),
         "allSeats":JSON.stringify(result['allSeats']),
-        "arrivalTime": JSON.stringify(result['arrivalAerodrom']),
+        "arrivalTime": JSON.stringify(result['arrivalTime']),
         "remainingSeats": JSON.stringify(result['remainingSeats'])
     });
     $("#result").append(html);
 }
 
 function callDone4(result){
-    console.log(result);
     var templateExample = _.template($('#templateExample4').html());
     for(var i=0; i<result.length; i++) {
         var html = templateExample({
