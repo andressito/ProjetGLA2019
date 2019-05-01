@@ -90,7 +90,7 @@ public class UserResource {
         //return false;
     }
 
-    public static String executeSaltMD5(String passwordToHash) throws NoSuchAlgorithmException, NoSuchProviderException {
+    public static String executeSaltMD5(String passwordToHash){
         String machin=passwordToHash+salt;
         return DigestUtils.md5Hex(machin);
     }

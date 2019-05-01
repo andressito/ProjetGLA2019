@@ -114,7 +114,7 @@
 <script id="templateExample" type="text/template">
 	<tr>
 		<td> <a href="#myModal2" data-toggle="modal" onclick=flightDetails(<%= flightId %>)> <%= flightId %> </a>  </td>
-		<td> <a href="#myModal2" data-toggle="modal"  onclick=userDetails(<%= userId %>)> <%= userId %> </a> </td>
+		<td> <a href="#myModal2" data-toggle="modal" onclick=userDetails(<%= userId %>)> <%= firstName %> </a> </td>
 		<td> <%= nbSeats %> </td>
 		<td> <%= price %> </td>
 		<td> <%= status %> </td>
@@ -130,7 +130,7 @@
 		<td> <%= dateDeparture %> </td>
 		<td> <%= iniSeats %> </td>
 		<td> <%= remSeats %> </td>
-		<td> <button type="submit"  href="#myModal2" data-toggle="modal" onclick=flightDetails(<%= flightId %>); class="btn-details"> Details</button>
+		<td> <button type="submit" href="#myModal2" data-toggle="modal" onclick=flightDetails(<%= flightId %>); class="btn-details"> Details</button>
 		</td>
 	</tr>
 </script>

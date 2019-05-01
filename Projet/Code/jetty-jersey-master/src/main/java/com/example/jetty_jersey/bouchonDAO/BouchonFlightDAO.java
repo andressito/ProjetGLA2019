@@ -88,43 +88,17 @@ public class BouchonFlightDAO implements FlightDAO {
             e.printStackTrace();
         }
         return null;
-        /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date todayFormat=null;
-        Date today = new Date(System.currentTimeMillis());
-        String format = df.format(today);
+    }
+
+    public Flight getClosesFlight(String userId){
         try {
-            todayFormat= df.parse(format);
+            return JettyMain.c.getClosestFlight(userId);
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        ArrayList<Flight> liste = getListeFlight();
-        ArrayList<Flight> listeDeMesVols =null;
-        for(int i=0; i<liste.size();i++){
-            if(liste.get(i).getUserId().equals(userId))
-                listeDeMesVols.add(liste.get(i));
-        }
-        System.out.println(listeDeMesVols.size());
-        if(listeDeMesVols.size()==0)
-            return null;
-        else{
-            return  listeDeMesVols.get(0);
-            Flight res = null;
-            for(int i=0; i<listeDeMesVols.size(); i++){
-                try {
-                    Date d=df.parse(listeDeMesVols.get(i).getDate());
-                    if(res==null){
-                        res=listeDeMesVols.get(i);
-
-                    }else if((todayFormat.before(d) || todayFormat.equals(d)) &&  df.parse(res.getDate()).after(d)){
-                        res=listeDeMesVols.get(i);
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            return res;
-        }*/
-        //return null;
+        return null;
     }
 
 
