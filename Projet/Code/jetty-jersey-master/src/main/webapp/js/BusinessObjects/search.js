@@ -63,8 +63,8 @@ function booking() {
 }
 
 function getFlightList2(){
-    var dpAero = sessionStorage.getItem("departureAerodrome");
-    var dpDate = sessionStorage.getItem("departureDate");
+    var dpAero = localStorage.getItem("departureAerodrome");
+    var dpDate = localStorage.getItem("departureDate");
     if(dpDate.length===0)
         dpDate="0";
     getServerData("http://localhost:8080/ws/flight/search/"+dpAero+"/"+dpDate,callDoneListSearch);
