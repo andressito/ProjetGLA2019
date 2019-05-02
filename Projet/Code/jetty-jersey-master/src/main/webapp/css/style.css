@@ -1808,7 +1808,28 @@ div .static{
   color: Black;
 }
 
+.home_bg{
+  background-color: rgba(0,0,0,0.6);
+  margin-left: -20%;
+  margin-right: -20%;
+  margin-top: -4%;
+  padding: 5%;
+  width: 100vw;
 
+}
 
+.home_bg_2{
+  background-color: rgba(0,0,0,0.6);
+  margin-left: -20%;
+  margin-right: -20%;
+  margin-top: 10%;
+  padding: 5%;
+  width: 100vw;
+}
+
+.about_p{
+  font-size: 20px;
+  color: white;
+}
 
 /*# sourceMappingURL=style.css.map */
