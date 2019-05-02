@@ -34,6 +34,20 @@ public class FlightResource {
         return bfdao.searchFlight(departure,date);
     }
 
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/search/{departure}/{date}/{type}/{nb_seats}/{price}")
+    public ArrayList<Flight> researchFlightFilter(@PathParam("departure") String departure,
+                                            @PathParam("date") String date ,
+                                            @PathParam("type") String type,
+                                            @PathParam("nb_seats") String nb_seats,
+                                            @PathParam("price") String price) {
+        if(date.equals("0")) return bfdao.searchFlightFilter(departure,date,nb_seats,price,type);
+        return bfdao.searchFlight(departure,date);
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/flightByUserId/{userId}")

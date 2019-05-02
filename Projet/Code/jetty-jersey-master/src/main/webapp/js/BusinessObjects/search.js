@@ -161,6 +161,11 @@ function pilotDetails(pilotId) {
     getServerData("http://localhost:8080/ws/user/users/" + pilotId,callDoneX);
 }
 
+
+function setFilters(){
+
+}
+
 function callDoneX(result){
     $("#result").empty();
     var templateExample = _.template($('#templateExample2').html());
