@@ -16,6 +16,7 @@ $(document).ready(function() {
 });
 
 function detailsFlight(flightId) {
+    document.getElementById("modalContent").style.backgroundImage = "url('images/popup.png')";
     if(localStorage.getItem("userId")) {
         $("#result").empty();
         getServerData("http://localhost:8080/ws/flight/flights/" + flightId, callDone);
@@ -156,9 +157,9 @@ function callDone(result){
 }
 
 function pilotDetails(pilotId) {
+    document.getElementById("modalContent").style.backgroundImage= "url('images/profilePopup.png')";
     getServerData("http://localhost:8080/ws/user/users/" + pilotId,callDoneX);
 }
-
 
 function callDoneX(result){
     $("#result").empty();

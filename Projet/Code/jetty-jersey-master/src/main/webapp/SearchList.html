@@ -96,7 +96,7 @@
 		<!-- Ajouter personnel modal-->
 		<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal2" class="modal fade">
 			<div class="modal-dialog">
-				<div class="modal-content pricing col-md-12">
+				<div class="modal-content pricing col-md-12" id="modalContent">
 					<div class="modal-header">
 						<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
 						<center><h4 class="modal-title">Flight Details / Booking</h4></center>
@@ -176,17 +176,18 @@
 		</script>
 
 		<script id="templateExample2" type="text/template">
-			<div class="profilePopup" >
-				<h1> Profile data </h1>
-				<h3 id="dash-fname">Firstname : <%= firstName%> </h3>
-				<h3 id="dash-lname">Lastname : <%= lastName%> </h3>
-				<h3 id="dash-status">Status : not verified</h3>
-				<h3 id="dash-anonymous">Anonymous : On/Off</h3>
-				<h3 id="dash-email">email : <%= email%></h3>
-				<h3 id="dash-gsm">GSM : <%= gsm%></h3>
+			<div class="flightPopup" >
+				<br>
+				<h1> User profile data </h1>
+				<br>
+				<p id="dash-fname"> <font size="2" color="#2BBDB5"> Firstname :</font> <%= firstName%> </p>
+				<p id="dash-lname"> <font size="2" color="#2BBDB5"> Lastname :</font> <%= lastName%> </p>
+				<p id="dash-status"> <font size="2" color="#2BBDB5"> Status :</font> not verified</p>
+				<p id="dash-email"> <font size="2" color="#2BBDB5"> email :</font> <%= email%></p>
+				<p id="dash-gsm"> <font size="2" color="#2BBDB5"> GSM :</font> <%= gsm%></p>
 				<% if ( typeUser === "pilot") { %>
-				<h3 id="dash-fHoursFly">Hours fly : <%= hFly%> </h3>
-				<h3 id="dash-mark">Mark : <%= mark%> </h3>
+				<p id="dash-fHoursFly"> <font size="2" color="#2BBDB5"> Flight record : <%= hFly%> <font size="2" color="#2BBDB5"> Hours </font></p>
+				<p id="dash-mark"> <font size="2" color="#2BBDB5"> Mark :</font> <%= mark%> </p>
 				<% } %>
 			</div>
 		</script>
