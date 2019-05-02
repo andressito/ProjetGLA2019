@@ -125,10 +125,12 @@ function declineReservation(reservationId,userId,flightId){
 }
 
 function userDetails(userId) {
+    document.getElementById("modalContent").style.backgroundImage = "url('images/profilePopup.png')";
     getServerData("http://localhost:8080/ws/user/users/" + userId,callDone2);
 }
 
 function flightDetails(flightId) {
+    document.getElementById("modalContent").style.backgroundImage ="url('images/popup.png')";
     getServerData("http://localhost:8080/ws/flight/flights/" + flightId,callDone3);
 }
 

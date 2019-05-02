@@ -1789,7 +1789,7 @@ div .static{
 }
 
 .modal-content{
-  background: url(../images/popup.png) no-repeat center fixed;
+  background: no-repeat center fixed;
   -webkit-background-size: cover;
   background-size: cover;
   background-color: rgba(0,0,0,0.3);
@@ -1831,5 +1831,12 @@ div .static{
   font-size: 20px;
   color: white;
 }
+
+
+.flightPopup h1{
+  color: whitesmoke;
+}
+
+
 
 /*# sourceMappingURL=style.css.map */
