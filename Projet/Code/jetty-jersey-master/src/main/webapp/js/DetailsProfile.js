@@ -2,6 +2,12 @@ $(document).ready(function() {
     if(!localStorage.getItem("userId")){
         window.location.href="http://localhost:8080/";
     }else{
+        if(localStorage.getItem("typeUser")==="pilot"){
+            $("#menu").load('../Menu/MenuPilot.html');
+
+        }else{
+            $("#menu").load('../Menu/MenuPassenger.html');
+        }
         getServerData("http://localhost:8080/ws/user/users/"+localStorage.getItem("detailsPilotId"),callDone);
     }
 });
