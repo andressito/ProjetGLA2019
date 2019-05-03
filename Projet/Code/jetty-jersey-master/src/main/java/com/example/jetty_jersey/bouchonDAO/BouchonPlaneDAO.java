@@ -5,7 +5,6 @@ import com.example.jetty_jersey.classes.Plane;
 import com.example.jetty_jersey.dao.PlaneDAO;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 

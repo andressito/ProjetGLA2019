@@ -5,13 +5,8 @@ import com.example.jetty_jersey.classes.Licence;
 import com.example.jetty_jersey.classes.User;
 import com.example.jetty_jersey.dao.UserDAO;
 import com.example.jetty_jersey.ws.UserResource;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
 import java.text.ParseException;
 import java.util.List;
 
@@ -69,11 +64,9 @@ public class BouchonUserDAO implements UserDAO {
             if(JettyMain.c.ifUserAPilot(userId)) {
                 Licence l = JettyMain.c.getLicenceByUserId(userId);
                 JettyMain.c.delete(l.licenceId, "licence");
-                JettyMain.c.delete(userId, "user");
-                return true;
+                return JettyMain.c.delete(userId, "user");
             }
-            JettyMain.c.delete(userId, "user");
-            return true;
+            return JettyMain.c.delete(userId, "user");
         } catch (IOException e) {
             e.printStackTrace();
         }
