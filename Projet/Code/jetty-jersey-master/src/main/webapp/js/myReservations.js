@@ -32,7 +32,7 @@ function getServerData(url, success){
 function callDone(result){
     if(result.length==0){
         $("#reservations").empty();
-        //var html="test";
+        var html='<h1 style="text-align: center">No reservations to display<h1>';
         $("#reservations").append(html);
     }else {
         var templateExample = _.template($('#templateExample').html());
