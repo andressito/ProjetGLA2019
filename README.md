@@ -1,20 +1,21 @@
 # ProjetGLA2019
-12-03-2019
+Groupe ChuChuFly
+Le code est découpé en deux sous-groupes:
+  ==> java: qui comporte les classes java du projet
+  ==> webapp: qui comporte la partie FrontEnd du ProjetGLA2019
 
-faire un git clone du Projet
-puis faire un git checkout -b nomDeVotreBranche
-du coup vous aller travailler sur votre branche
-pour faire un pull depuis votre branche
-  => git pull origin master
+----------------************************----------------------------
+                            Partie JAVA
+Elle est découpée en 5 parties
+On a le main qui ne fait est seul dans la partie JAVA
+puis on a les parties suivantes:
+  BouchonsDAO => où sont implémenté fonctions définies dans les DAO
+  Classes ==> où sont les classes du Projet
+  DAO  ==> qui sont des interfaces
+  dataBase ==> où est le serveur elasticSearch
+  ws ===> où sont les webServices
 
-si vous vouler faire un push
-  git add lesFichers
-  git commit -m "msg"
-  git checkout master
-  git merge nomDeVotreBranche
-  git push origin master
-et vous revener à votre branche avec
- git checkout nomDeVotreBranche
+----------------************************----------------------------
+                          Partie WEBAPP
+Dans cette partie on a les sous groupes pour les Css, le Font, les images, le javaScript, les Menu,et les pages HTML
 
- pour regarder dans quelle branche vous etes
-  git branch
