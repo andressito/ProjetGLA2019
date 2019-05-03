@@ -1789,7 +1789,7 @@ div .static{
 }
 
 .modal-content{
-  background: url(../images/popup.png) no-repeat center fixed;
+  background: no-repeat center fixed;
   -webkit-background-size: cover;
   background-size: cover;
   background-color: rgba(0,0,0,0.3);
@@ -1808,6 +1808,34 @@ div .static{
   color: Black;
 }
 
+.home_bg{
+  background-color: rgba(0,0,0,0.6);
+  margin-left: -20%;
+  margin-right: -20%;
+  margin-top: -4%;
+  padding: 5%;
+  width: 100vw;
+
+}
+
+.home_bg_2{
+  background-color: rgba(0,0,0,0.6);
+  margin-left: -20%;
+  margin-right: -20%;
+  margin-top: 10%;
+  padding: 5%;
+  width: 100vw;
+}
+
+.about_p{
+  font-size: 20px;
+  color: white;
+}
+
+
+.flightPopup h1{
+  color: whitesmoke;
+}
 
 
 

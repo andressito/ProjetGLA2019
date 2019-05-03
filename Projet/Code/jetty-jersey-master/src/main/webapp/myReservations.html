@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ChuChuFly</title>
+    <title>ChuChuFly | My reservations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Facebook and Twitter integration -->
@@ -51,7 +51,7 @@
 <aside id="fh5co-hero" >
     <div class="flexslider js-fullheight">
         <ul class="slides">
-            <li id="bg" style="background: url(images/paris.jpg);>
+            <li id="bg" style="background: url(images/paris.jpg);">
                 <div class="overlay-gradient" ></div>
                 <div class="container" id="inner">
                     <div ></div>
@@ -76,6 +76,7 @@
         </ul>
     </div>
 </aside>
+
 <script id="templateExample" type="text/template">
     <tr>
         <td> <%= reservationId %> </td>
@@ -85,9 +86,10 @@
         <td> <button type="submit" href="#myModal2" data-toggle="modal" onclick=flightDetails(<%= flightId %>); class="btn-details"> Details</button> </td>
     </tr>
 </script>
+
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal2" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content pricing col-md-12">
+        <div class="modal-content pricing col-md-12" id="modalContent">
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
                 <center><h4 class="modal-title">Details Flight</h4></center>
@@ -100,7 +102,6 @@
 </div>
 <div class="row">
     <div class="pricing col-md-12" id="flightList">
-
     </div>
 </div>
 <script id="templateExample3" type="text/template">

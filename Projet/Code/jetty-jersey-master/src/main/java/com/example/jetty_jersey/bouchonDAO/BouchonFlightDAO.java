@@ -61,6 +61,14 @@ public class BouchonFlightDAO implements FlightDAO {
         }
         return null;
     }
+    public ArrayList<Flight> searchFlightFilter(String departure_aerodrome,String date,String nb_seats,String price,String type) {
+        try {
+            return JettyMain.c.getFlights(departure_aerodrome,null,date,type, price,nb_seats);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public ArrayList<Flight> getListeFlight() {
         try {
             liste = JettyMain.c.allFlight();

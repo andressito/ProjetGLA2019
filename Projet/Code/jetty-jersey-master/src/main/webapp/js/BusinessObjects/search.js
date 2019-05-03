@@ -16,6 +16,7 @@ $(document).ready(function() {
 });
 
 function detailsFlight(flightId) {
+    document.getElementById("modalContent").style.backgroundImage = "url('images/popup.png')";
     if(localStorage.getItem("userId")) {
         $("#result").empty();
         getServerData("http://localhost:8080/ws/flight/flights/" + flightId, callDone);
@@ -156,8 +157,50 @@ function callDone(result){
 }
 
 function pilotDetails(pilotId) {
-    localStorage.setItem("detailsPilotId",pilotId);
-    window.location.href="http://localhost:8080/DetailsProfile.html";
+    document.getElementById("modalContent").style.backgroundImage= "url('images/profilePopup.png')";
+    getServerData("http://localhost:8080/ws/user/users/" + pilotId,callDoneX);
+}
+
+
+function setFilters(){
+
+}
+
+function callDoneX(result){
+    $("#result").empty();
+    var templateExample = _.template($('#templateExample2').html());
+    if(result["typeUser"]==="pilot"){
+        $.ajax({
+            url: "http://localhost:8080/ws/licence/licences/user/"+result['userId'],
+            type: "GET",
+            contentType: "application/json",
+            cache: false,
+            dataType: "json"
+        }).done(function (resultat) {
+            var html = templateExample({
+                "typeUser":JSON.stringify(result['typeUser']),
+                "firstName": JSON.stringify(result['firstName']),
+                "lastName": JSON.stringify(result['lastName']),
+                "email": JSON.stringify(result['email']),
+                "gsm": JSON.stringify(result['gsm']),
+                "hFly": JSON.stringify(resultat['numberHoursFlight']),
+                "mark": JSON.stringify(resultat['mark'])
+            });
+            $("#result").append(html);
+        });
+    }else{
+        var html = templateExample({
+            "typeUser":JSON.stringify(result['typeUser']),
+            "firstName": JSON.stringify(result['firstName']),
+            "lastName": JSON.stringify(result['lastName']),
+            "email": JSON.stringify(result['email']),
+            "gsm": JSON.stringify(result['gsm']),
+            "hFly": JSON.stringify("0"),
+            "mark": JSON.stringify("0")
+        });
+        $("#result").append(html);
+    }
+
 }
 
 function lancerMethodePost( data,flightId) {
