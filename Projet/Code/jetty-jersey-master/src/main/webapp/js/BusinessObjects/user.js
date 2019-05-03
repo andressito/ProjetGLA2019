@@ -267,13 +267,13 @@ $(function(){
                     contentType: "application/json",
                     cache: false,
                     dataType: "json"
-                }).done(function (result) {
-                    localStorage.setItem("firstName",result['firstName']);
-                    localStorage.setItem("lastName",result['lastName']);
-                    localStorage.setItem("email",result['email']);
-                    localStorage.setItem("gsm",result['gsm']);
-                    localStorage.setItem("userId",result['userId']);
-                    localStorage.setItem("typeUser", result['typeUser']);
+                }).done(function (resultat) {
+                    localStorage.setItem("firstName",resultat['firstName']);
+                    localStorage.setItem("lastName",resultat['lastName']);
+                    localStorage.setItem("email",resultat['email']);
+                    localStorage.setItem("gsm",resultat['gsm']);
+                    localStorage.setItem("userId",resultat['userId']);
+                    localStorage.setItem("typeUser", resultat['typeUser']);
                     window.location.href="http://localhost:8080/";
                 });
             }else{

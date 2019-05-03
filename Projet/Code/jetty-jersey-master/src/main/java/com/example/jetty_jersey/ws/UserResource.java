@@ -99,7 +99,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/signin")
-    public boolean signIn(User user) throws NoSuchAlgorithmException, NoSuchProviderException {
+    public boolean signIn(User user) {
         return buDAO.signInUser(user);
     }
 

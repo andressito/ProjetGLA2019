@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 public class BouchonFlightDAO implements FlightDAO {
-    static ArrayList<Flight>  liste= new ArrayList<Flight>();
     public boolean createFLight(Flight flight) {
         try {
             JettyMain.c.indexDB(flight,null);
@@ -27,30 +26,15 @@ public class BouchonFlightDAO implements FlightDAO {
         return false;
     }
     public boolean updateFLight(String flightId) {
-        for(int i=0; i<liste.size(); i++){
-            if(liste.get(i).getFlightId().equals(flightId)){
-                //liste.set(i,plane);
-                return true;
-            }
-        }
+        // a implémenter
         return false;
     }
     public boolean updateFlightReservation(String flightId, String remainingPlaces) {
-        try{
-            //JettyMain.c.updateFlightRemainingPlaces(flightId,remainingPlaces);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //a implémenter
         return false;
     }
     public boolean deleteFlight(String planeId) {
-        for(int i=0; i<liste.size(); i++){
-            if(liste.get(i).getFlightId().equals(planeId)){
-                liste.remove(i);
-                return true;
-            }
-        }
+        //a implémenter
         return false;
     }
     public ArrayList<Flight> searchFlight(String departure_aerodrome, String date) {
@@ -71,11 +55,11 @@ public class BouchonFlightDAO implements FlightDAO {
     }
     public ArrayList<Flight> getListeFlight() {
         try {
-            liste = JettyMain.c.allFlight();
+            return JettyMain.c.allFlight();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return liste;
+        return null;
     }
     public Flight getFlightDetails(String idFlight) {
         try {
